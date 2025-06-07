@@ -1,0 +1,114 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog', ({ data }) => {
+    return !data.draft;
+  });
+
+  // Get all unique tags
+  const allTags = [...new Set(allPosts.flatMap(post => post.data.tags))];
+
+  return allTags.map(tag => ({
+    params: { tag },
+    props: { 
+      posts: allPosts.filter(post => post.data.tags.includes(tag)),
+      tag
+    },
+  }));
+}
+
+const { posts, tag } = Astro.props;
+
+// Sort posts by date (newest first)
+const sortedPosts = posts.sort((a, b) => 
+  new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+---
+
+<Layout title={`Posts tagged "${tag}" - The Rhyne Report`} description={`All posts tagged with ${tag}`}>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        Posts tagged "{tag}"
+      </h1>
+      <p class="text-xl text-gray-600">
+        {sortedPosts.length} {sortedPosts.length === 1 ? 'post' : 'posts'} found
+      </p>
+    </div>
+
+    {sortedPosts.length > 0 ? (
+      <div class="space-y-8">
+        {sortedPosts.map((post) => (
+          <article class="group border-b border-gray-200 pb-8 last:border-b-0">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+              <div class="flex-1">
+                <h2 class="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
+                  <a href={`/blog/${post.slug}`} class="no-underline">
+                    {post.data.title}
+                  </a>
+                </h2>
+                <p class="text-gray-600 mb-4 leading-relaxed">
+                  {post.data.description}
+                </p>
+                <div class="flex items-center gap-2 flex-wrap">
+                  {post.data.tags.map((postTag) => (
+                    <a 
+                      href={`/tags/${postTag}`}
+                      class={`inline-block text-xs px-2 py-1 rounded transition-colors ${
+                        postTag === tag 
+                          ? 'bg-blue-100 text-blue-700 font-medium' 
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      {postTag}
+                    </a>
+                  ))}
+                </div>
+              </div>
+              <div class="text-sm text-gray-500 whitespace-nowrap mt-2 sm:mt-0">
+                {formatDate(new Date(post.data.pubDate))}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12">
+        <p class="text-gray-600">No posts found with this tag.</p>
+      </div>
+    )}
+
+    <div class="mt-12 pt-8 border-t border-gray-200">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <a 
+          href="/tags"
+          class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          All Tags
+        </a>
+        <a 
+          href="/"
+          class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+          Home
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,160 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, getEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => {
+    return !data.draft;
+  });
+  
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+
+const post = Astro.props;
+const { Content } = await post.render();
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+function estimateReadingTime(content: string) {
+  const wordsPerMinute = 200;
+  const words = content.split(/\s+/).length;
+  return Math.ceil(words / wordsPerMinute);
+}
+
+// Get the raw content for reading time calculation
+const readingTime = estimateReadingTime(post.body);
+---
+
+<Layout title={post.data.title} description={post.data.description}>
+  <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header -->
+    <header class="mb-12">
+      <div class="text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          {post.data.title}
+        </h1>
+        <p class="text-xl text-gray-600 mb-6 max-w-3xl mx-auto">
+          {post.data.description}
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-gray-500">
+          <time datetime={post.data.pubDate.toISOString()}>
+            {formatDate(new Date(post.data.pubDate))}
+          </time>
+          <span class="hidden sm:block">•</span>
+          <span>{readingTime} min read</span>
+          {post.data.updatedDate && (
+            <>
+              <span class="hidden sm:block">•</span>
+              <span>Updated {formatDate(new Date(post.data.updatedDate))}</span>
+            </>
+          )}
+        </div>
+        {post.data.tags && post.data.tags.length > 0 && (
+          <div class="flex flex-wrap justify-center gap-2 mt-4">
+            {post.data.tags.map((tag) => (
+              <a 
+                href={`/tags/${tag}`}
+                class="inline-block bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-full transition-colors"
+              >
+                {tag}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </header>
+
+    <!-- Hero Image -->
+    {post.data.heroImage && (
+      <div class="mb-12">
+        <img 
+          src={post.data.heroImage} 
+          alt={post.data.title}
+          class="w-full h-64 md:h-96 object-cover rounded-lg"
+        />
+      </div>
+    )}
+
+    <!-- Content -->
+    <div class="prose prose-lg max-w-none">
+      <Content />
+    </div>
+
+    <!-- Social Sharing -->
+    <div class="mt-12 pt-8 border-t border-gray-200">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-sm text-gray-600">
+          Enjoyed this post? Share it with others:
+        </div>
+        <div class="flex items-center gap-4">
+          <a 
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(Astro.url.href)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors text-sm"
+          >
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            Share on X
+          </a>
+          <button 
+            id="copy-link"
+            class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors text-sm"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            Copy Link
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="mt-12 pt-8 border-t border-gray-200">
+      <div class="flex justify-between items-center">
+        <a 
+          href="/"
+          class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Home
+        </a>
+      </div>
+    </nav>
+  </article>
+
+  <script>
+    // Copy link functionality
+    const copyButton = document.getElementById('copy-link');
+    copyButton?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        const originalText = copyButton.innerHTML;
+        copyButton.innerHTML = `
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          Copied!
+        `;
+        setTimeout(() => {
+          copyButton.innerHTML = originalText;
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy link:', err);
+      }
+    });
+  </script>
+</Layout>

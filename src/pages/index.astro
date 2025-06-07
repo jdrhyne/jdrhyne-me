@@ -1,16 +1,92 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
+const allPosts = await getCollection('blog', ({ data }) => {
+  return !data.draft;
+});
+
+// Sort posts by date (newest first)
+const sortedPosts = allPosts.sort((a, b) => 
+  new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+
+// Group posts by year
+const postsByYear = sortedPosts.reduce((acc, post) => {
+  const year = new Date(post.data.pubDate).getFullYear();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(post);
+  return acc;
+}, {} as Record<number, typeof sortedPosts>);
+
+const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="The Rhyne Report" description="Personal blog and insights">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Hero Section -->
+    <div class="text-center mb-16">
+      <h1 class="text-5xl font-bold text-gray-900 mb-4">The Rhyne Report</h1>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        A collection of insights, thoughts, and observations on technology, business, and life.
+      </p>
+    </div>
+
+    <!-- Recent Posts -->
+    <div class="mb-12">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-8">Recent Posts</h2>
+      
+      {years.map((year) => (
+        <div class="mb-12">
+          <h3 class="text-xl font-semibold text-gray-700 mb-6 pb-2 border-b border-gray-200">
+            {year}
+          </h3>
+          <div class="space-y-6">
+            {postsByYear[year].map((post) => (
+              <article class="group">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div class="flex-1">
+                    <h4 class="text-lg font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                      <a href={`/blog/${post.slug}`} class="no-underline">
+                        {post.data.title}
+                      </a>
+                    </h4>
+                    <p class="text-gray-600 mt-1 line-clamp-2">
+                      {post.data.description}
+                    </p>
+                    <div class="flex items-center gap-2 mt-2">
+                      {post.data.tags.map((tag) => (
+                        <span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div class="text-sm text-gray-500 whitespace-nowrap">
+                    {formatDate(new Date(post.data.pubDate))}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {sortedPosts.length === 0 && (
+      <div class="text-center py-12">
+        <p class="text-gray-600">No posts yet. Check back soon!</p>
+      </div>
+    )}
+  </div>
+</Layout>

@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About - The Rhyne Report" description="Learn more about The Rhyne Report and its author">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-3xl mx-auto">
+      <header class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">About</h1>
+        <p class="text-xl text-gray-600">
+          The story behind The Rhyne Report
+        </p>
+      </header>
+
+      <div class="prose prose-lg max-w-none">
+        <div class="mb-8">
+          <img 
+            src="/placeholder-author.jpg" 
+            alt="Author profile"
+            class="w-32 h-32 rounded-full mx-auto object-cover mb-6"
+            style="display: none;"
+          />
+        </div>
+
+        <h2>Welcome</h2>
+        
+        <p>
+          The Rhyne Report is a personal blog focused on sharing insights, thoughts, and observations 
+          on technology, business, and life. This platform serves as a space for deeper exploration 
+          of topics that matter, from technical deep-dives to broader industry analysis.
+        </p>
+
+        <h2>What You'll Find Here</h2>
+        
+        <p>
+          This blog covers a diverse range of topics, including:
+        </p>
+
+        <ul>
+          <li><strong>Technology & Development:</strong> Insights into software development, emerging technologies, and technical best practices</li>
+          <li><strong>Industry Analysis:</strong> Observations on market trends, business strategy, and industry developments</li>
+          <li><strong>Personal Reflections:</strong> Thoughts on productivity, learning, and professional growth</li>
+          <li><strong>Reviews & Recommendations:</strong> Books, tools, and resources worth sharing</li>
+        </ul>
+
+        <h2>Philosophy</h2>
+        
+        <p>
+          The goal of The Rhyne Report is to provide thoughtful, well-researched content that offers 
+          genuine value to readers. Every post is crafted with care, focusing on quality over quantity 
+          and depth over surface-level commentary.
+        </p>
+
+        <p>
+          The site itself embodies these principles through its clean, minimal design that prioritizes 
+          readability and fast loading times. Built with modern web technologies like Astro and 
+          Tailwind CSS, it represents a commitment to both excellent user experience and technical excellence.
+        </p>
+
+        <h2>Connect</h2>
+        
+        <p>
+          I welcome thoughtful discussion and feedback. While comments aren't enabled on the blog posts 
+          themselves, you can reach out through social media or email to continue the conversation.
+        </p>
+
+        <div class="flex flex-wrap gap-4 mt-6">
+          <a 
+            href="https://twitter.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            Follow on X
+          </a>
+          <a 
+            href="/rss.xml"
+            class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+            </svg>
+            RSS Feed
+          </a>
+        </div>
+
+        <h2>Technical Details</h2>
+        
+        <p>
+          For those interested in the technical implementation, this site is built with:
+        </p>
+
+        <ul>
+          <li><strong>Astro:</strong> Static site generator for optimal performance</li>
+          <li><strong>Tailwind CSS:</strong> Utility-first CSS framework for rapid styling</li>
+          <li><strong>TypeScript:</strong> Type-safe development experience</li>
+          <li><strong>Markdown:</strong> Content authoring with frontmatter metadata</li>
+        </ul>
+
+        <p>
+          The source code is available on GitHub for those interested in how everything works 
+          behind the scenes or who want to use it as a starting point for their own blog.
+        </p>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-gray-200 text-center">
+        <a 
+          href="/"
+          class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Home
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

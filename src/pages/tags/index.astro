@@ -1,0 +1,76 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => {
+  return !data.draft;
+});
+
+// Get all tags and count posts for each
+const tagCounts = allPosts.reduce((acc, post) => {
+  post.data.tags.forEach(tag => {
+    acc[tag] = (acc[tag] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+// Sort tags by post count (descending) then alphabetically
+const sortedTags = Object.entries(tagCounts)
+  .sort(([a, countA], [b, countB]) => {
+    if (countB !== countA) return countB - countA;
+    return a.localeCompare(b);
+  });
+---
+
+<Layout title="Tags - The Rhyne Report" description="Browse posts by topic">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Tags</h1>
+      <p class="text-xl text-gray-600">
+        Browse posts by topic
+      </p>
+    </div>
+
+    <div class="mb-8">
+      <p class="text-gray-600 text-center">
+        {sortedTags.length} {sortedTags.length === 1 ? 'tag' : 'tags'} • {allPosts.length} {allPosts.length === 1 ? 'post' : 'posts'}
+      </p>
+    </div>
+
+    {sortedTags.length > 0 ? (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {sortedTags.map(([tag, count]) => (
+          <a 
+            href={`/tags/${tag}`}
+            class="group block p-6 bg-white border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all"
+          >
+            <div class="flex items-center justify-between">
+              <h2 class="text-lg font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                {tag}
+              </h2>
+              <span class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                {count} {count === 1 ? 'post' : 'posts'}
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12">
+        <p class="text-gray-600">No tags yet.</p>
+      </div>
+    )}
+
+    <div class="mt-12 pt-8 border-t border-gray-200 text-center">
+      <a 
+        href="/"
+        class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to Home
+      </a>
+    </div>
+  </div>
+</Layout>

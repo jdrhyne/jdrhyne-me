@@ -1,33 +1,75 @@
-# Astro Starter Kit: Minimal
+# The Rhyne Report
 
-```sh
-npm create astro@latest -- --template minimal
-```
+A minimalist blog built with Astro and Tailwind CSS, inspired by the clean aesthetics of steipete.me and rhynereport.com.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## ✨ Features
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- **Clean, minimalist design** with serif headings and sans-serif body text
+- **Homepage with year-grouped posts** for easy browsing
+- **Individual post pages** with reading time estimates and social sharing
+- **Tag system** with dedicated tag pages and filtering
+- **Client-side search** through all blog content
+- **RSS feed** for syndication
+- **Responsive design** that works on all devices
+- **Fast loading times** with static site generation
+- **SEO optimized** with proper meta tags and structured data
 
 ## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
 
 ```text
 /
 ├── public/
+│   └── favicon.svg
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── components/
+│   │   └── Search.astro
+│   ├── content/
+│   │   ├── blog/
+│   │   │   ├── welcome.md
+│   │   │   └── building-with-astro.md
+│   │   └── config.ts
+│   ├── layouts/
+│   │   └── Layout.astro
+│   ├── pages/
+│   │   ├── about.astro
+│   │   ├── search.astro
+│   │   ├── rss.xml.ts
+│   │   ├── search.json.ts
+│   │   ├── blog/
+│   │   │   └── [...slug].astro
+│   │   ├── tags/
+│   │   │   ├── index.astro
+│   │   │   └── [tag].astro
+│   │   └── index.astro
+│   └── styles/
+│       └── global.css
+├── CLAUDE.md
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 📝 Content Management
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Blog posts are written in Markdown and stored in `src/content/blog/`. Each post includes frontmatter with:
 
-Any static assets, like images, can be placed in the `public/` directory.
+- `title`: Post title
+- `description`: Brief description for SEO and previews
+- `pubDate`: Publication date
+- `tags`: Array of tags for categorization
+- `draft`: Boolean to hide posts from production
+- `heroImage`: Optional hero image
+- `updatedDate`: Optional last updated date
+
+### Example Post Frontmatter
+
+```yaml
+---
+title: 'Welcome to The Rhyne Report'
+description: 'The inaugural post for The Rhyne Report'
+pubDate: 2025-01-01
+tags: ['meta', 'introduction']
+draft: false
+---
+```
 
 ## 🧞 Commands
 
