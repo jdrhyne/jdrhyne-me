@@ -33,46 +33,46 @@ function formatDate(date: Date) {
 ---
 
 <Layout title="The Rhyne Report" description="Personal blog and insights">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <!-- Hero Section -->
-    <div class="text-center mb-16">
-      <h1 class="text-5xl font-bold text-gray-900 mb-4">The Rhyne Report</h1>
-      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+    <div class="text-center mb-20">
+      <h1 class="text-6xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">The Rhyne Report</h1>
+      <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light">
         A collection of insights, thoughts, and observations on technology, business, and life.
       </p>
     </div>
 
     <!-- Recent Posts -->
-    <div class="mb-12">
-      <h2 class="text-2xl font-semibold text-gray-900 mb-8">Recent Posts</h2>
+    <div class="mb-16">
+      <h2 class="text-3xl font-semibold text-gray-900 mb-12">Recent Articles</h2>
       
       {years.map((year) => (
-        <div class="mb-12">
-          <h3 class="text-xl font-semibold text-gray-700 mb-6 pb-2 border-b border-gray-200">
+        <div class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-800 mb-8 pb-3 border-b-2 border-gray-100">
             {year}
           </h3>
-          <div class="space-y-6">
+          <div class="space-y-8">
             {postsByYear[year].map((post) => (
-              <article class="group">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <article class="group bg-white border border-gray-200 rounded-2xl p-8 hover:border-blue-300 hover:shadow-elegant-lg transition-all">
+                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                   <div class="flex-1">
-                    <h4 class="text-lg font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                    <h4 class="text-2xl font-semibold text-gray-900 group-hover:text-blue-700 transition-colors mb-3 leading-tight">
                       <a href={`/blog/${post.slug}`} class="no-underline">
                         {post.data.title}
                       </a>
                     </h4>
-                    <p class="text-gray-600 mt-1 line-clamp-2">
+                    <p class="text-gray-600 mb-4 leading-relaxed text-lg">
                       {post.data.description}
                     </p>
-                    <div class="flex items-center gap-2 mt-2">
+                    <div class="flex items-center gap-3 flex-wrap">
                       {post.data.tags.map((tag) => (
-                        <span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                        <a href={`/tags/${tag}`} class="inline-block bg-blue-50 text-blue-700 text-sm px-3 py-2 rounded-full font-medium hover:bg-blue-100 transition-colors">
                           {tag}
-                        </span>
+                        </a>
                       ))}
                     </div>
                   </div>
-                  <div class="text-sm text-gray-500 whitespace-nowrap">
+                  <div class="text-sm text-gray-500 whitespace-nowrap font-medium lg:mt-1">
                     {formatDate(new Date(post.data.pubDate))}
                   </div>
                 </div>

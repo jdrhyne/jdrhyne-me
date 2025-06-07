@@ -1,39 +1,36 @@
 ---
-// Search component for client-side search
+import { Search as SearchIcon, X } from 'lucide-astro';
 ---
 
-<div class="max-w-md mx-auto mb-8">
+<div class="max-w-2xl mx-auto mb-12">
   <div class="relative">
     <input
       type="text"
       id="search-input"
-      placeholder="Search posts..."
-      class="w-full px-4 py-2 pl-10 pr-4 text-gray-700 bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+      placeholder="Search articles, topics, or keywords..."
+      class="w-full px-6 py-4 pl-14 pr-12 text-lg text-gray-800 bg-white border-2 border-gray-200 rounded-2xl shadow-elegant focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all placeholder-gray-500"
     />
-    <div class="absolute inset-y-0 left-0 flex items-center pl-3">
-      <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-      </svg>
+    <div class="absolute inset-y-0 left-0 flex items-center pl-5">
+      <SearchIcon class="w-6 h-6 text-gray-400" />
     </div>
     <button
       id="clear-search"
-      class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition-colors hidden"
+      class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-gray-600 transition-colors hidden focus-ring rounded-full"
     >
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
+      <X class="w-5 h-5" />
     </button>
   </div>
   
-  <div id="search-results" class="mt-4 hidden">
-    <div class="text-sm text-gray-600 mb-4">
+  <div id="search-results" class="mt-8 hidden">
+    <div class="text-sm text-gray-600 mb-6 font-medium">
       <span id="search-count">0</span> results found
     </div>
-    <div id="search-list" class="space-y-4"></div>
+    <div id="search-list" class="space-y-6"></div>
   </div>
   
-  <div id="no-results" class="mt-4 text-center text-gray-600 hidden">
-    No posts found matching your search.
+  <div id="no-results" class="mt-8 text-center py-12 hidden">
+    <div class="text-gray-500 text-lg">No articles found matching your search.</div>
+    <div class="text-gray-400 text-sm mt-2">Try different keywords or browse our tags.</div>
   </div>
 </div>
 
@@ -89,22 +86,26 @@
     searchCount.textContent = results.length;
     
     searchList.innerHTML = results.map(post => `
-      <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors">
-        <h3 class="font-medium text-gray-900 mb-2">
-          <a href="/blog/${post.slug}" class="hover:text-blue-600 transition-colors">
+      <article class="bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-300 hover:shadow-elegant-lg transition-all group">
+        <h3 class="text-xl font-semibold text-gray-900 mb-3 group-hover:text-blue-700 transition-colors">
+          <a href="/blog/${post.slug}" class="no-underline">
             ${post.title}
           </a>
         </h3>
-        <p class="text-gray-600 text-sm mb-2">${post.description}</p>
-        <div class="flex items-center justify-between text-xs text-gray-500">
+        <p class="text-gray-600 mb-4 leading-relaxed">${post.description}</p>
+        <div class="flex items-center justify-between text-sm">
           <div class="flex gap-2">
             ${post.tags.map(tag => `
-              <span class="bg-gray-100 px-2 py-1 rounded">${tag}</span>
+              <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full font-medium">${tag}</span>
             `).join('')}
           </div>
-          <span>${new Date(post.pubDate).toLocaleDateString()}</span>
+          <time class="text-gray-500 font-medium">${new Date(post.pubDate).toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric' 
+          })}</time>
         </div>
-      </div>
+      </article>
     `).join('');
   }
   
