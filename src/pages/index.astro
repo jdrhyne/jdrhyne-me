@@ -38,7 +38,7 @@ function formatDate(date: Date) {
   <Hero 
     name="Jonathan D. Rhyne"
     username="jdrhyne"
-    tagline="A collection of insights, thoughts, and observations on technology, business, and life. Every post is crafted to share knowledge and spark meaningful conversations."
+    tagline="Insights and observations on technology, business, and life."
     avatarSrc="https://pbs.twimg.com/profile_images/3620395243/387c48578bbb256ee05cbbce902752a4_400x400.jpeg"
     avatarAlt="Jonathan D. Rhyne's avatar"
     socialLinks={{
@@ -48,33 +48,33 @@ function formatDate(date: Date) {
     }}
   />
   
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
 
     <!-- Recent Posts -->
-    <div class="mb-16">
-      <h2 class="text-3xl font-semibold text-gray-900 mb-12">Recent Articles</h2>
+    <div class="mb-12">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-8">Recent Articles</h2>
       
       {years.map((year) => (
-        <div class="mb-16">
-          <h3 class="text-2xl font-semibold text-gray-800 mb-8 pb-3 border-b-2 border-gray-100">
+        <div class="mb-12">
+          <h3 class="text-xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200">
             {year}
           </h3>
-          <div class="space-y-8">
+          <div class="space-y-6">
             {postsByYear[year].map((post) => (
-              <article class="group bg-white border border-gray-200 rounded-2xl p-8 hover:border-blue-300 hover:shadow-elegant-lg transition-all">
-                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+              <article class="group bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-300 hover:shadow-elegant transition-all">
+                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                   <div class="flex-1">
-                    <h4 class="text-2xl font-semibold text-gray-900 group-hover:text-blue-700 transition-colors mb-3 leading-tight">
+                    <h4 class="text-xl font-semibold text-gray-900 group-hover:text-blue-700 transition-colors mb-2 leading-tight">
                       <a href={`/blog/${post.slug}`} class="no-underline">
                         {post.data.title}
                       </a>
                     </h4>
-                    <p class="text-gray-600 mb-4 leading-relaxed text-lg">
+                    <p class="text-gray-600 mb-3 leading-relaxed">
                       {post.data.description}
                     </p>
-                    <div class="flex items-center gap-3 flex-wrap">
+                    <div class="flex items-center gap-2 flex-wrap">
                       {post.data.tags.map((tag) => (
-                        <a href={`/tags/${tag}`} class="inline-block bg-blue-50 text-blue-700 text-sm px-3 py-2 rounded-full font-medium hover:bg-blue-100 transition-colors">
+                        <a href={`/tags/${tag}`} class="inline-block bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-full font-medium hover:bg-blue-100 transition-colors">
                           {tag}
                         </a>
                       ))}
