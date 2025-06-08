@@ -37,7 +37,7 @@
     font-weight: 500;
   }
   
-  /* Article content styling */
+  /* Thought content styling */
   .prose {
     @apply text-gray-800 leading-relaxed;
     font-size: 1.125rem;
