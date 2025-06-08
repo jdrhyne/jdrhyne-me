@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('blog', ({ data }) => {
@@ -33,14 +34,22 @@ function formatDate(date: Date) {
 ---
 
 <Layout title="The Rhyne Report" description="Personal blog and insights">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <!-- Hero Section -->
-    <div class="text-center mb-20">
-      <h1 class="text-6xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">The Rhyne Report</h1>
-      <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light">
-        A collection of insights, thoughts, and observations on technology, business, and life.
-      </p>
-    </div>
+  <!-- Hero Section -->
+  <Hero 
+    name="The Rhyne Report"
+    username="rhyne"
+    tagline="A collection of insights, thoughts, and observations on technology, business, and life. Every post is crafted to share knowledge and spark meaningful conversations."
+    avatarSrc="/avatar-placeholder.svg"
+    avatarAlt="Rhyne's avatar"
+    socialLinks={{
+      github: "https://github.com/rhyne",
+      twitter: "https://twitter.com/rhyne",
+      linkedin: "https://linkedin.com/in/rhyne",
+      email: "hello@rhyne.dev"
+    }}
+  />
+  
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
     <!-- Recent Posts -->
     <div class="mb-16">
