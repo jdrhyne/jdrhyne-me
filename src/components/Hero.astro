@@ -26,7 +26,6 @@ const {
 
 <section class="hero-section">
   <div class="hero-container">
-    <div class="hero-content">
       <!-- Avatar -->
       <a href="/about" class="avatar-link">
         <img 
@@ -98,25 +97,35 @@ const {
           </nav>
         )}
       </div>
-    </div>
   </div>
 </section>
 
 <style>
   .hero-section {
-    padding: 1.5rem 1rem 1rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #e5e7eb;
   }
   
   .hero-container {
-    max-width: 48rem;
+    max-width: 80rem;
     margin: 0 auto;
-  }
-  
-  .hero-content {
+    padding: 0 1rem;
     display: flex;
     align-items: flex-start;
     gap: 2rem;
     text-align: left;
+  }
+  
+  @media (min-width: 640px) {
+    .hero-container {
+      padding: 0 1.5rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .hero-container {
+      padding: 0 2rem;
+    }
   }
   
   .avatar-link {
@@ -229,7 +238,7 @@ const {
   }
   
   @media (max-width: 639px) {
-    .hero-content {
+    .hero-container {
       flex-direction: column;
       align-items: center;
       text-align: center;
