@@ -26,6 +26,7 @@ const {
 
 <section class="hero-section">
   <div class="hero-container">
+    <div class="hero-content">
       <!-- Avatar -->
       <a href="/about" class="avatar-link">
         <img 
@@ -97,6 +98,7 @@ const {
           </nav>
         )}
       </div>
+    </div>
   </div>
 </section>
 
@@ -110,6 +112,9 @@ const {
     max-width: 80rem;
     margin: 0 auto;
     padding: 0 1rem;
+  }
+  
+  .hero-content {
     display: flex;
     align-items: flex-start;
     gap: 2rem;
@@ -238,7 +243,7 @@ const {
   }
   
   @media (max-width: 639px) {
-    .hero-container {
+    .hero-content {
       flex-direction: column;
       align-items: center;
       text-align: center;
