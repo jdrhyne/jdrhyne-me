@@ -45,3 +45,4 @@ tmp/
 temp/
 # Claude conversation logs
 claude-conversations/
+/claude-conversations/
