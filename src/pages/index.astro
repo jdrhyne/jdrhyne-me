@@ -3,6 +3,7 @@ import Layout from '../components/Layout.astro';
 import { getCollection } from 'astro:content';
 import { config } from '../config';
 
+const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: '' };
 const allPosts = await getCollection('blog');
 const sortedPosts = allPosts
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
@@ -21,8 +22,8 @@ const sortedPosts = allPosts
         </p>
         <hr class="hero-rule" />
         <div class="hero-actions">
-          <a href="/blog" class="btn btn-primary">Read Blog</a>
-          <a href="/about" class="btn btn-secondary">About Me</a>
+          <a href={base + "/blog"} class="btn btn-primary">Read Blog</a>
+          <a href={base + "/about"} class="btn btn-secondary">About Me</a>
         </div>
       </div>
     </section>
@@ -40,7 +41,7 @@ const sortedPosts = allPosts
             {sortedPosts.map(post => (
               <article class="demo-post-card">
                 <h3 class="demo-post-title">
-                  <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+                  <a href={base + `/blog/${post.slug}`}>{post.data.title}</a>
                 </h3>
                 
                 <time class="demo-post-date" datetime={post.data.date}>
@@ -68,7 +69,7 @@ const sortedPosts = allPosts
         )}
         
         <div class="demo-actions">
-          <a href={`${import.meta.env.BASE_URL}blog`} class="btn btn-primary">View Blog</a>
+          <a href={base + "/blog"} class="btn btn-primary">View Blog</a>
         </div>
       </div>
     </section>

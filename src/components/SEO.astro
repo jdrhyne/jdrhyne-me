@@ -8,7 +8,9 @@ export interface Props {
   canonical?: string;
 }
 
-import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
+import { SITE_TITLE, SITE_DESCRIPTION, config } from '../config';
+
+const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: '' };
 
 const {
   title = SITE_TITLE,
@@ -26,7 +28,7 @@ const imageURL = new URL(image, Astro.site);
 
 <title>{pageTitle}</title>
 <meta name="description" content={description} />
-<meta name="author" content="Your Name" />
+<meta name="author" content={config.author.name} />
 
 <link rel="canonical" href={canonicalURL} />
 
@@ -46,5 +48,5 @@ const imageURL = new URL(image, Astro.site);
 <meta name="robots" content="index, follow" />
 <meta name="googlebot" content="index, follow" />
 
-<link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
-<link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+<link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={base + "/rss.xml"} />
+<link rel="sitemap" type="application/xml" href={base + "/sitemap-index.xml"} />
