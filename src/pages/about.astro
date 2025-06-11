@@ -4,7 +4,6 @@ import { config } from '../config';
 
 const { title, description, author, social } = config;
 const pageDescription = `Learn more about ${author.name} and the ${title} blog`;
-const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: '' };
 ---
 
 <Layout title={`About | ${title}`} description={pageDescription}>
@@ -17,7 +16,7 @@ const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: 
     <div class="author-section">
       <div class="author-avatar">
         {author.avatar ? (
-          <img src={base + author.avatar} alt={author.name} />
+          <img src={author.avatar} alt={author.name} />
         ) : (
           <div class="avatar-placeholder">
             <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -32,7 +32,6 @@ export async function getStaticPaths() {
 }
 
 const { category, posts } = Astro.props;
-const base = import.meta.env.BASE_URL;
 ---
 
 <Layout title={`${category} - @jdrhyne`} description={`All posts in the ${category} category`}>
@@ -49,7 +48,7 @@ const base = import.meta.env.BASE_URL;
       {posts.map(post => (
         <article class="post-item">
           <h2 class="post-title">
-            <a href={`${base}blog/${post.file.split('/').pop()?.replace('.md', '')}`}>
+            <a href={`/blog/${post.file.split('/').pop()?.replace('.md', '')}`}>
               {post.frontmatter.title}
             </a>
           </h2>
@@ -68,7 +67,7 @@ const base = import.meta.env.BASE_URL;
             <p class="post-excerpt">{post.frontmatter.excerpt}</p>
           )}
           
-          <a href={`${base}blog/${post.file.split('/').pop()?.replace('.md', '')}`} class="read-more">
+          <a href={`/blog/${post.file.split('/').pop()?.replace('.md', '')}`} class="read-more">
             Read More →
           </a>
         </article>
@@ -76,7 +75,7 @@ const base = import.meta.env.BASE_URL;
     </div>
 
     <div class="page-navigation">
-      <a href={`${base}categories`} class="back-link">← Back to All Categories</a>
+      <a href="/categories" class="back-link">← Back to All Categories</a>
     </div>
   </div>
 </Layout>
