@@ -21,7 +21,7 @@ export const config: SiteConfig = {
   description: "Code, Curiosity, and Continuous Growth—Scaling Ideas Beyond Paper.",
   author: {
     name: "Jonathan D. Rhyne",
-    bio: "American attorney, entrepreneur and photographer. Co-founder of PSPDFKit, the industry leading mobile PDF framework. Frequent public speaker lecturing around the world.",
+    bio: "Co-founder & CEO, Nutrient.io. Building elegantly simple developer tools that move the world beyond paper. Attorney-turned-technologist • Wine producer • Dad of 3 • Lifelong learner",
     avatar: "/images/avatar.png"
   },
   social: {
