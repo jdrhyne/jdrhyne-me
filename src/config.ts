@@ -22,7 +22,7 @@ export const config: SiteConfig = {
   author: {
     name: "Jonathan D. Rhyne",
     bio: "Co-founder & CEO, Nutrient.io. Building elegantly simple developer tools that move the world beyond paper. Attorney-turned-technologist • Wine producer • Dad of 3 • Lifelong learner",
-    avatar: "/images/avatar.png"
+    avatar: "/images/avatar-sketch.png"
   },
   social: {
     github: "https://github.com/jdrhyne",
