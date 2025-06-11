@@ -24,9 +24,6 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
   <div class="blog-page">
     <header class="blog-header">
       <h1 class="blog-title">Blog</h1>
-      <p class="blog-description">
-        Exploring design, typography, and the intersection of historical aesthetics with modern functionality.
-      </p>
       <hr class="blog-rule" />
     </header>
 
@@ -100,15 +97,6 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
     margin-bottom: calc(var(--grid-unit) * 3);
   }
 
-  .blog-description {
-    font-size: 1.25rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-    margin-bottom: calc(var(--grid-unit) * 4);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
 
 
   .blog-rule {
@@ -249,10 +237,6 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
   @media (max-width: 768px) {
     .blog-title {
       font-size: 2.5rem;
-    }
-
-    .blog-description {
-      font-size: 1.125rem;
     }
 
     .post-title {
