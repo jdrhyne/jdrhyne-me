@@ -56,8 +56,8 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
                     )}
                   </div>
                   
-                  {post.frontmatter.excerpt && (
-                    <p class="post-excerpt">{post.frontmatter.excerpt}</p>
+                  {post.frontmatter.description && (
+                    <p class="post-excerpt">{post.frontmatter.description}</p>
                   )}
                   
                   <a href={`/blog/${post.file.split('/').pop()?.replace('.md', '')}`} class="read-more">Read More →</a>
