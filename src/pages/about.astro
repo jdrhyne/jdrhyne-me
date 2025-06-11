@@ -4,6 +4,7 @@ import { config } from '../config';
 
 const { title, description, author, social } = config;
 const pageDescription = `Learn more about ${author.name} and the ${title} blog`;
+const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: '' };
 ---
 
 <Layout title={`About | ${title}`} description={pageDescription}>
@@ -16,7 +17,7 @@ const pageDescription = `Learn more about ${author.name} and the ${title} blog`;
     <div class="author-section">
       <div class="author-avatar">
         {author.avatar ? (
-          <img src={author.avatar} alt={author.name} />
+          <img src={base + author.avatar} alt={author.name} />
         ) : (
           <div class="avatar-placeholder">
             <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +77,42 @@ const pageDescription = `Learn more about ${author.name} and the ${title} blog`;
 
     <div class="content-section">
       <h2>About</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>
+        I'm an American attorney, entrepreneur, and photographer based in Raleigh, North Carolina. 
+        As co-founder of PSPDFKit, I've helped build the industry-leading mobile PDF framework that powers 
+        document workflows for thousands of companies worldwide.
+      </p>
+      
+      <h2>Professional Journey</h2>
+      <p>
+        My career spans the intersection of law, technology, and entrepreneurship. I'm a frequent public 
+        speaker, lecturing around the world on topics ranging from mobile development to building successful 
+        software companies. This unique blend of legal expertise and technical knowledge has allowed me to 
+        navigate the complex landscape of modern software business.
+      </p>
+      
+      <h2>Beyond Work</h2>
+      <p>
+        Photography is more than just a hobby – it's my way of seeing and documenting the world. From the 
+        streets of Girona to the everyday moments with my family, I believe in the power of images to tell 
+        stories and preserve memories. I shoot both digital and film, finding that each medium offers its 
+        own unique perspective on capturing light and life.
+      </p>
+      
+      <h2>This Site</h2>
+      <p>
+        This blog serves as a space for sharing thoughts on technology, entrepreneurship, photography, and 
+        the ongoing journey of learning and growth. Whether discussing the latest in software development 
+        or the timeless appeal of film photography, I believe in the value of continuous learning and the 
+        power of sharing knowledge.
+      </p>
+      
+      <h2>Connect</h2>
+      <p>
+        Feel free to reach out for collaboration opportunities, speaking engagements, or just to say hello. 
+        I'm always interested in connecting with fellow entrepreneurs, developers, photographers, and anyone 
+        passionate about building and creating.
+      </p>
     </div>
   </div>
 </Layout>

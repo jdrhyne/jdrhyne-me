@@ -21,8 +21,8 @@ export const config: SiteConfig = {
   description: "Code, Curiosity, and Continuous Growth—Scaling Ideas Beyond Paper.",
   author: {
     name: "Jonathan D. Rhyne",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    // avatar: "/images/avatar.jpg" // Uncomment and add your avatar image to public/images/
+    bio: "American attorney, entrepreneur and photographer. Co-founder of PSPDFKit, the industry leading mobile PDF framework. Frequent public speaker lecturing around the world.",
+    avatar: "/images/avatar.png"
   },
   social: {
     github: "https://github.com/jdrhyne",
