@@ -6,8 +6,20 @@ import { config } from '../config';
 const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: '' };
 const allPosts = await getCollection('blog');
 const sortedPosts = allPosts
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
-  .slice(0, 5);
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+// Group posts by year for display
+const postsByYear = sortedPosts.reduce((acc, post) => {
+  const year = new Date(post.data.date).getFullYear();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(post);
+  return acc;
+}, {} as Record<number, typeof sortedPosts>);
+
+// Get the most recent years (up to 2 years)
+const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0, 2);
 ---
 
 <Layout title={`${config.title} - ${config.description}`} description={config.description} showSidebar={true}>
@@ -37,33 +49,39 @@ const sortedPosts = allPosts
         </p>
         
         {sortedPosts.length > 0 && (
-          <div class="demo-posts">
-            {sortedPosts.map(post => (
-              <article class="demo-post-card">
-                <h3 class="demo-post-title">
-                  <a href={base + `/blog/${post.slug}`}>{post.data.title}</a>
-                </h3>
-                
-                <time class="demo-post-date" datetime={post.data.date}>
-                  {new Date(post.data.date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </time>
-                
-                {post.data.description && (
-                  <p class="demo-post-excerpt">{post.data.description}</p>
-                )}
-                
-                {post.data.tags && (
-                  <div class="demo-post-categories">
-                    {post.data.tags.map((tag) => (
-                      <span class="demo-category">{tag}</span>
-                    ))}
-                  </div>
-                )}
-              </article>
+          <div class="demo-posts-by-year">
+            {years.map(year => (
+              <section class="demo-year-section">
+                <h3 class="demo-year-title">{year}</h3>
+                <div class="demo-posts">
+                  {postsByYear[year].slice(0, 3).map(post => (
+                    <article class="demo-post-card">
+                      <h4 class="demo-post-title">
+                        <a href={base + `/blog/${post.slug}`}>{post.data.title}</a>
+                      </h4>
+                      
+                      <time class="demo-post-date" datetime={post.data.date}>
+                        {new Date(post.data.date).toLocaleDateString('en-US', {
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </time>
+                      
+                      {post.data.description && (
+                        <p class="demo-post-excerpt">{post.data.description}</p>
+                      )}
+                      
+                      {post.data.tags && (
+                        <div class="demo-post-categories">
+                          {post.data.tags.map((tag) => (
+                            <span class="demo-category">{tag}</span>
+                          ))}
+                        </div>
+                      )}
+                    </article>
+                  ))}
+                </div>
+              </section>
             ))}
           </div>
         )}
@@ -338,6 +356,32 @@ const sortedPosts = allPosts
     margin-right: auto;
   }
 
+  .demo-posts-by-year {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-unit) * 6);
+    margin-bottom: calc(var(--grid-unit) * 6);
+  }
+
+  .demo-year-section {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-unit) * 3);
+  }
+
+  .demo-year-title {
+    font-family: var(--font-heading-primary);
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+    padding-bottom: calc(var(--grid-unit) * 1.5);
+    border-bottom: 3px solid var(--color-accent);
+    text-align: center;
+  }
+
   .demo-posts {
     display: grid;
     gap: calc(var(--grid-unit) * 4);
@@ -359,7 +403,7 @@ const sortedPosts = allPosts
 
   .demo-post-title {
     font-family: var(--font-heading-secondary);
-    font-size: 1.5rem;
+    font-size: 1.375rem;
     font-weight: 700;
     margin-bottom: calc(var(--grid-unit));
   }

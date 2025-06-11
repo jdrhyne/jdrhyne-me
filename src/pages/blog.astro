@@ -6,6 +6,19 @@ const base = import.meta.env.BASE_URL;
 const allPosts = await Astro.glob('../content/blog/*.md');
 const sortedPosts = allPosts
   .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
+
+// Group posts by year
+const postsByYear = sortedPosts.reduce((acc, post) => {
+  const year = new Date(post.frontmatter.date).getFullYear();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(post);
+  return acc;
+}, {} as Record<number, typeof sortedPosts>);
+
+// Get years in descending order
+const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
 ---
 
 <Layout title="Blog | @jdrhyne" description="All blog posts from @jdrhyne">
@@ -19,37 +32,43 @@ const sortedPosts = allPosts
     </header>
 
     {sortedPosts.length > 0 ? (
-      <div class="posts-list">
-        {sortedPosts.map(post => (
-          <article class="post-item">
-            <h2 class="post-title">
-              <a href={`${base}/blog/${post.file.split('/').pop()?.replace('.md', '')}`}>{post.frontmatter.title}</a>
-            </h2>
-            
-            <div class="post-meta">
-              <time class="post-date" datetime={post.frontmatter.date}>
-                {new Date(post.frontmatter.date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </time>
-              
-              {post.frontmatter.categories && (
-                <div class="post-categories">
-                  {post.frontmatter.categories.map((category) => (
-                    <span class="category">{category}</span>
-                  ))}
-                </div>
-              )}
+      <div class="posts-by-year">
+        {years.map(year => (
+          <section class="year-section">
+            <h2 class="year-title">{year}</h2>
+            <div class="posts-list">
+              {postsByYear[year].map(post => (
+                <article class="post-item">
+                  <h3 class="post-title">
+                    <a href={`${base}/blog/${post.file.split('/').pop()?.replace('.md', '')}`}>{post.frontmatter.title}</a>
+                  </h3>
+                  
+                  <div class="post-meta">
+                    <time class="post-date" datetime={post.frontmatter.date}>
+                      {new Date(post.frontmatter.date).toLocaleDateString('en-US', {
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </time>
+                    
+                    {post.frontmatter.categories && (
+                      <div class="post-categories">
+                        {post.frontmatter.categories.map((category) => (
+                          <span class="category">{category}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  
+                  {post.frontmatter.excerpt && (
+                    <p class="post-excerpt">{post.frontmatter.excerpt}</p>
+                  )}
+                  
+                  <a href={`${base}/blog/${post.file.split('/').pop()?.replace('.md', '')}`} class="read-more">Read More →</a>
+                </article>
+              ))}
             </div>
-            
-            {post.frontmatter.excerpt && (
-              <p class="post-excerpt">{post.frontmatter.excerpt}</p>
-            )}
-            
-            <a href={`${base}/blog/${post.file.split('/').pop()?.replace('.md', '')}`} class="read-more">Read More →</a>
-          </article>
+          </section>
         ))}
       </div>
     ) : (
@@ -101,6 +120,30 @@ const sortedPosts = allPosts
     margin: 0 auto;
   }
 
+  .posts-by-year {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-unit) * 8);
+  }
+
+  .year-section {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-unit) * 3);
+  }
+
+  .year-title {
+    font-family: var(--font-heading-primary);
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+    padding-bottom: calc(var(--grid-unit) * 2);
+    border-bottom: 3px solid var(--color-accent);
+  }
+
   .posts-list {
     display: flex;
     flex-direction: column;
@@ -119,7 +162,7 @@ const sortedPosts = allPosts
 
   .post-title {
     font-family: var(--font-heading-secondary);
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 700;
     margin-bottom: calc(var(--grid-unit) * 2);
   }
