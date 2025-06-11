@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#000000"/>
+  
+  <!-- JR Monogram in red -->
+  <g fill="#dc2626">
+    <!-- J -->
+    <path d="M120 100h60v220c0 33.137-26.863 60-60 60s-60-26.863-60-60v-40h40v40c0 11.046 8.954 20 20 20s20-8.954 20-20V100z"/>
+    
+    <!-- R -->
+    <path d="M240 100h120c33.137 0 60 26.863 60 60s-26.863 60-60 60h-20l60 100h-50l-50-83.33V320h-60V100zm60 40v40h60c11.046 0 20-8.954 20-20s-8.954-20-20-20h-60z"/>
+  </g>
+  
+  <!-- White border -->
+  <rect x="20" y="20" width="472" height="472" fill="none" stroke="#ffffff" stroke-width="8"/>
+</svg>

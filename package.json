@@ -1,0 +1,52 @@
+{
+  "name": "jdrhyne-me",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Personal website and blog for Jonathan D. Rhyne - Code, Curiosity, and Continuous Growth",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "lint": "eslint . --ext .js,.ts,.astro",
+    "format": "prettier --write .",
+    "generate-screenshots": "node generate-screenshots.js"
+  },
+  "author": "@jdrhyne",
+  "license": "MIT",
+  "homepage": "https://jdrhyne.me",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdrhyne/jdrhyne-me.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jdrhyne/jdrhyne-me/issues"
+  },
+  "keywords": [
+    "astro",
+    "blog",
+    "theme",
+    "minimal",
+    "typography"
+  ],
+  "dependencies": {
+    "@astrojs/rss": "^4.0.12",
+    "@fontsource/jetbrains-mono": "^5.0.0",
+    "@fontsource/oswald": "^5.2.6",
+    "@fontsource/roboto-condensed": "^5.2.6",
+    "@fontsource/work-sans": "^5.2.6",
+    "astro": "^5.9.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.3",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-astro": "^1.2.0",
+    "playwright": "^1.49.0",
+    "prettier": "^3.3.0",
+    "prettier-plugin-astro": "^0.14.0",
+    "typescript": "^5.6.0"
+  }
+}
