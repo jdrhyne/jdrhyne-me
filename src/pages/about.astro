@@ -76,9 +76,9 @@ const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: 
     </div>
 
     <div class="content-section">
-      <h2>Jonathan D. Rhyne</h2>
+      <h2>Hi, I'm Jonathan D. Rhyne 👋</h2>
       <p>
-        I'm a lawyer by training, an engineer at heart, and—these days—the co-founder & CEO of <strong>Nutrient.io</strong>, a developer-first platform that lets teams create, collaborate on, and automate documents across every major framework and device. After growing PSPDFKit from a weekend project into the industry-standard PDF SDK, I led our rebrand to Nutrient.io to reflect a bigger mission: helping the world innovate beyond paper.
+        I'm a lawyer by training, an engineer at heart, and—these days—the co-founder & CEO of <strong><a href="https://nutrient.io" target="_blank" rel="noopener noreferrer">Nutrient.io</a></strong>, a developer-first platform that lets teams create, collaborate on, and automate documents across every major framework and device. After growing PSPDFKit from a weekend project into the industry-standard PDF SDK, I led our rebrand to <a href="https://nutrient.io" target="_blank" rel="noopener noreferrer">Nutrient.io</a> to reflect a bigger mission: helping the world innovate beyond paper.
       </p>
       
       <h3>What I'm building</h3>
@@ -118,8 +118,6 @@ const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: 
         <p>Building something that needs best-in-class document workflows?<br />
         Ping me—always up for chatting code, coffee, or clever growth loops.</p>
       </blockquote>
-      
-      <p class="copyright">© 2025 Jonathan D. Rhyne</p>
     </div>
   </div>
 </Layout>
@@ -275,6 +273,17 @@ const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: 
     color: var(--color-text-primary);
   }
 
+  .content-section a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .content-section a:hover {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+  }
+
   .content-section ol {
     margin: calc(var(--grid-unit) * 2) 0;
     padding-left: calc(var(--grid-unit) * 3);
@@ -343,15 +352,6 @@ const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: 
     line-height: 1.6;
     color: var(--color-text-primary);
     font-style: italic;
-  }
-
-  .copyright {
-    text-align: center;
-    margin-top: calc(var(--grid-unit) * 6);
-    padding-top: calc(var(--grid-unit) * 3);
-    border-top: 1px solid var(--color-border);
-    color: var(--color-text-muted);
-    font-size: 0.95rem;
   }
 
   @media (max-width: 768px) {
