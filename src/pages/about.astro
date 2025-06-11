@@ -76,43 +76,50 @@ const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: 
     </div>
 
     <div class="content-section">
-      <h2>About</h2>
+      <h2>Jonathan D. Rhyne</h2>
       <p>
-        I'm an American attorney, entrepreneur, and photographer based in Raleigh, North Carolina. 
-        As co-founder of PSPDFKit, I've helped build the industry-leading mobile PDF framework that powers 
-        document workflows for thousands of companies worldwide.
+        I'm a lawyer by training, an engineer at heart, and—these days—the co-founder & CEO of <strong>Nutrient.io</strong>, a developer-first platform that lets teams create, collaborate on, and automate documents across every major framework and device. After growing PSPDFKit from a weekend project into the industry-standard PDF SDK, I led our rebrand to Nutrient.io to reflect a bigger mission: helping the world innovate beyond paper.
       </p>
       
-      <h2>Professional Journey</h2>
-      <p>
-        My career spans the intersection of law, technology, and entrepreneurship. I'm a frequent public 
-        speaker, lecturing around the world on topics ranging from mobile development to building successful 
-        software companies. This unique blend of legal expertise and technical knowledge has allowed me to 
-        navigate the complex landscape of modern software business.
-      </p>
+      <h3>What I'm building</h3>
+      <ul>
+        <li><strong>Nutrient Web Viewer & APIs</strong> – headless, high-fidelity document tooling for modern web apps</li>
+        <li><strong>Low-code workflow automation</strong> – bringing citizen developers the same superpowers power users enjoy</li>
+        <li><strong>AI document assistants</strong> – marrying LLMs with rock-solid SDKs so devs can ship magical experiences in hours, not months</li>
+      </ul>
       
-      <h2>Beyond Work</h2>
-      <p>
-        Photography is more than just a hobby – it's my way of seeing and documenting the world. From the 
-        streets of Girona to the everyday moments with my family, I believe in the power of images to tell 
-        stories and preserve memories. I shoot both digital and film, finding that each medium offers its 
-        own unique perspective on capturing light and life.
-      </p>
+      <h3>Operating principles I live by</h3>
+      <ol>
+        <li><strong>Extreme ownership</strong> – low ego, high accountability</li>
+        <li><strong>Relentless curiosity</strong> – ship fast, learn faster</li>
+        <li><strong>Single-threaded focus</strong> – one priority at a time for compounding results</li>
+        <li><strong>Bias for action</strong> – momentum beats perfection</li>
+        <li><strong>Radical candor</strong> – honest, respectful feedback fuels growth</li>
+      </ol>
       
-      <h2>This Site</h2>
-      <p>
-        This blog serves as a space for sharing thoughts on technology, entrepreneurship, photography, and 
-        the ongoing journey of learning and growth. Whether discussing the latest in software development 
-        or the timeless appeal of film photography, I believe in the value of continuous learning and the 
-        power of sharing knowledge.
-      </p>
+      <h3>Beyond work</h3>
+      <p>When I'm not obsessing over developer experience, you'll find me:</p>
+      <ul>
+        <li><strong>On the pitch</strong> – fundraising my cardio keeping up with rec-league soccer</li>
+        <li><strong>Under dark skies</strong> – astrophotography and teaching my kids the constellations</li>
+        <li><strong>At the North Carolina coast</strong> – chasing sun-rises, not deadlines</li>
+        <li><strong>Behind a Leica</strong> – minimalist, black-and-white street shots (film & digital)</li>
+      </ul>
       
-      <h2>Connect</h2>
-      <p>
-        Feel free to reach out for collaboration opportunities, speaking engagements, or just to say hello. 
-        I'm always interested in connecting with fellow entrepreneurs, developers, photographers, and anyone 
-        passionate about building and creating.
-      </p>
+      <h3>Let's connect</h3>
+      <ul class="connect-list">
+        <li>GitHub: <strong><a href="https://github.com/jdrhyne" target="_blank" rel="noopener noreferrer">@jdrhyne</a></strong></li>
+        <li>LinkedIn: <strong><a href="https://linkedin.com/in/jonathandrhyne" target="_blank" rel="noopener noreferrer">jonathandrhyne</a></strong></li>
+        <li>X/Twitter: <strong><a href="https://x.com/jdrhyne" target="_blank" rel="noopener noreferrer">@jdrhyne</a></strong></li>
+        <li>Email: <code>hey @ nutrient.io</code></li>
+      </ul>
+      
+      <blockquote class="cta-quote">
+        <p>Building something that needs best-in-class document workflows?<br />
+        Ping me—always up for chatting code, coffee, or clever growth loops.</p>
+      </blockquote>
+      
+      <p class="copyright">© 2025 Jonathan D. Rhyne</p>
     </div>
   </div>
 </Layout>
@@ -235,6 +242,17 @@ const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: 
     margin-bottom: calc(var(--grid-unit) * 3);
   }
 
+  .content-section h3 {
+    font-family: var(--font-heading-secondary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: calc(var(--grid-unit) * 4);
+    margin-bottom: calc(var(--grid-unit) * 2);
+  }
+
   .content-section p {
     font-size: 1.125rem;
     line-height: 1.6;
@@ -255,6 +273,85 @@ const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: 
 
   .content-section strong {
     color: var(--color-text-primary);
+  }
+
+  .content-section ol {
+    margin: calc(var(--grid-unit) * 2) 0;
+    padding-left: calc(var(--grid-unit) * 3);
+    counter-reset: item;
+    list-style: none;
+  }
+
+  .content-section ol li {
+    counter-increment: item;
+    position: relative;
+    padding-left: calc(var(--grid-unit) * 2);
+  }
+
+  .content-section ol li::before {
+    content: counter(item);
+    position: absolute;
+    left: 0;
+    font-family: var(--font-heading-primary);
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+
+
+  .connect-list {
+    list-style: none;
+    padding: 0;
+    margin: calc(var(--grid-unit) * 2) 0;
+  }
+
+  .connect-list li {
+    margin-bottom: calc(var(--grid-unit));
+    font-size: 1.125rem;
+  }
+
+  .connect-list a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .connect-list a:hover {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+  }
+
+  .connect-list code {
+    background-color: var(--color-surface);
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: var(--color-text-primary);
+  }
+
+  .cta-quote {
+    margin: calc(var(--grid-unit) * 4) 0;
+    padding: calc(var(--grid-unit) * 3);
+    background-color: var(--color-surface);
+    border-left: 4px solid var(--color-accent);
+    border-radius: 4px;
+  }
+
+  .cta-quote p {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    font-style: italic;
+  }
+
+  .copyright {
+    text-align: center;
+    margin-top: calc(var(--grid-unit) * 6);
+    padding-top: calc(var(--grid-unit) * 3);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
   }
 
   @media (max-width: 768px) {
@@ -292,9 +389,17 @@ const { base = '' } = Astro.site ? { base: import.meta.env.BASE_URL } : { base: 
       font-size: 1.5rem;
     }
 
+    .content-section h3 {
+      font-size: 1.25rem;
+    }
+
     .content-section p,
     .content-section li {
       font-size: 1rem;
+    }
+
+    .cta-quote p {
+      font-size: 1.125rem;
     }
   }
 </style>
