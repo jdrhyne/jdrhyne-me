@@ -13,7 +13,7 @@ export async function GET() {
       url: url,
       date: post.frontmatter.date || new Date().toISOString(),
       excerpt: post.frontmatter.excerpt || post.frontmatter.description || '',
-      categories: post.frontmatter.categories || []
+      categories: post.frontmatter.tags || []
     });
   }
   

@@ -4,12 +4,12 @@ import Layout from '../../components/Layout.astro';
 export async function getStaticPaths() {
   const allPosts = await Astro.glob('../../content/blog/*.md');
   
-  // Extract all unique categories
+  // Extract all unique categories (from tags field)
   const allCategories = new Set();
   allPosts.forEach(post => {
-    if (post.frontmatter.categories) {
-      post.frontmatter.categories.forEach(category => {
-        allCategories.add(category);
+    if (post.frontmatter.tags) {
+      post.frontmatter.tags.forEach(tag => {
+        allCategories.add(tag);
       });
     }
   });
@@ -18,7 +18,7 @@ export async function getStaticPaths() {
   return Array.from(allCategories).map(category => {
     const categorySlug = category.toLowerCase().replace(/[\/\s]+/g, '-');
     const postsInCategory = allPosts.filter(post => 
-      post.frontmatter.categories && post.frontmatter.categories.includes(category)
+      post.frontmatter.tags && post.frontmatter.tags.includes(category)
     ).sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
 
     return {

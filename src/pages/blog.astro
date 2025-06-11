@@ -51,10 +51,10 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
                       })}
                     </time>
                     
-                    {post.frontmatter.categories && (
+                    {post.frontmatter.tags && (
                       <div class="post-categories">
-                        {post.frontmatter.categories.map((category) => (
-                          <span class="category">{category}</span>
+                        {post.frontmatter.tags.map((tag) => (
+                          <span class="category">{tag}</span>
                         ))}
                       </div>
                     )}

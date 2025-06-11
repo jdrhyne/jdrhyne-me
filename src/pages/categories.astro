@@ -6,12 +6,12 @@ const base = import.meta.env.BASE_URL;
 // Get all blog posts
 const allPosts = await Astro.glob('../content/blog/*.md');
 
-// Extract all categories from posts
+// Extract all categories from posts (using tags field)
 const allCategories = new Set();
 allPosts.forEach(post => {
-  if (post.frontmatter.categories) {
-    post.frontmatter.categories.forEach(category => {
-      allCategories.add(category);
+  if (post.frontmatter.tags) {
+    post.frontmatter.tags.forEach(tag => {
+      allCategories.add(tag);
     });
   }
 });
@@ -20,7 +20,7 @@ allPosts.forEach(post => {
 const categoryMap = {};
 Array.from(allCategories).forEach(category => {
   categoryMap[category] = allPosts.filter(post => 
-    post.frontmatter.categories && post.frontmatter.categories.includes(category)
+    post.frontmatter.tags && post.frontmatter.tags.includes(category)
   );
 });
 
