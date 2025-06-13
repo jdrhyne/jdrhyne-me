@@ -1,10 +1,12 @@
-<svg width="200" height="80" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
-  <!-- Circle -->
-  <circle cx="100" cy="40" r="35" fill="none" stroke="black" stroke-width="3"/>
+<svg width="120" height="60" viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Circle centered -->
+  <circle cx="50" cy="30" r="28" fill="none" stroke="black" stroke-width="4"/>
   
-  <!-- JDR text -->
-  <text x="100" y="55" font-family="Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle" fill="black">JDR</text>
+  <!-- JDR text centered in circle -->
+  <text x="50" y="38" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="black">JDR</text>
   
-  <!-- Red star -->
-  <path d="M 160,15 L 162,21 L 168,21 L 163,25 L 165,31 L 160,27 L 155,31 L 157,25 L 152,21 L 158,21 Z" fill="#E53E3E"/>
+  <!-- Red star positioned at top right of circle -->
+  <g transform="translate(72, 12)">
+    <path d="M 0,-8 L 2.5,-2.5 L 8,-1.5 L 4,2.5 L 5,8 L 0,5 L -5,8 L -4,2.5 L -8,-1.5 L -2.5,-2.5 Z" fill="#c13127"/>
+  </g>
 </svg>

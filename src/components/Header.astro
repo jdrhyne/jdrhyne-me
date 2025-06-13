@@ -238,7 +238,7 @@ import { config } from '../config';
   .site-header {
     background-color: var(--color-surface);
     border-bottom: 2px solid var(--color-border);
-    padding: calc(var(--grid-unit) * 3) 0;
+    padding: calc(var(--grid-unit) * 2) 0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -261,11 +261,12 @@ import { config } from '../config';
   }
 
   .title-svg {
-    height: 60px;
+    height: 50px;
     width: auto;
-    max-width: 200px;
+    max-width: 120px;
     border: none !important; /* Override global img styles */
     margin: 0 !important; /* Override global img styles */
+    display: block;
   }
 
   .header-controls {
@@ -682,9 +683,9 @@ import { config } from '../config';
     }
 
     .title-svg {
-      height: 48px;
+      height: 40px;
       width: auto;
-      max-width: 160px;
+      max-width: 100px;
     }
     
     .header-controls {
