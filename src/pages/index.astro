@@ -104,7 +104,7 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0
 
   .hero {
     text-align: center;
-    padding: calc(var(--grid-unit) * 12) 0 calc(var(--grid-unit) * 8);
+    padding: calc(var(--grid-unit) * 8) 0 calc(var(--grid-unit) * 4);
     background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-background) 100%);
   }
 
@@ -338,7 +338,7 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0
   }
 
   .demo-section {
-    padding: calc(var(--grid-unit) * 8) 0;
+    padding: calc(var(--grid-unit) * 4) 0;
   }
 
   .demo-description {
@@ -346,7 +346,7 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0
     font-size: 1.125rem;
     line-height: 1.6;
     color: var(--color-text-secondary);
-    margin-bottom: calc(var(--grid-unit) * 6);
+    margin-bottom: calc(var(--grid-unit) * 3);
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
@@ -355,14 +355,14 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0
   .demo-posts-by-year {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--grid-unit) * 6);
-    margin-bottom: calc(var(--grid-unit) * 6);
+    gap: calc(var(--grid-unit) * 4);
+    margin-bottom: calc(var(--grid-unit) * 4);
   }
 
   .demo-year-section {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--grid-unit) * 3);
+    gap: calc(var(--grid-unit) * 2);
   }
 
   .demo-year-title {
@@ -373,15 +373,14 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin: 0;
-    padding-bottom: calc(var(--grid-unit) * 1.5);
-    border-bottom: 3px solid var(--color-accent);
+    margin-bottom: calc(var(--grid-unit) * 2);
     text-align: center;
   }
 
   .demo-posts {
     display: grid;
-    gap: calc(var(--grid-unit) * 4);
-    margin-bottom: calc(var(--grid-unit) * 6);
+    gap: calc(var(--grid-unit) * 3);
+    margin-bottom: calc(var(--grid-unit) * 3);
   }
 
   .demo-post-card {
