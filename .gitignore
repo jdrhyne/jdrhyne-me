@@ -46,3 +46,9 @@ temp/
 # Claude conversation logs
 claude-conversations/
 /claude-conversations/
+
+# Claude Code configuration (contains sensitive tokens)
+.claude-code/
+
+# Claude conversation logs
+.claude-conversations/
