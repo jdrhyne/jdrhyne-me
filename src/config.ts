@@ -17,7 +17,7 @@ export interface SiteConfig {
 }
 
 export const config: SiteConfig = {
-  title: "@jdrhyne",
+  title: "JDR",
   description: "Code, Curiosity, and Continuous Growth—Scaling Ideas Beyond Paper.",
   author: {
     name: "Jonathan D. Rhyne",

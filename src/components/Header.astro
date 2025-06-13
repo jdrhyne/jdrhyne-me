@@ -16,7 +16,7 @@ import { config } from '../config';
     
     <div class="site-title">
       <a href="/">
-        <img src="/site-title-new.svg" alt={config.title} class="title-svg" />
+        <img src="/site-title.svg" alt={config.title} class="title-svg" />
       </a>
     </div>
     
@@ -261,8 +261,9 @@ import { config } from '../config';
   }
 
   .title-svg {
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: auto;
+    max-width: 280px;
     border: none !important; /* Override global img styles */
     margin: 0 !important; /* Override global img styles */
     display: block;
@@ -682,8 +683,9 @@ import { config } from '../config';
     }
 
     .title-svg {
-      height: 40px;
-      width: 40px;
+      height: 32px;
+      width: auto;
+      max-width: 220px;
     }
     
     .header-controls {
