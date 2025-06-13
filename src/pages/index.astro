@@ -40,9 +40,6 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0
     <section class="demo-section" id="demo">
       <div class="container">
         <h2 class="section-title">Recent Posts</h2>
-        <p class="demo-description">
-          Latest thoughts on technology, development, and continuous learning.
-        </p>
         
         {sortedPosts.length > 0 && (
           <div class="demo-posts-by-year">
@@ -104,7 +101,7 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0
 
   .hero {
     text-align: center;
-    padding: calc(var(--grid-unit) * 8) 0 calc(var(--grid-unit) * 4);
+    padding: calc(var(--grid-unit) * 8) 0 calc(var(--grid-unit) * 2);
     background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-background) 100%);
   }
 
@@ -338,7 +335,7 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0
   }
 
   .demo-section {
-    padding: calc(var(--grid-unit) * 4) 0;
+    padding: calc(var(--grid-unit) * 2) 0;
   }
 
   .demo-description {
@@ -373,6 +370,8 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin: 0;
+    padding-bottom: calc(var(--grid-unit) * 1.5);
+    border-bottom: 3px solid var(--color-accent);
     margin-bottom: calc(var(--grid-unit) * 2);
     text-align: center;
   }
