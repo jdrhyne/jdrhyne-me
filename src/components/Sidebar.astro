@@ -18,20 +18,20 @@ const categories = [...new Set(allPosts.flatMap(post => post.frontmatter.tags ||
         <img src={config.author.avatar} alt={config.author.name} class="avatar" />
       ) : (
         <div class="avatar-placeholder">
-          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
             <!-- Circular mask to contain the silhouette -->
             <defs>
               <clipPath id="circleClipSidebar">
-                <circle cx="40" cy="40" r="39" />
+                <circle cx="80" cy="80" r="78" />
               </clipPath>
             </defs>
             <g clip-path="url(#circleClipSidebar)">
               <!-- Head (oval shape) -->
-              <ellipse cx="40" cy="28" rx="13" ry="15" fill="currentColor"/>
+              <ellipse cx="80" cy="56" rx="26" ry="30" fill="currentColor"/>
               <!-- Neck -->
-              <path d="M33 40 Q33 44 35 46 L45 46 Q47 44 47 40 Z" fill="currentColor"/>
+              <path d="M66 80 Q66 88 70 92 L90 92 Q94 88 94 80 Z" fill="currentColor"/>
               <!-- Shoulders -->
-              <path d="M35 46 Q28 48 22 54 Q16 60 14 70 L14 80 L66 80 L66 70 Q64 60 58 54 Q52 48 45 46 Z" fill="currentColor"/>
+              <path d="M70 92 Q56 96 44 108 Q32 120 28 140 L28 160 L132 160 L132 140 Q128 120 116 108 Q104 96 90 92 Z" fill="currentColor"/>
             </g>
           </svg>
         </div>
@@ -105,16 +105,16 @@ const categories = [...new Set(allPosts.flatMap(post => post.frontmatter.tags ||
   }
 
   .avatar {
-    width: 80px;
-    height: 80px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     border: 2px solid var(--color-border);
     object-fit: cover;
   }
 
   .avatar-placeholder {
-    width: 80px;
-    height: 80px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     border: 2px solid var(--color-border);
     background-color: var(--color-light-gray);
