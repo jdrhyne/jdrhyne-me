@@ -1,168 +1,196 @@
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import matter from 'gray-matter';
+import type { CollectionEntry } from 'astro:content';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const PROJECT_ROOT = path.join(__dirname, '..', '..', '..');
+const DRAFTS_DIR = path.join(process.cwd(), 'src/content/drafts');
+const THOUGHTS_DIR = path.join(process.cwd(), 'src/content/thoughts');
 
-const DRAFTS_DIR = path.join(PROJECT_ROOT, 'src', 'content', 'drafts');
-const POSTS_DIR = path.join(PROJECT_ROOT, 'src', 'content', 'thoughts');
-
-export interface PostData {
-  id: string;
+interface PostFile {
+  filename: string;
   content: string;
-  metadata: {
-    title: string;
-    description?: string;
-    date: string;
-    excerpt?: string;
-    categories: string[];
-    tags: string[];
-    author: string;
-    image?: string;
-  };
+  metadata: Partial<CollectionEntry<'thoughts'>['data']>;
   isDraft: boolean;
-  slug: string;
-  filePath?: string;
+  lastModified: Date;
 }
 
-export class PostStorage {
-  static async ensureDirectories() {
-    await fs.mkdir(DRAFTS_DIR, { recursive: true });
-    await fs.mkdir(POSTS_DIR, { recursive: true });
-  }
+// Ensure directories exist
+async function ensureDirectories() {
+  await fs.mkdir(DRAFTS_DIR, { recursive: true });
+  await fs.mkdir(THOUGHTS_DIR, { recursive: true });
+}
 
-  static generateSlug(title: string): string {
-    return title
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .trim();
-  }
-
-  static async getAllPosts(): Promise<PostData[]> {
-    await this.ensureDirectories();
-    
-    const posts: PostData[] = [];
-    
-    // Get published posts
-    const publishedFiles = await fs.readdir(POSTS_DIR);
-    for (const file of publishedFiles) {
-      if (file.endsWith('.md')) {
-        const post = await this.getPost(file.replace('.md', ''), false);
-        if (post) posts.push(post);
-      }
-    }
-    
-    // Get drafts
+// List all posts (drafts and published)
+export async function listPosts(): Promise<PostFile[]> {
+  await ensureDirectories();
+  
+  const posts: PostFile[] = [];
+  
+  // Get drafts
+  try {
     const draftFiles = await fs.readdir(DRAFTS_DIR);
     for (const file of draftFiles) {
+      if (file.endsWith('.md') && file !== 'README.md') {
+        const filePath = path.join(DRAFTS_DIR, file);
+        const content = await fs.readFile(filePath, 'utf-8');
+        const stats = await fs.stat(filePath);
+        const { data, content: body } = matter(content);
+        
+        posts.push({
+          filename: file,
+          content: body,
+          metadata: data as Partial<CollectionEntry<'thoughts'>['data']>,
+          isDraft: true,
+          lastModified: stats.mtime,
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Error reading drafts:', error);
+  }
+  
+  // Get published posts
+  try {
+    const publishedFiles = await fs.readdir(THOUGHTS_DIR);
+    for (const file of publishedFiles) {
       if (file.endsWith('.md')) {
-        const post = await this.getPost(file.replace('.md', ''), true);
-        if (post) posts.push(post);
+        const filePath = path.join(THOUGHTS_DIR, file);
+        const content = await fs.readFile(filePath, 'utf-8');
+        const stats = await fs.stat(filePath);
+        const { data, content: body } = matter(content);
+        
+        posts.push({
+          filename: file,
+          content: body,
+          metadata: data as Partial<CollectionEntry<'thoughts'>['data']>,
+          isDraft: false,
+          lastModified: stats.mtime,
+        });
       }
     }
-    
-    return posts.sort((a, b) => 
-      new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime()
-    );
+  } catch (error) {
+    console.error('Error reading published posts:', error);
   }
+  
+  // Sort by last modified, newest first
+  return posts.sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime());
+}
 
-  static async getPost(slug: string, isDraft: boolean): Promise<PostData | null> {
-    try {
-      const dir = isDraft ? DRAFTS_DIR : POSTS_DIR;
-      const filePath = path.join(dir, `${slug}.md`);
-      const fileContent = await fs.readFile(filePath, 'utf-8');
-      
-      const { data, content } = matter(fileContent);
-      
-      return {
-        id: slug,
-        content,
-        metadata: {
-          title: data.title || '',
-          description: data.description,
-          date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
-          excerpt: data.excerpt,
-          categories: data.categories || [],
-          tags: data.tags || [],
-          author: data.author || 'Anonymous',
-          image: data.image
-        },
-        isDraft,
-        slug,
-        filePath
-      };
-    } catch (error) {
-      return null;
-    }
-  }
-
-  static async savePost(post: PostData): Promise<PostData> {
-    await this.ensureDirectories();
+// Get a single post
+export async function getPost(filename: string, isDraft: boolean = true): Promise<PostFile | null> {
+  try {
+    const dir = isDraft ? DRAFTS_DIR : THOUGHTS_DIR;
+    const filePath = path.join(dir, filename);
     
-    const slug = post.slug || this.generateSlug(post.metadata.title);
-    const dir = post.isDraft ? DRAFTS_DIR : POSTS_DIR;
-    const filePath = path.join(dir, `${slug}.md`);
-    
-    // Create frontmatter
-    const frontmatter = {
-      title: post.metadata.title,
-      description: post.metadata.description,
-      date: new Date(post.metadata.date).toISOString(),
-      excerpt: post.metadata.excerpt,
-      categories: post.metadata.categories,
-      tags: post.metadata.tags,
-      author: post.metadata.author,
-      image: post.metadata.image
-    };
-    
-    // Remove undefined values
-    Object.keys(frontmatter).forEach(key => {
-      if (frontmatter[key as keyof typeof frontmatter] === undefined) {
-        delete frontmatter[key as keyof typeof frontmatter];
-      }
-    });
-    
-    // Create markdown content with frontmatter
-    const fileContent = matter.stringify(post.content, frontmatter);
-    
-    // Save file
-    await fs.writeFile(filePath, fileContent, 'utf-8');
+    const content = await fs.readFile(filePath, 'utf-8');
+    const stats = await fs.stat(filePath);
+    const { data, content: body } = matter(content);
     
     return {
-      ...post,
-      id: slug,
-      slug,
-      filePath
+      filename,
+      content: body,
+      metadata: data as Partial<CollectionEntry<'thoughts'>['data']>,
+      isDraft,
+      lastModified: stats.mtime,
+    };
+  } catch (error) {
+    console.error('Error reading post:', error);
+    return null;
+  }
+}
+
+// Save a post (create or update)
+export async function savePost(
+  filename: string,
+  content: string,
+  isDraft: boolean = true
+): Promise<{ success: boolean; filename: string; error?: string }> {
+  try {
+    await ensureDirectories();
+    
+    // Ensure filename ends with .md
+    if (!filename.endsWith('.md')) {
+      filename = `${filename}.md`;
+    }
+    
+    // Sanitize filename
+    filename = filename.replace(/[^a-z0-9-_.]/gi, '-');
+    
+    const dir = isDraft ? DRAFTS_DIR : THOUGHTS_DIR;
+    const filePath = path.join(dir, filename);
+    
+    await fs.writeFile(filePath, content, 'utf-8');
+    
+    return { success: true, filename };
+  } catch (error) {
+    console.error('Error saving post:', error);
+    return {
+      success: false,
+      filename,
+      error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
+}
 
-  static async deletePost(slug: string, isDraft: boolean): Promise<boolean> {
-    try {
-      const dir = isDraft ? DRAFTS_DIR : POSTS_DIR;
-      const filePath = path.join(dir, `${slug}.md`);
-      await fs.unlink(filePath);
-      return true;
-    } catch (error) {
-      return false;
-    }
+// Delete a post
+export async function deletePost(
+  filename: string,
+  isDraft: boolean = true
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const dir = isDraft ? DRAFTS_DIR : THOUGHTS_DIR;
+    const filePath = path.join(dir, filename);
+    
+    await fs.unlink(filePath);
+    
+    return { success: true };
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
   }
+}
 
-  static async publishDraft(slug: string): Promise<PostData | null> {
-    const draft = await this.getPost(slug, true);
-    if (!draft) return null;
+// Move post between draft and published
+export async function movePost(
+  filename: string,
+  fromDraft: boolean,
+  toDraft: boolean
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const fromDir = fromDraft ? DRAFTS_DIR : THOUGHTS_DIR;
+    const toDir = toDraft ? DRAFTS_DIR : THOUGHTS_DIR;
     
-    // Save as published post
-    draft.isDraft = false;
-    const published = await this.savePost(draft);
+    const fromPath = path.join(fromDir, filename);
+    const toPath = path.join(toDir, filename);
     
-    // Delete draft
-    await this.deletePost(slug, true);
+    // Read the file content
+    const content = await fs.readFile(fromPath, 'utf-8');
     
-    return published;
+    // Write to new location
+    await fs.writeFile(toPath, content, 'utf-8');
+    
+    // Delete from old location
+    await fs.unlink(fromPath);
+    
+    return { success: true };
+  } catch (error) {
+    console.error('Error moving post:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
   }
+}
+
+// Publish a draft
+export async function publishDraft(filename: string): Promise<{ success: boolean; error?: string }> {
+  return movePost(filename, true, false);
+}
+
+// Unpublish to draft
+export async function unpublishPost(filename: string): Promise<{ success: boolean; error?: string }> {
+  return movePost(filename, false, true);
 }
