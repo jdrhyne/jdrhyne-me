@@ -1,188 +1,89 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { MarkdownEditor } from './MarkdownEditor';
-import { PostMetadata, PostMetadataData } from './PostMetadata';
-import styles from './EditorDashboard.module.css';
-
-interface Post {
-  id?: string;
-  content: string;
-  metadata: PostMetadataData;
-  isDraft: boolean;
-  slug?: string;
-}
+import { PostMetadata } from './PostMetadata';
+import type { CollectionEntry } from 'astro:content';
+import matter from 'gray-matter';
 
 export function EditorDashboard() {
   const [activeTab, setActiveTab] = useState<'editor' | 'posts'>('editor');
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [currentPost, setCurrentPost] = useState<Post>({
-    content: '',
-    metadata: {
-      title: '',
-      description: '',
-      date: new Date().toISOString().slice(0, 16),
-      excerpt: '',
-      categories: [],
-      tags: [],
-      author: 'Jonathan D. Rhyne',
-      image: undefined
-    },
-    isDraft: true
+  const [content, setContent] = useState('');
+  const [metadata, setMetadata] = useState<Partial<CollectionEntry<'thoughts'>['data']>>({
+    title: '',
+    description: '',
+    date: new Date(),
+    tags: [],
   });
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [currentFile, setCurrentFile] = useState<string | null>(null);
 
-  // Auto-save functionality
-  useEffect(() => {
-    const autoSaveInterval = setInterval(() => {
-      if (currentPost.content || currentPost.metadata.title) {
-        handleSave(true); // Silent save
-      }
-    }, 30000); // Auto-save every 30 seconds
-
-    return () => clearInterval(autoSaveInterval);
-  }, [currentPost]);
-
-  const handleContentChange = useCallback((content: string) => {
-    setCurrentPost(prev => ({ ...prev, content }));
-  }, []);
-
-  const handleMetadataChange = useCallback((metadata: PostMetadataData) => {
-    setCurrentPost(prev => ({ ...prev, metadata }));
-  }, []);
-
-  const handleSave = async (silent = false) => {
-    if (!currentPost.metadata.title) {
-      if (!silent) setMessage('Title is required');
-      return;
-    }
-
-    setLoading(true);
+  const handleSave = useCallback(async (content: string) => {
     try {
+      // Generate frontmatter from metadata
+      const frontmatter = matter.stringify(content, metadata);
+      
+      // Create filename from title if new
+      const filename = currentFile || `${metadata.title?.toLowerCase().replace(/\s+/g, '-')}.md`;
+      
       const response = await fetch('/api/editor/posts', {
-        method: currentPost.id ? 'PUT' : 'POST',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(currentPost)
+        body: JSON.stringify({
+          filename,
+          content: frontmatter,
+          isDraft: true,
+        }),
       });
-
+      
       if (response.ok) {
-        const savedPost = await response.json();
-        setCurrentPost(savedPost);
-        if (!silent) setMessage('Post saved successfully!');
+        const data = await response.json();
+        setCurrentFile(data.filename);
+        console.log('Draft saved successfully');
       } else {
-        throw new Error('Failed to save post');
+        console.error('Failed to save draft');
       }
     } catch (error) {
-      if (!silent) setMessage('Error saving post');
-    } finally {
-      setLoading(false);
+      console.error('Save error:', error);
     }
-  };
-
-  const handleNewPost = () => {
-    setCurrentPost({
-      content: '',
-      metadata: {
-        title: '',
-        description: '',
-        date: new Date().toISOString().slice(0, 16),
-        excerpt: '',
-        categories: [],
-        tags: [],
-        author: 'Jonathan D. Rhyne',
-        image: undefined
-      },
-      isDraft: true
-    });
-    setActiveTab('editor');
-  };
-
-  const generateFrontmatter = () => {
-    const { metadata } = currentPost;
-    const frontmatter = [
-      '---',
-      `title: "${metadata.title}"`,
-      metadata.description && `description: "${metadata.description}"`,
-      `date: ${new Date(metadata.date).toISOString()}`,
-      metadata.excerpt && `excerpt: "${metadata.excerpt}"`,
-      metadata.categories.length > 0 && `categories: [${metadata.categories.map(c => `"${c}"`).join(', ')}]`,
-      metadata.tags.length > 0 && `tags: [${metadata.tags.map(t => `"${t}"`).join(', ')}]`,
-      `author: "${metadata.author}"`,
-      metadata.image && `image: "${metadata.image}"`,
-      '---'
-    ].filter(Boolean).join('\n');
-
-    return frontmatter;
-  };
+  }, [metadata, currentFile]);
 
   return (
-    <div className={styles.dashboard}>
-      <div className={styles.dashboardHeader}>
-        <div className={styles.tabs}>
+    <div className="editor-dashboard">
+      <div className="dashboard-header">
+        <div className="tabs">
           <button
-            className={activeTab === 'editor' ? styles.activeTab : ''}
+            className={`tab ${activeTab === 'editor' ? 'active' : ''}`}
             onClick={() => setActiveTab('editor')}
           >
             Editor
           </button>
           <button
-            className={activeTab === 'posts' ? styles.activeTab : ''}
+            className={`tab ${activeTab === 'posts' ? 'active' : ''}`}
             onClick={() => setActiveTab('posts')}
           >
             All Posts
           </button>
         </div>
-        
-        <div className={styles.actions}>
-          <button onClick={handleNewPost} className={styles.newButton}>
-            New Post
-          </button>
-        </div>
       </div>
 
-      {message && (
-        <div className={styles.message}>
-          {message}
-        </div>
-      )}
-
       {activeTab === 'editor' ? (
-        <div className={styles.editorLayout}>
-          <div className={styles.sidebar}>
-            <PostMetadata
-              metadata={currentPost.metadata}
-              onChange={handleMetadataChange}
-            />
-            
-            <div className={styles.postActions}>
-              <button
-                onClick={() => handleSave(false)}
-                disabled={loading}
-                className={styles.primaryButton}
-              >
-                {loading ? 'Saving...' : 'Save Draft'}
-              </button>
-              
-              <button
-                onClick={() => console.log(generateFrontmatter())}
-                className={styles.secondaryButton}
-              >
-                Copy Frontmatter
-              </button>
-            </div>
-          </div>
-          
-          <div className={styles.editorArea}>
+        <div className="editor-layout">
+          <div className="editor-main">
             <MarkdownEditor
-              initialContent={currentPost.content}
-              onChange={handleContentChange}
-              onSave={() => handleSave(false)}
+              initialContent={content}
+              onChange={setContent}
+              onSave={handleSave}
             />
           </div>
+          <aside className="editor-sidebar">
+            <PostMetadata
+              metadata={metadata}
+              onChange={setMetadata}
+            />
+          </aside>
         </div>
       ) : (
-        <div className={styles.postsView}>
+        <div className="posts-list">
           <p>Posts list coming soon...</p>
         </div>
       )}

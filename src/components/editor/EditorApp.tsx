@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { EditorDashboard } from './EditorDashboard';
+import './editor-styles.css';
 
 export function EditorApp() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -35,15 +37,14 @@ export function EditorApp() {
   return (
     <div className="editor-app">
       <header className="editor-header">
-        <h1>Secret Editor</h1>
+        <h1>Content Editor</h1>
         <button onClick={handleLogout} className="btn-logout">
           Logout
         </button>
       </header>
       
       <main className="editor-main">
-        <p>Welcome to your secret editor! Phase 1 authentication is working.</p>
-        <p>Next: We'll add the markdown editor here.</p>
+        <EditorDashboard />
       </main>
     </div>
   );

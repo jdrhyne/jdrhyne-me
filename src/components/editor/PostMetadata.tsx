@@ -1,130 +1,93 @@
-import React from 'react';
-import styles from './PostMetadata.module.css';
-
-export interface PostMetadataData {
-  title: string;
-  description: string;
-  date: string;
-  excerpt: string;
-  categories: string[];
-  tags: string[];
-  author: string;
-  image?: string;
-}
+import React, { useState, useEffect } from 'react';
+import type { CollectionEntry } from 'astro:content';
 
 interface PostMetadataProps {
-  metadata: PostMetadataData;
-  onChange: (metadata: PostMetadataData) => void;
+  metadata: Partial<CollectionEntry<'thoughts'>['data']>;
+  onChange: (metadata: Partial<CollectionEntry<'thoughts'>['data']>) => void;
 }
 
 export function PostMetadata({ metadata, onChange }: PostMetadataProps) {
-  const handleChange = (field: keyof PostMetadataData, value: any) => {
-    onChange({
-      ...metadata,
-      [field]: value
-    });
-  };
+  const [title, setTitle] = useState(metadata.title || '');
+  const [description, setDescription] = useState(metadata.description || '');
+  const [date, setDate] = useState(
+    metadata.date ? new Date(metadata.date).toISOString().split('T')[0] : 
+    new Date().toISOString().split('T')[0]
+  );
+  const [tags, setTags] = useState((metadata.tags || []).join(', '));
+  const [excerpt, setExcerpt] = useState(metadata.excerpt || '');
 
-  const handleArrayChange = (field: 'categories' | 'tags', value: string) => {
-    const items = value.split(',').map(item => item.trim()).filter(Boolean);
-    handleChange(field, items);
-  };
+  // Update parent whenever any field changes
+  useEffect(() => {
+    const updatedMetadata = {
+      title,
+      description,
+      date: new Date(date),
+      tags: tags.split(',').map(tag => tag.trim()).filter(Boolean),
+      excerpt: excerpt || undefined,
+    };
+    onChange(updatedMetadata);
+  }, [title, description, date, tags, excerpt]);
 
   return (
-    <div className={styles.metadataContainer}>
+    <div className="post-metadata">
       <h3>Post Metadata</h3>
       
-      <div className={styles.formGroup}>
+      <div className="metadata-field">
         <label htmlFor="title">Title *</label>
         <input
-          type="text"
           id="title"
-          value={metadata.title}
-          onChange={(e) => handleChange('title', e.target.value)}
-          placeholder="Enter post title"
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Post title"
           required
         />
       </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor="description">Description</label>
+      <div className="metadata-field">
+        <label htmlFor="description">Description *</label>
         <textarea
           id="description"
-          value={metadata.description}
-          onChange={(e) => handleChange('description', e.target.value)}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           placeholder="Brief description for SEO"
+          rows={3}
+          required
+        />
+      </div>
+
+      <div className="metadata-field">
+        <label htmlFor="excerpt">Excerpt</label>
+        <textarea
+          id="excerpt"
+          value={excerpt}
+          onChange={(e) => setExcerpt(e.target.value)}
+          placeholder="Optional excerpt for previews"
           rows={2}
         />
       </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor="excerpt">Excerpt</label>
-        <textarea
-          id="excerpt"
-          value={metadata.excerpt}
-          onChange={(e) => handleChange('excerpt', e.target.value)}
-          placeholder="Short excerpt for post preview"
-          rows={3}
-        />
-      </div>
-
-      <div className={styles.formRow}>
-        <div className={styles.formGroup}>
-          <label htmlFor="date">Date *</label>
-          <input
-            type="datetime-local"
-            id="date"
-            value={metadata.date}
-            onChange={(e) => handleChange('date', e.target.value)}
-            required
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="author">Author</label>
-          <input
-            type="text"
-            id="author"
-            value={metadata.author}
-            onChange={(e) => handleChange('author', e.target.value)}
-            placeholder="Author name"
-          />
-        </div>
-      </div>
-
-      <div className={styles.formGroup}>
-        <label htmlFor="categories">Categories</label>
+      <div className="metadata-field">
+        <label htmlFor="date">Date *</label>
         <input
-          type="text"
-          id="categories"
-          value={metadata.categories.join(', ')}
-          onChange={(e) => handleArrayChange('categories', e.target.value)}
-          placeholder="Comma-separated categories"
+          id="date"
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          required
         />
-        <small>Separate multiple categories with commas</small>
       </div>
 
-      <div className={styles.formGroup}>
+      <div className="metadata-field">
         <label htmlFor="tags">Tags</label>
         <input
-          type="text"
           id="tags"
-          value={metadata.tags.join(', ')}
-          onChange={(e) => handleArrayChange('tags', e.target.value)}
+          type="text"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
           placeholder="Comma-separated tags"
         />
-        <small>Separate multiple tags with commas</small>
-      </div>
-
-      <div className={styles.formGroup}>
-        <label htmlFor="image">Featured Image URL</label>
-        <input
-          type="text"
-          id="image"
-          value={metadata.image || ''}
-          onChange={(e) => handleChange('image', e.target.value)}
-          placeholder="URL to featured image"
-        />
+        <small>e.g., ai, development, personal</small>
       </div>
     </div>
   );

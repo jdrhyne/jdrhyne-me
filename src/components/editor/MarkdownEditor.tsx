@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import MDEditor from '@uiw/react-md-editor';
-import styles from './MarkdownEditor.module.css';
+import { Allotment } from 'allotment';
+import 'allotment/dist/style.css';
 
 interface MarkdownEditorProps {
   initialContent?: string;
-  onChange?: (value: string) => void;
+  onChange?: (content: string) => void;
   onSave?: (content: string) => void;
 }
 
@@ -13,49 +14,86 @@ export function MarkdownEditor({
   onChange,
   onSave 
 }: MarkdownEditorProps) {
-  const [value, setValue] = useState(initialContent);
-  const [saving, setSaving] = useState(false);
+  const [content, setContent] = useState(initialContent);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [unsavedChanges, setUnsavedChanges] = useState(false);
 
-  const handleChange = useCallback((newValue?: string) => {
-    const content = newValue || '';
-    setValue(content);
-    onChange?.(content);
+  // Auto-save every 30 seconds if there are changes
+  useEffect(() => {
+    if (!unsavedChanges || !onSave) return;
+    
+    const timer = setTimeout(() => {
+      handleSave();
+    }, 30000);
+    
+    return () => clearTimeout(timer);
+  }, [content, unsavedChanges]);
+
+  const handleChange = useCallback((value?: string) => {
+    const newContent = value || '';
+    setContent(newContent);
+    setUnsavedChanges(true);
+    onChange?.(newContent);
   }, [onChange]);
 
-  const handleSave = async () => {
-    if (onSave) {
-      setSaving(true);
-      try {
-        await onSave(value);
-      } finally {
-        setSaving(false);
+  const handleSave = useCallback(() => {
+    onSave?.(content);
+    setLastSaved(new Date());
+    setUnsavedChanges(false);
+  }, [content, onSave]);
+
+  // Keyboard shortcut for save (Cmd/Ctrl + S)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault();
+        handleSave();
       }
-    }
-  };
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleSave]);
 
   return (
-    <div className={styles.editorContainer}>
-      <div className={styles.editorHeader}>
-        <h2>Markdown Editor</h2>
-        <div className={styles.editorActions}>
-          <button 
-            onClick={handleSave} 
-            disabled={saving}
-            className={styles.saveButton}
-          >
-            {saving ? 'Saving...' : 'Save Draft'}
-          </button>
-        </div>
+    <div className="markdown-editor">
+      <div className="editor-toolbar">
+        <button 
+          onClick={handleSave}
+          className="btn-save"
+          disabled={!unsavedChanges}
+        >
+          {unsavedChanges ? 'Save Draft' : 'Saved'}
+        </button>
+        {lastSaved && (
+          <span className="save-status">
+            Last saved: {lastSaved.toLocaleTimeString()}
+          </span>
+        )}
       </div>
       
-      <div className={styles.editorWrapper}>
-        <MDEditor
-          value={value}
-          onChange={handleChange}
-          preview="live"
-          height={600}
-          data-color-mode="light"
-        />
+      <div className="editor-container">
+        <Allotment>
+          <Allotment.Pane minSize={300}>
+            <MDEditor
+              value={content}
+              onChange={handleChange}
+              preview="edit"
+              height="100%"
+              data-color-mode="light"
+            />
+          </Allotment.Pane>
+          <Allotment.Pane minSize={300}>
+            <MDEditor.Markdown 
+              source={content} 
+              style={{ 
+                height: '100%', 
+                padding: '20px',
+                overflow: 'auto'
+              }}
+            />
+          </Allotment.Pane>
+        </Allotment>
       </div>
     </div>
   );
