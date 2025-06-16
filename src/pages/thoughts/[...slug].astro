@@ -2,7 +2,7 @@
 import Layout from '../../components/Layout.astro';
 
 export async function getStaticPaths() {
-  const posts = await Astro.glob('../../content/blog/*.md');
+  const posts = await Astro.glob('../../content/thoughts/*.md');
   
   return posts.map(post => ({
     params: { slug: post.file.split('/').pop()?.replace('.md', '') },
@@ -72,7 +72,7 @@ const publishedTime = frontmatter.date ? new Date(frontmatter.date).toISOString(
       )}
       
       <div class="post-navigation">
-        <a href="/blog" class="back-to-blog">← Back to Thoughts</a>
+        <a href="/thoughts" class="back-to-blog">← Back to Thoughts</a>
       </div>
     </footer>
   </article>

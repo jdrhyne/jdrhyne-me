@@ -2,7 +2,7 @@
 import Layout from '../../components/Layout.astro';
 
 export async function getStaticPaths() {
-  const allPosts = await Astro.glob('../../content/blog/*.md');
+  const allPosts = await Astro.glob('../../content/thoughts/*.md');
   
   // Extract all unique categories (from tags field)
   const allCategories = new Set();
@@ -48,7 +48,7 @@ const { category, posts } = Astro.props;
       {posts.map(post => (
         <article class="post-item">
           <h2 class="post-title">
-            <a href={`/blog/${post.file.split('/').pop()?.replace('.md', '')}`}>
+            <a href={`/thoughts/${post.file.split('/').pop()?.replace('.md', '')}`}>
               {post.frontmatter.title}
             </a>
           </h2>
@@ -67,7 +67,7 @@ const { category, posts } = Astro.props;
             <p class="post-excerpt">{post.frontmatter.excerpt}</p>
           )}
           
-          <a href={`/blog/${post.file.split('/').pop()?.replace('.md', '')}`} class="read-more">
+          <a href={`/thoughts/${post.file.split('/').pop()?.replace('.md', '')}`} class="read-more">
             Read More →
           </a>
         </article>

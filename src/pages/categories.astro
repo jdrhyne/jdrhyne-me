@@ -3,7 +3,7 @@ import Layout from '../components/Layout.astro';
 
 
 // Get all blog posts
-const allPosts = await Astro.glob('../content/blog/*.md');
+const allPosts = await Astro.glob('../content/thoughts/*.md');
 
 // Extract all categories from posts (using tags field)
 const allCategories = new Set();

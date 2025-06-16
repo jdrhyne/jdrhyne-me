@@ -3,7 +3,7 @@ import Layout from '../components/Layout.astro';
 import { getCollection } from 'astro:content';
 import { config } from '../config';
 
-const allPosts = await getCollection('blog');
+const allPosts = await getCollection('thoughts');
 const sortedPosts = allPosts
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
@@ -30,7 +30,7 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0
         <p class="hero-subtitle">Code, Curiosity, and Continuous Growth</p>
         <hr class="hero-rule" />
         <div class="hero-actions">
-          <a href="/blog" class="btn btn-primary">My Thoughts</a>
+          <a href="/thoughts" class="btn btn-primary">My Thoughts</a>
           <a href="/about" class="btn btn-secondary">About Me</a>
         </div>
       </div>
@@ -50,7 +50,7 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0
                   {postsByYear[year].slice(0, 3).map(post => (
                     <article class="demo-post-card">
                       <h4 class="demo-post-title">
-                        <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+                        <a href={`/thoughts/${post.slug}`}>{post.data.title}</a>
                       </h4>
                       
                       <time class="demo-post-date" datetime={post.data.date}>
@@ -80,7 +80,7 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0
         )}
         
         <div class="demo-actions">
-          <a href="/blog" class="btn btn-primary">View All Thoughts</a>
+          <a href="/thoughts" class="btn btn-primary">View All Thoughts</a>
         </div>
       </div>
     </section>

@@ -2,7 +2,7 @@
 import Layout from '../components/Layout.astro';
 
 
-const allPosts = await Astro.glob('../content/blog/*.md');
+const allPosts = await Astro.glob('../content/thoughts/*.md');
 const sortedPosts = allPosts
   .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
 
@@ -36,7 +36,7 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
               {postsByYear[year].map(post => (
                 <article class="post-item">
                   <h3 class="post-title">
-                    <a href={`/blog/${post.file.split('/').pop()?.replace('.md', '')}`}>{post.frontmatter.title}</a>
+                    <a href={`/thoughts/${post.file.split('/').pop()?.replace('.md', '')}`}>{post.frontmatter.title}</a>
                   </h3>
                   
                   <div class="post-meta">
@@ -60,7 +60,7 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
                     <p class="post-excerpt">{post.frontmatter.description}</p>
                   )}
                   
-                  <a href={`/blog/${post.file.split('/').pop()?.replace('.md', '')}`} class="read-more">Read More →</a>
+                  <a href={`/thoughts/${post.file.split('/').pop()?.replace('.md', '')}`} class="read-more">Read More →</a>
                 </article>
               ))}
             </div>

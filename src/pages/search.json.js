@@ -1,12 +1,12 @@
 export async function GET() {
   // Get all blog posts
-  const posts = await import.meta.glob('../content/blog/*.md');
+  const posts = await import.meta.glob('../content/thoughts/*.md');
   
   const searchData = [];
   
   for (const path in posts) {
     const post = await posts[path]();
-    const url = path.replace('../content', '').replace('.md', '');
+    const url = path.replace('../content', '').replace('.md', '').replace('/blog/', '/thoughts/');
     
     searchData.push({
       title: post.frontmatter.title || 'Untitled',
