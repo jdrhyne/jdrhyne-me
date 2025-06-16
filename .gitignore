@@ -52,3 +52,7 @@ claude-conversations/
 
 # Claude conversation logs
 .claude-conversations/
+
+# Editor uploads and drafts (if stored outside content)
+public/uploads/
+editor-uploads/

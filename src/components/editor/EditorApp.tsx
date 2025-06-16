@@ -1,65 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import { Login } from './Login';
-import { EditorDashboard } from './EditorDashboard';
-import styles from './EditorApp.module.css';
 
 export function EditorApp() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
-    // Check authentication status
-    checkAuth();
+    // Verify authentication on mount
+    fetch('/api/editor/auth/verify')
+      .then(res => res.json())
+      .then(data => {
+        setAuthenticated(data.authenticated);
+        setLoading(false);
+      })
+      .catch(() => {
+        setAuthenticated(false);
+        setLoading(false);
+      });
   }, []);
-
-  const checkAuth = async () => {
-    try {
-      const response = await fetch('/api/editor/auth/verify');
-      const data = await response.json();
-      setIsAuthenticated(data.authenticated);
-    } catch (error) {
-      setIsAuthenticated(false);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleLoginSuccess = () => {
-    setIsAuthenticated(true);
-  };
-
+  
   const handleLogout = async () => {
-    try {
-      await fetch('/api/editor/auth/logout', { method: 'POST' });
-      setIsAuthenticated(false);
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
+    await fetch('/api/editor/auth/logout', { method: 'POST' });
+    window.location.href = '/editor/login';
   };
-
+  
   if (loading) {
-    return (
-      <div className={styles.loadingContainer}>
-        <p>Loading...</p>
-      </div>
-    );
+    return <div className="editor-loading">Loading...</div>;
   }
-
-  if (!isAuthenticated) {
-    return <Login onSuccess={handleLoginSuccess} />;
+  
+  if (!authenticated) {
+    window.location.href = '/editor/login';
+    return null;
   }
-
+  
   return (
-    <div className={styles.editorDashboard}>
-      <header className={styles.editorHeader}>
-        <h1>Content Editor</h1>
-        <button onClick={handleLogout} className={styles.logoutButton}>
+    <div className="editor-app">
+      <header className="editor-header">
+        <h1>Secret Editor</h1>
+        <button onClick={handleLogout} className="btn-logout">
           Logout
         </button>
       </header>
       
-      <main className={styles.editorMain}>
-        <EditorDashboard />
+      <main className="editor-main">
+        <p>Welcome to your secret editor! Phase 1 authentication is working.</p>
+        <p>Next: We'll add the markdown editor here.</p>
       </main>
     </div>
   );

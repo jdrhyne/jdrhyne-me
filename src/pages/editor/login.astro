@@ -1,0 +1,151 @@
+---
+import Layout from '../../components/Layout.astro';
+import { isEditorEnabled, verifyToken } from '../../lib/editor/auth';
+
+// Check if editor is enabled
+if (!isEditorEnabled()) {
+  return Astro.redirect('/404');
+}
+
+// Check if already authenticated
+const token = Astro.cookies.get('editor-token')?.value;
+if (token && verifyToken(token)) {
+  return Astro.redirect('/editor');
+}
+---
+
+<Layout title="Editor Login | JDR" description="Login to editor" showSidebar={false}>
+  <div class="login-container">
+    <div class="login-box">
+      <h1>Editor Access</h1>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            required
+            autocomplete="current-password"
+          />
+        </div>
+        <button type="submit" class="btn-login">Login</button>
+        <div id="error-message" class="error-message"></div>
+      </form>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const form = document.getElementById('login-form') as HTMLFormElement;
+  const errorMessage = document.getElementById('error-message') as HTMLDivElement;
+  
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const password = (form.elements.namedItem('password') as HTMLInputElement).value;
+    errorMessage.textContent = '';
+    
+    try {
+      const response = await fetch('/api/editor/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        window.location.href = '/editor';
+      } else {
+        errorMessage.textContent = data.error || 'Login failed';
+      }
+    } catch (error) {
+      errorMessage.textContent = 'Network error. Please try again.';
+    }
+  });
+</script>
+
+<style>
+  .login-container {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--content-padding);
+  }
+  
+  .login-box {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: calc(var(--grid-unit) * 6);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .login-box h1 {
+    font-family: var(--font-heading-secondary);
+    font-size: 2rem;
+    color: var(--color-accent);
+    text-align: center;
+    margin-bottom: calc(var(--grid-unit) * 4);
+  }
+  
+  .form-group {
+    margin-bottom: calc(var(--grid-unit) * 3);
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: calc(var(--grid-unit));
+    color: var(--color-text-primary);
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: calc(var(--grid-unit) * 1.5);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: var(--font-body);
+    background: var(--color-background);
+    color: var(--color-text-primary);
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+  
+  .btn-login {
+    width: 100%;
+    padding: calc(var(--grid-unit) * 2);
+    background: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: var(--font-heading-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .error-message {
+    margin-top: calc(var(--grid-unit) * 2);
+    color: var(--color-accent);
+    text-align: center;
+    font-size: 0.9rem;
+  }
+</style>

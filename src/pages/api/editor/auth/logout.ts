@@ -1,17 +1,13 @@
 import type { APIRoute } from 'astro';
-import { AuthService } from '../../../../lib/editor/auth';
 
-export const POST: APIRoute = async () => {
-  const cookie = AuthService.clearAuthCookie();
-
-  return new Response(JSON.stringify({ 
-    success: true,
-    message: 'Logged out successfully'
-  }), {
+export const POST: APIRoute = async ({ cookies }) => {
+  // Clear the authentication cookie
+  cookies.delete('editor-token', {
+    path: '/editor'
+  });
+  
+  return new Response(JSON.stringify({ success: true }), {
     status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Set-Cookie': cookie
-    }
+    headers: { 'Content-Type': 'application/json' }
   });
 };

@@ -1,23 +1,35 @@
 ---
 import Layout from '../../components/Layout.astro';
-import { EditorApp } from '../../components/editor/EditorApp';
+import { isEditorEnabled, verifyToken } from '../../lib/editor/auth';
 
-// This page is protected by authentication
-// The EditorApp component will handle auth checks
+// Check if editor is enabled
+if (!isEditorEnabled()) {
+  return Astro.redirect('/404');
+}
+
+// Check authentication
+const token = Astro.cookies.get('editor-token')?.value;
+if (!token || !verifyToken(token)) {
+  return Astro.redirect('/editor/login');
+}
 ---
 
-<Layout title="Content Editor - JD Rhyne" description="Visual content editor">
-  <EditorApp client:only="react" />
+<Layout title="Editor | JDR" description="Secret editor" showSidebar={false}>
+  <div id="editor-root"></div>
+  
+  <script>
+    import { EditorApp } from '../../components/editor/EditorApp';
+    import React from 'react';
+    import ReactDOM from 'react-dom/client';
+    
+    const root = ReactDOM.createRoot(document.getElementById('editor-root')!);
+    root.render(React.createElement(EditorApp));
+  </script>
 </Layout>
 
 <style>
-  /* Override default layout styles for editor */
-  :global(.editor-page) {
-    max-width: 100% !important;
-    padding: 0 !important;
-  }
-  
-  :global(.editor-page main) {
-    padding: 0 !important;
+  #editor-root {
+    min-height: calc(100vh - 80px); /* Account for header */
+    background: var(--color-background);
   }
 </style>
