@@ -1,0 +1,23 @@
+---
+import Layout from '../../components/Layout.astro';
+import { EditorApp } from '../../components/editor/EditorApp';
+
+// This page is protected by authentication
+// The EditorApp component will handle auth checks
+---
+
+<Layout title="Content Editor - JD Rhyne" description="Visual content editor">
+  <EditorApp client:only="react" />
+</Layout>
+
+<style>
+  /* Override default layout styles for editor */
+  :global(.editor-page) {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  
+  :global(.editor-page main) {
+    padding: 0 !important;
+  }
+</style>
