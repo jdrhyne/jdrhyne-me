@@ -41,10 +41,10 @@ const categories = [...new Set(allPosts.flatMap(post => post.frontmatter.tags ||
     <p class="bio-text">{config.author.bio}</p>
   </section>
 
-  <!-- Recent Posts Section -->
+  <!-- Recent Thoughts Section -->
   {recentPosts.length > 0 && (
     <section class="recent-posts">
-      <h3 class="section-title">Recent Posts</h3>
+      <h3 class="section-title">Recent Thoughts</h3>
       <ul class="post-list">
         {recentPosts.map(post => (
           <li class="post-item">
