@@ -1,0 +1,148 @@
+.dashboard {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-background, #fff);
+}
+
+.dashboardHeader {
+  background-color: var(--color-surface, #f5f5f5);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--color-border, #ddd);
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+}
+
+.tabs button {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--color-text-secondary, #666);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.tabs button:hover {
+  color: var(--color-text-primary, #000);
+}
+
+.tabs button.activeTab {
+  color: var(--color-accent, #ff0000);
+  border-bottom-color: var(--color-accent, #ff0000);
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.newButton {
+  background-color: var(--color-accent, #ff0000);
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.newButton:hover {
+  background-color: var(--color-text-primary, #000);
+}
+
+.message {
+  background-color: var(--color-accent, #ff0000);
+  color: white;
+  padding: 0.75rem 2rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.editorLayout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  overflow: hidden;
+}
+
+.sidebar {
+  background-color: var(--color-background, #fff);
+  padding: 1.5rem;
+  overflow-y: auto;
+  border-right: 1px solid var(--color-border, #ddd);
+}
+
+.postActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.primaryButton {
+  background-color: var(--color-accent, #ff0000);
+  color: white;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background-color: var(--color-text-primary, #000);
+}
+
+.primaryButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.secondaryButton {
+  background-color: transparent;
+  color: var(--color-text-primary, #000);
+  border: 2px solid var(--color-border, #ddd);
+}
+
+.secondaryButton:hover {
+  border-color: var(--color-accent, #ff0000);
+  color: var(--color-accent, #ff0000);
+}
+
+.editorArea {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.postsView {
+  flex: 1;
+  padding: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .editorLayout {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar {
+    display: none;
+  }
+}

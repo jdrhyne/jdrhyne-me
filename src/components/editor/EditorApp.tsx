@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Login } from './Login';
+import { EditorDashboard } from './EditorDashboard';
 import styles from './EditorApp.module.css';
 
 export function EditorApp() {
@@ -58,7 +59,7 @@ export function EditorApp() {
       </header>
       
       <main className={styles.editorMain}>
-        <p>Welcome to the editor! More features coming soon.</p>
+        <EditorDashboard />
       </main>
     </div>
   );
