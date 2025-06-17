@@ -1,0 +1,14 @@
+---
+// Client-only wrapper for the editor
+---
+
+<div id="editor-mount"></div>
+
+<script>
+  import { EditorApp } from './EditorApp';
+  import React from 'react';
+  import ReactDOM from 'react-dom/client';
+  
+  const root = ReactDOM.createRoot(document.getElementById('editor-mount')!);
+  root.render(React.createElement(EditorApp));
+</script>

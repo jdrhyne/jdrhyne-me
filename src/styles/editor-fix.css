@@ -1,0 +1,71 @@
+/* Editor page specific styles */
+
+/* Ensure full height for editor */
+.editor-app {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Plain text editor styles */
+.editor-main textarea {
+  font-family: var(--font-mono);
+  tab-size: 2;
+}
+
+/* Toolbar button styles */
+.editor-toolbar button {
+  padding: 5px 10px;
+  margin: 0 2px;
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+  cursor: pointer;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+}
+
+.editor-toolbar button:hover {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+}
+
+/* Preview pane styling */
+.preview-pane h1 {
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.preview-pane h2 {
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  font-size: 1.5em;
+  margin: 0.75em 0;
+}
+
+.preview-pane h3 {
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  font-size: 1.17em;
+  margin: 0.83em 0;
+}
+
+.preview-pane code {
+  background: var(--color-surface);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.preview-pane pre {
+  background: var(--color-surface);
+  padding: 1em;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.preview-pane pre code {
+  background: none;
+  padding: 0;
+}
