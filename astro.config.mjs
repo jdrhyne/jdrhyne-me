@@ -14,6 +14,12 @@ export default defineConfig({
   vite: {
     ssr: {
       external: ['sharp']
+    },
+    optimizeDeps: {
+      include: ['react', 'react-dom', '@uiw/react-md-editor', 'allotment']
+    },
+    esbuild: {
+      jsx: 'automatic'
     }
   }
 });
