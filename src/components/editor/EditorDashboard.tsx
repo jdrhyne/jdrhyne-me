@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import PlainTextEditor from './PlainTextEditor';
 import { PostMetadata } from './PostMetadata';
+import MediaLibrary from './MediaLibrary';
 import type { CollectionEntry } from 'astro:content';
 import matter from 'gray-matter';
 
 export function EditorDashboard() {
-  const [activeTab, setActiveTab] = useState<'editor' | 'posts'>('editor');
+  const [activeTab, setActiveTab] = useState<'editor' | 'posts' | 'media'>('editor');
+  const token = typeof window !== 'undefined' ? localStorage.getItem('editorToken') || '' : '';
   const [content, setContent] = useState(`# Building jdrhyne.me Without Writing Code: A Three-Hour Experiment with Claude Code
 
 *June 16, 2025*
@@ -245,6 +247,12 @@ The difference now is I know what's possible. Building through conversation isn'
           >
             All Posts
           </button>
+          <button
+            className={`tab ${activeTab === 'media' ? 'active' : ''}`}
+            onClick={() => setActiveTab('media')}
+          >
+            Media Library
+          </button>
         </div>
       </div>
 
@@ -264,9 +272,21 @@ The difference now is I know what's possible. Building through conversation isn'
             />
           </aside>
         </div>
-      ) : (
+      ) : activeTab === 'posts' ? (
         <div className="posts-list">
           <p>Posts list coming soon...</p>
+        </div>
+      ) : (
+        <div className="media-library">
+          <MediaLibrary 
+            onSelect={(url) => {
+              // Switch back to editor and insert image
+              setActiveTab('editor');
+              const imageMarkdown = `![Image description](${url})`;
+              setContent((prev) => prev + '\n\n' + imageMarkdown + '\n\n');
+            }} 
+            token={token} 
+          />
         </div>
       )}
     </div>
