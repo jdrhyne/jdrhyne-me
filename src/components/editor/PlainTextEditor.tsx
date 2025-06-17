@@ -22,28 +22,76 @@ export default function PlainTextEditor({
   // Get token from localStorage
   const token = typeof window !== 'undefined' ? localStorage.getItem('editorToken') || '' : '';
 
-  // Simple markdown to HTML conversion
+  // Enhanced markdown to HTML conversion
   useEffect(() => {
-    // Very basic markdown parsing
-    let html = value
-      .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-      .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-      .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-      .replace(/\*\*\*(.*)\*\*\*/gim, '<strong><em>$1</em></strong>')
-      .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-      .replace(/\*(.*)\*/gim, '<em>$1</em>')
-      .replace(/```([^`]+)```/gim, '<pre><code>$1</code></pre>')
-      .replace(/`([^`]+)`/gim, '<code>$1</code>')
-      .replace(/\n\n/gim, '</p><p>')
-      .replace(/^- (.*)$/gim, '<li>$1</li>');
+    let html = value;
     
-    html = '<p>' + html + '</p>';
-    html = html.replace(/<p><\/p>/g, '');
-    html = html.replace(/<p>(<h[1-6]>)/g, '$1');
-    html = html.replace(/(<\/h[1-6]>)<\/p>/g, '$1');
+    // Code blocks with language support
+    html = html.replace(/```(\w+)?\n([\s\S]*?)```/gim, (match, lang, code) => {
+      return `<pre><code class="language-${lang || 'text'}">${escapeHtml(code.trim())}</code></pre>`;
+    });
+    
+    // Headers
+    html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
+    html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+    html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+    html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+    
+    // Links
+    html = html.replace(/\[([^\]]+)\]\(([^\)]+)\)/gim, '<a href="$2">$1</a>');
+    
+    // Images
+    html = html.replace(/!\[([^\]]*)\]\(([^\)]+)\)/gim, '<img src="$2" alt="$1" />');
+    
+    // Bold and italic
+    html = html.replace(/\*\*\*(.*)\*\*\*/gim, '<strong><em>$1</em></strong>');
+    html = html.replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>');
+    html = html.replace(/\*(.*)\*/gim, '<em>$1</em>');
+    html = html.replace(/___(.*)___/gim, '<strong><em>$1</em></strong>');
+    html = html.replace(/__(.*)__/gim, '<strong>$1</strong>');
+    html = html.replace(/_(.*)_/gim, '<em>$1</em>');
+    
+    // Inline code
+    html = html.replace(/`([^`]+)`/gim, '<code>$1</code>');
+    
+    // Blockquotes
+    html = html.replace(/^> (.*)$/gim, '<blockquote>$1</blockquote>');
+    
+    // Horizontal rules
+    html = html.replace(/^---$/gim, '<hr />');
+    html = html.replace(/^\*\*\*$/gim, '<hr />');
+    
+    // Lists
+    html = html.replace(/^\* (.*)$/gim, '<li>$1</li>');
+    html = html.replace(/^- (.*)$/gim, '<li>$1</li>');
+    html = html.replace(/^\d+\. (.*)$/gim, '<li>$1</li>');
+    
+    // Wrap consecutive list items
+    html = html.replace(/(<li>.*<\/li>\n?)+/gim, (match) => {
+      return '<ul>' + match + '</ul>';
+    });
+    
+    // Paragraphs
+    html = html.split('\n\n').map(para => {
+      if (para.match(/^<(h[1-6]|ul|ol|blockquote|pre|hr)/)) {
+        return para;
+      }
+      return para ? `<p>${para}</p>` : '';
+    }).join('\n');
     
     setPreview(html);
   }, [value]);
+  
+  const escapeHtml = (text: string) => {
+    const map: { [key: string]: string } = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, m => map[m]);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = e.target.value;
@@ -134,7 +182,7 @@ export default function PlainTextEditor({
             style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
           >I</button>
           <button 
-            onClick={() => insertMarkdown('# ')} 
+            onClick={() => insertMarkdown('## ')} 
             title="Heading"
             style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
           >H</button>
@@ -150,9 +198,19 @@ export default function PlainTextEditor({
           >🔗</button>
           <button 
             onClick={() => insertMarkdown('```\n', '\n```')} 
-            title="Code"
+            title="Code Block"
             style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
           >{'<>'}</button>
+          <button 
+            onClick={() => insertMarkdown('> ')} 
+            title="Quote"
+            style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
+          >“</button>
+          <button 
+            onClick={() => insertMarkdown('| Column 1 | Column 2 |\n|----------|----------|\n| ', ' |  |')} 
+            title="Table"
+            style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
+          >▦</button>
           <button 
             onClick={() => setShowImageUpload(!showImageUpload)} 
             title="Insert Image"
@@ -206,8 +264,10 @@ export default function PlainTextEditor({
               border: '1px solid #ccc',
               borderRadius: '4px',
               overflow: 'auto',
-              backgroundColor: 'white'
+              backgroundColor: 'white',
+              lineHeight: '1.6'
             }}
+            className="markdown-preview"
           />
         </div>
       </div>
