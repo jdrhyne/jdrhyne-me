@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { CollectionEntry } from 'astro:content';
 import PublishControls from './PublishControls';
+import DeploymentPanel from './DeploymentPanel';
 
 interface PostMetadataProps {
   metadata: Partial<CollectionEntry<'thoughts'>['data']>;
@@ -100,6 +101,8 @@ export function PostMetadata({ metadata, onChange }: PostMetadataProps) {
         />
         <small>e.g., ai, development, personal</small>
       </div>
+      
+      <DeploymentPanel token={token} />
     </div>
   );
 }
