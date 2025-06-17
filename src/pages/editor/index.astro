@@ -1,5 +1,6 @@
 ---
-import Layout from '../../components/Layout.astro';
+import EditorLayout from '../../components/EditorLayout.astro';
+import EditorClient from '../../components/editor/EditorClient.tsx';
 import { isEditorEnabled, verifyToken } from '../../lib/editor/auth';
 
 // Check if editor is enabled
@@ -14,22 +15,14 @@ if (!token || !verifyToken(token)) {
 }
 ---
 
-<Layout title="Editor | JDR" description="Secret editor" showSidebar={false}>
-  <div id="editor-root"></div>
-  
-  <script>
-    import { EditorApp } from '../../components/editor/EditorApp';
-    import React from 'react';
-    import ReactDOM from 'react-dom/client';
-    
-    const root = ReactDOM.createRoot(document.getElementById('editor-root')!);
-    root.render(React.createElement(EditorApp));
-  </script>
-</Layout>
+<EditorLayout title="Editor | JDR" description="Secret editor">
+  <EditorClient client:only="react" />
+</EditorLayout>
 
 <style>
-  #editor-root {
-    min-height: calc(100vh - 80px); /* Account for header */
-    background: var(--color-background);
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
   }
 </style>

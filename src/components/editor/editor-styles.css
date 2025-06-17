@@ -1,15 +1,16 @@
 /* Editor App Styles */
 .editor-app {
-  min-height: 100vh;
+  height: 100vh;
   background: var(--color-background);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .editor-header {
   background: var(--color-surface);
   border-bottom: 2px solid var(--color-border);
-  padding: calc(var(--grid-unit) * 2) calc(var(--grid-unit) * 3);
+  padding: calc(var(--grid-unit) * 1.5) calc(var(--grid-unit) * 2);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -45,6 +46,7 @@
 .editor-main {
   flex: 1;
   overflow: hidden;
+  height: 100%;
 }
 
 /* Editor Dashboard */
@@ -57,7 +59,7 @@
 .dashboard-header {
   background: var(--color-background);
   border-bottom: 1px solid var(--color-border);
-  padding: 0 calc(var(--grid-unit) * 3);
+  padding: 0 calc(var(--grid-unit) * 2);
 }
 
 .tabs {
@@ -92,22 +94,25 @@
 .editor-layout {
   flex: 1;
   display: flex;
-  height: calc(100vh - 120px);
+  height: 100%;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
-.editor-main {
+.editor-layout .editor-main {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 0;
+  height: 100%;
 }
 
 .editor-sidebar {
-  width: 320px;
+  width: 280px;
   background: var(--color-surface);
   border-left: 1px solid var(--color-border);
-  padding: calc(var(--grid-unit) * 3);
+  padding: calc(var(--grid-unit) * 2);
   overflow-y: auto;
 }
 
@@ -116,21 +121,23 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .editor-toolbar {
-  background: var(--color-background);
-  border-bottom: 1px solid var(--color-border);
-  padding: calc(var(--grid-unit) * 2) calc(var(--grid-unit) * 3);
+  background: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
-  gap: calc(var(--grid-unit) * 2);
+  gap: 20px;
+  flex-shrink: 0;
 }
 
 .btn-save {
-  background: var(--color-accent);
+  background: #c13127;
   color: white;
-  border: none;
+  border: 2px solid #c13127;
   padding: calc(var(--grid-unit)) calc(var(--grid-unit) * 2);
   font-family: var(--font-heading-secondary);
   font-weight: 700;
@@ -142,8 +149,10 @@
 }
 
 .btn-save:hover:not(:disabled) {
+  background: #a0261e;
+  border-color: #a0261e;
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .btn-save:disabled {
@@ -160,6 +169,13 @@
 .editor-container {
   flex: 1;
   overflow: hidden;
+  height: 100%;
+  display: flex;
+}
+
+/* Ensure Allotment takes full height */
+.editor-container > div {
+  height: 100% !important;
 }
 
 /* Override Allotment styles */
@@ -174,6 +190,12 @@
 /* Override MDEditor styles */
 .w-md-editor {
   background: var(--color-background) !important;
+  height: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.w-md-editor-content {
+  height: 100% !important;
 }
 
 .w-md-editor-toolbar {
@@ -190,6 +212,7 @@
   color: var(--color-accent) !important;
 }
 
+/* Fix text editor cursor issues */
 .w-md-editor-text-pre,
 .w-md-editor-text-input,
 .w-md-editor-text {
@@ -197,6 +220,332 @@
   font-family: var(--font-mono) !important;
   font-size: 0.95rem !important;
   line-height: 1.6 !important;
+  /* Ensure proper text rendering */
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fix cursor positioning */
+.w-md-editor-text-pre {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  pointer-events: none !important;
+}
+
+.w-md-editor-text-input {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+}
+
+/* Preview pane styling */
+.preview-pane {
+  height: 100%;
+  background: var(--color-background);
+}
+
+/* Fix potential selection issues */
+.w-md-editor ::selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+.w-md-editor ::-moz-selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+/* Editor pane styling */
+.editor-pane {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fix MDEditor container */
+.editor-pane .w-md-editor {
+  flex: 1;
+}
+
+/* Preview styling */
+.preview-header {
+  padding: calc(var(--grid-unit) * 1.5) calc(var(--grid-unit) * 2);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  font-family: var(--font-heading-secondary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+}
+
+.preview-content {
+  height: calc(100% - 50px);
+  padding: calc(var(--grid-unit) * 2);
+  overflow: auto;
+  background: var(--color-background);
+}
+
+/* Fix cursor jumping by ensuring consistent rendering */
+.w-md-editor-text-pre .token {
+  unicode-bidi: embed;
+}
+
+/* Ensure textarea and pre overlay perfectly */
+.w-md-editor-input {
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+
+/* Fix potential transform issues */
+.w-md-editor * {
+  transform: none !important;
+}
+
+/* Simple editor styles */
+.markdown-editor-simple {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.markdown-editor-simple .editor-wrapper {
+  flex: 1;
+  padding: calc(var(--grid-unit) * 2);
+}
+
+/* Override problematic styles that might cause cursor jump */
+.w-md-editor-text-pre,
+.w-md-editor-text-input,
+.w-md-editor-text {
+  /* Reset any transforms or transitions */
+  transform: none !important;
+  transition: none !important;
+  /* Ensure consistent positioning */
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+
+/* Fix for cursor jumping - ensure exact overlay */
+.w-md-editor-input {
+  background: transparent !important;
+  border: 0 !important;
+  resize: none !important;
+  outline: 0 !important;
+}
+
+.w-md-editor-text-pre {
+  margin: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+}
+
+/* Final editor styles with cursor fix */
+.markdown-editor-final {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-container-final {
+  flex: 1;
+  overflow: hidden;
+}
+
+.editor-pane-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-pane-wrapper .w-md-editor {
+  flex: 1;
+  /* Fix cursor jumping by ensuring proper text rendering */
+  font-variant-ligatures: none;
+}
+
+/* Disable syntax highlighting animations that cause cursor jump */
+.editor-pane-wrapper .w-md-editor-text-pre {
+  /* Remove all transitions and animations */
+  transition: none !important;
+  animation: none !important;
+}
+
+.editor-pane-wrapper .w-md-editor-text-pre * {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Ensure textarea and pre are perfectly aligned */
+.editor-pane-wrapper .w-md-editor-text {
+  padding: 10px !important;
+}
+
+.editor-pane-wrapper .w-md-editor-text-pre,
+.editor-pane-wrapper .w-md-editor-text-input,
+.editor-pane-wrapper .w-md-editor-text textarea {
+  /* Use same font settings to ensure consistent rendering */
+  font-family: var(--font-mono) !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  letter-spacing: normal !important;
+  /* Disable font features that can cause misalignment */
+  font-variant-ligatures: none !important;
+  font-feature-settings: "liga" 0, "clig" 0 !important;
+  /* Ensure same padding and margins */
+  padding: 10px !important;
+  margin: 0 !important;
+}
+
+.preview-pane-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-background);
+}
+
+.preview-pane-wrapper .preview-header {
+  flex-shrink: 0;
+  padding: calc(var(--grid-unit) * 1.5) calc(var(--grid-unit) * 2);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  font-family: var(--font-heading-secondary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+}
+
+.preview-pane-wrapper .preview-scroll {
+  flex: 1;
+  overflow: auto;
+  padding: calc(var(--grid-unit) * 2);
+}
+
+/* Fix cursor position in Monaco-based editors */
+.w-md-editor .monaco-editor {
+  font-variant-ligatures: none !important;
+}
+
+/* Fix MDEditor visibility */
+.w-md-editor-text-pre,
+.w-md-editor-text-input,
+.w-md-editor-text {
+  color: var(--color-text-primary) !important;
+  background: transparent !important;
+}
+
+.w-md-editor textarea {
+  color: var(--color-text-primary) !important;
+  background: transparent !important;
+  caret-color: var(--color-text-primary) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  z-index: 1 !important;
+}
+
+.w-md-editor-text-pre .token {
+  color: inherit !important;
+}
+
+/* React 19 compatibility fixes */
+.w-md-editor-text-input,
+.w-md-editor textarea {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  outline: none !important;
+  resize: none !important;
+  border: none !important;
+  font-family: var(--font-mono) !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  color: var(--color-text-primary) !important;
+  opacity: 1 !important;
+}
+
+/* Force light mode colors */
+[data-color-mode="light"] .w-md-editor-text-pre,
+[data-color-mode="light"] .w-md-editor-text-input,
+[data-color-mode="light"] .w-md-editor-text textarea {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+[data-color-mode="light"] .w-md-editor {
+  background-color: #ffffff !important;
+}
+
+[data-color-mode="light"] .w-md-editor-content {
+  background-color: #ffffff !important;
+}
+
+/* Ensure the text area container has proper dimensions */
+.w-md-editor-text {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  flex: 1 !important;
+}
+
+/* Fix potential layering issues */
+.w-md-editor-text-pre {
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+.w-md-editor-text-input {
+  pointer-events: auto !important;
+}
+
+/* Ensure the editor area is visible */
+.w-md-editor-area {
+  background: var(--color-background) !important;
+}
+
+.w-md-editor-preview {
+  background: var(--color-background) !important;
+}
+
+/* Simple editor styles */
+.markdown-editor-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-split-view {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.editor-pane {
+  flex: 1;
+  min-width: 0;
+}
+
+.preview-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.preview-content {
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
 }
 
 /* Post Metadata */
