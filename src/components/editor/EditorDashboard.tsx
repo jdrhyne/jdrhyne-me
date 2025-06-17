@@ -1,13 +1,16 @@
-import React, { useState, useCallback } from 'react';
-import PlainTextEditor from './PlainTextEditor';
+import React, { useState, useCallback, useRef } from 'react';
+import PlainTextEditor, { type PlainTextEditorHandle } from './PlainTextEditor';
 import { PostMetadata } from './PostMetadata';
 import MediaLibrary from './MediaLibrary';
+import AIAssistant from './AIAssistant';
 import type { CollectionEntry } from 'astro:content';
 import matter from 'gray-matter';
 
 export function EditorDashboard() {
   const [activeTab, setActiveTab] = useState<'editor' | 'posts' | 'media'>('editor');
+  const [showAIAssistant, setShowAIAssistant] = useState(false);
   const token = typeof window !== 'undefined' ? localStorage.getItem('editorToken') || '' : '';
+  const editorRef = useRef<PlainTextEditorHandle | null>(null);
   const [content, setContent] = useState(`# Building jdrhyne.me Without Writing Code: A Three-Hour Experiment with Claude Code
 
 *June 16, 2025*
@@ -199,6 +202,16 @@ The difference now is I know what's possible. Building through conversation isn'
   });
   const [currentFile, setCurrentFile] = useState<string | null>(null);
 
+  const handleAIInsert = (text: string) => {
+    if (editorRef.current) {
+      editorRef.current.insertText(text);
+    }
+  };
+
+  const handleAIReplace = (text: string) => {
+    setContent(text);
+  };
+
   const handleSave = useCallback(async (content: string) => {
     try {
       // Generate frontmatter from metadata
@@ -254,22 +267,49 @@ The difference now is I know what's possible. Building through conversation isn'
             Media Library
           </button>
         </div>
+        <button
+          className="btn-ai-toggle"
+          onClick={() => setShowAIAssistant(!showAIAssistant)}
+          style={{
+            marginLeft: 'auto',
+            background: showAIAssistant ? '#c13127' : 'transparent',
+            color: showAIAssistant ? 'white' : '#c13127',
+            border: '1px solid #c13127',
+            padding: '8px 16px',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            transition: 'all 0.2s ease',
+          }}
+        >
+          🤖 AI Assistant
+        </button>
       </div>
 
       {activeTab === 'editor' ? (
         <div className="editor-layout">
           <div className="editor-main">
             <PlainTextEditor
+              ref={editorRef}
               initialContent={content}
               onChange={setContent}
               onSave={handleSave}
             />
           </div>
           <aside className="editor-sidebar">
-            <PostMetadata
-              metadata={metadata}
-              onChange={setMetadata}
-            />
+            {showAIAssistant ? (
+              <AIAssistant
+                currentContent={content}
+                onInsert={handleAIInsert}
+                onReplace={handleAIReplace}
+                token={token}
+              />
+            ) : (
+              <PostMetadata
+                metadata={metadata}
+                onChange={setMetadata}
+              />
+            )}
           </aside>
         </div>
       ) : activeTab === 'posts' ? (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import ImageUpload from './ImageUpload';
 
 interface PlainTextEditorProps {
@@ -7,11 +7,15 @@ interface PlainTextEditorProps {
   onSave?: (content: string) => void;
 }
 
-export default function PlainTextEditor({ 
+export interface PlainTextEditorHandle {
+  insertText: (text: string) => void;
+}
+
+const PlainTextEditor = forwardRef<PlainTextEditorHandle, PlainTextEditorProps>(function PlainTextEditor({ 
   initialContent = '', 
   onChange,
   onSave 
-}: PlainTextEditorProps) {
+}, ref) {
   const [value, setValue] = useState(initialContent);
   const [preview, setPreview] = useState('');
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
@@ -159,6 +163,25 @@ export default function PlainTextEditor({
     }
   };
 
+  // Expose insertText method to parent
+  useImperativeHandle(ref, () => ({
+    insertText: (text: string) => {
+      const textarea = textareaRef.current;
+      if (textarea) {
+        const start = textarea.selectionStart;
+        const newText = value.substring(0, start) + text + value.substring(start);
+        setValue(newText);
+        setUnsavedChanges(true);
+        onChange?.(newText);
+        
+        setTimeout(() => {
+          textarea.focus();
+          textarea.setSelectionRange(start + text.length, start + text.length);
+        }, 0);
+      }
+    }
+  }));
+
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div className="editor-toolbar">
@@ -273,4 +296,6 @@ export default function PlainTextEditor({
       </div>
     </div>
   );
-}
+});
+
+export default PlainTextEditor;
