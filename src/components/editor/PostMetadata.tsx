@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { CollectionEntry } from 'astro:content';
+import PublishControls from './PublishControls';
 
 interface PostMetadataProps {
   metadata: Partial<CollectionEntry<'thoughts'>['data']>;
@@ -28,9 +29,19 @@ export function PostMetadata({ metadata, onChange }: PostMetadataProps) {
     onChange(updatedMetadata);
   }, [title, description, date, tags, excerpt]);
 
+  const token = typeof window !== 'undefined' ? localStorage.getItem('editorToken') || '' : '';
+  const postId = title.toLowerCase().replace(/\s+/g, '-') + '.md' || 'untitled.md';
+
   return (
     <div className="post-metadata">
       <h3>Post Metadata</h3>
+      
+      <PublishControls
+        postId={postId}
+        currentStatus="draft"
+        onStatusChange={() => {/* TODO: Refresh status */}}
+        token={token}
+      />
       
       <div className="metadata-field">
         <label htmlFor="title">Title *</label>
