@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import ImageUpload from './ImageUpload';
 
 interface PlainTextEditorProps {
   initialContent?: string;
@@ -15,7 +16,11 @@ export default function PlainTextEditor({
   const [preview, setPreview] = useState('');
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [unsavedChanges, setUnsavedChanges] = useState(false);
+  const [showImageUpload, setShowImageUpload] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  
+  // Get token from localStorage
+  const token = typeof window !== 'undefined' ? localStorage.getItem('editorToken') || '' : '';
 
   // Simple markdown to HTML conversion
   useEffect(() => {
@@ -88,6 +93,24 @@ export default function PlainTextEditor({
     }, 0);
   };
 
+  const handleImageUpload = (url: string) => {
+    const imageMarkdown = `![Image description](${url})\n`;
+    const textarea = textareaRef.current;
+    if (textarea) {
+      const start = textarea.selectionStart;
+      const newText = value.substring(0, start) + imageMarkdown + value.substring(start);
+      setValue(newText);
+      setUnsavedChanges(true);
+      onChange?.(newText);
+      setShowImageUpload(false);
+      
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(start + imageMarkdown.length, start + imageMarkdown.length);
+      }, 0);
+    }
+  };
+
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div className="editor-toolbar">
@@ -130,8 +153,26 @@ export default function PlainTextEditor({
             title="Code"
             style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
           >{'<>'}</button>
+          <button 
+            onClick={() => setShowImageUpload(!showImageUpload)} 
+            title="Insert Image"
+            style={{ 
+              padding: '5px 10px', 
+              background: showImageUpload ? '#e0e0e0' : '#fff', 
+              border: '1px solid #ddd', 
+              borderRadius: '3px', 
+              cursor: 'pointer',
+              marginLeft: '10px'
+            }}
+          >📷</button>
         </div>
       </div>
+      
+      {showImageUpload && (
+        <div style={{ padding: '20px', borderBottom: '1px solid #ddd' }}>
+          <ImageUpload onUpload={handleImageUpload} token={token} />
+        </div>
+      )}
       
       <div style={{ flex: 1, display: 'flex', gap: '20px', padding: '20px', overflow: 'hidden' }}>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
