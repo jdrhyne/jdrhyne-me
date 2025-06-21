@@ -61,24 +61,15 @@ export default function AIAssistant({ currentContent, onInsert, onReplace, token
     if (Array.isArray(result)) {
       // Title suggestions
       return (
-        <div style={{ marginTop: '20px' }}>
+        <div style={{ marginTop: 'var(--editor-space-lg)' }}>
           <h4>Suggested Titles:</h4>
           <ul style={{ listStyle: 'none', padding: 0 }}>
             {result.map((title, index) => (
-              <li key={index} style={{ marginBottom: '8px' }}>
+              <li key={index} style={{ marginBottom: 'var(--editor-space-sm)' }}>
                 <button
                   onClick={() => onInsert(title)}
-                  style={{
-                    width: '100%',
-                    textAlign: 'left',
-                    padding: '8px 12px',
-                    background: '#f5f5f5',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = '#e0e0e0'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = '#f5f5f5'}
+                  className="editor-btn editor-btn-ghost editor-btn-full"
+                  style={{ textAlign: 'left', justifyContent: 'flex-start' }}
                 >
                   {title}
                 </button>
@@ -91,43 +82,22 @@ export default function AIAssistant({ currentContent, onInsert, onReplace, token
 
     // Text result
     return (
-      <div style={{ marginTop: '20px' }}>
-        <div style={{
-          background: '#f5f5f5',
-          padding: '15px',
-          borderRadius: '4px',
-          marginBottom: '10px',
-          maxHeight: '300px',
-          overflow: 'auto',
-        }}>
+      <div style={{ marginTop: 'var(--editor-space-lg)' }}>
+        <div className="editor-panel" style={{ marginBottom: 'var(--editor-space-sm)', maxHeight: '300px', overflow: 'auto' }}>
           <pre style={{ whiteSpace: 'pre-wrap', margin: 0, fontFamily: 'inherit' }}>
             {result}
           </pre>
         </div>
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: 'var(--editor-space-sm)' }}>
           <button
             onClick={() => onInsert(result as string)}
-            style={{
-              padding: '8px 16px',
-              background: '#4CAF50',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-            }}
+            className="editor-btn editor-btn-success"
           >
             Insert at Cursor
           </button>
           <button
             onClick={() => onReplace(result as string)}
-            style={{
-              padding: '8px 16px',
-              background: '#2196F3',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-            }}
+            className="editor-btn editor-btn-info"
           >
             Replace All
           </button>
@@ -137,24 +107,19 @@ export default function AIAssistant({ currentContent, onInsert, onReplace, token
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h3 style={{ marginTop: 0, marginBottom: '20px', color: '#c13127' }}>
+    <div>
+      <h3 style={{ marginTop: 0, marginBottom: 'var(--editor-space-lg)', color: 'var(--editor-color-primary)' }}>
         AI Writing Assistant
       </h3>
 
-      <div style={{ marginBottom: '20px' }}>
-        <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+      <div style={{ marginBottom: 'var(--editor-space-lg)' }}>
+        <label style={{ display: 'block', marginBottom: 'var(--editor-space-sm)', fontWeight: 'bold' }}>
           Action:
         </label>
         <select
           value={selectedAction}
           onChange={(e) => setSelectedAction(e.target.value as AIAction)}
-          style={{
-            width: '100%',
-            padding: '8px',
-            border: '1px solid #ddd',
-            borderRadius: '4px',
-          }}
+          className="editor-select"
         >
           <option value="generate">Generate New Content</option>
           <option value="revise">Revise Selected Text</option>
@@ -166,27 +131,21 @@ export default function AIAssistant({ currentContent, onInsert, onReplace, token
       </div>
 
       {selectedAction === 'generate' ? (
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+        <div style={{ marginBottom: 'var(--editor-space-lg)' }}>
+          <label style={{ display: 'block', marginBottom: 'var(--editor-space-sm)', fontWeight: 'bold' }}>
             Prompt:
           </label>
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="Describe what you want to write about..."
-            style={{
-              width: '100%',
-              minHeight: '100px',
-              padding: '8px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              resize: 'vertical',
-            }}
+            className="editor-textarea"
+            style={{ minHeight: '100px' }}
           />
         </div>
       ) : selectedAction === 'revise' || selectedAction === 'continue' ? (
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+        <div style={{ marginBottom: 'var(--editor-space-lg)' }}>
+          <label style={{ display: 'block', marginBottom: 'var(--editor-space-sm)', fontWeight: 'bold' }}>
             Instructions:
           </label>
           <textarea
@@ -197,14 +156,8 @@ export default function AIAssistant({ currentContent, onInsert, onReplace, token
                 ? "Optionally describe how to continue (e.g., 'with more examples')"
                 : "Describe how you want to revise the text..."
             }
-            style={{
-              width: '100%',
-              minHeight: '80px',
-              padding: '8px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              resize: 'vertical',
-            }}
+            className="editor-textarea"
+            style={{ minHeight: '80px' }}
           />
         </div>
       ) : null}
@@ -212,45 +165,22 @@ export default function AIAssistant({ currentContent, onInsert, onReplace, token
       <button
         onClick={handleAIRequest}
         disabled={loading || (selectedAction === 'generate' && !prompt)}
-        style={{
-          width: '100%',
-          padding: '10px',
-          background: loading ? '#ccc' : '#c13127',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: loading ? 'not-allowed' : 'pointer',
-          fontWeight: 'bold',
-          fontSize: '16px',
-        }}
+        className={`editor-btn editor-btn-primary editor-btn-full ${loading ? 'editor-loading' : ''}`}
       >
         {loading ? 'Processing...' : 'Run AI Assistant'}
       </button>
 
       {error && (
-        <div style={{
-          marginTop: '10px',
-          padding: '10px',
-          background: '#ffebee',
-          border: '1px solid #ffcdd2',
-          borderRadius: '4px',
-          color: '#c62828',
-        }}>
+        <div className="editor-alert editor-alert-error" style={{ marginTop: 'var(--editor-space-sm)' }}>
           Error: {error}
         </div>
       )}
 
       {renderResult()}
 
-      <div style={{
-        marginTop: '30px',
-        padding: '15px',
-        background: '#f0f7ff',
-        borderRadius: '4px',
-        fontSize: '14px',
-      }}>
+      <div className="editor-alert editor-alert-info" style={{ marginTop: 'var(--editor-space-2xl)' }}>
         <strong>Tips:</strong>
-        <ul style={{ marginTop: '8px', marginBottom: 0, paddingLeft: '20px' }}>
+        <ul style={{ marginTop: 'var(--editor-space-sm)', marginBottom: 0, paddingLeft: 'var(--editor-space-lg)' }}>
           <li>Select text in the editor before using "Revise" actions</li>
           <li>Use "Continue Writing" to extend your current draft</li>
           <li>"Generate Excerpt" creates a summary for your post metadata</li>

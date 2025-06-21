@@ -3,8 +3,23 @@ import PlainTextEditor, { type PlainTextEditorHandle } from './PlainTextEditor';
 import { PostMetadata } from './PostMetadata';
 import MediaLibrary from './MediaLibrary';
 import AIAssistant from './AIAssistant';
+import PostsList from './PostsList';
 import type { CollectionEntry } from 'astro:content';
 import matter from 'gray-matter';
+
+interface PostFile {
+  filename: string;
+  content: string;
+  metadata: {
+    title?: string;
+    description?: string;
+    date?: Date;
+    tags?: string[];
+    categories?: string[];
+  };
+  isDraft: boolean;
+  lastModified: string;
+}
 
 export function EditorDashboard() {
   const [activeTab, setActiveTab] = useState<'editor' | 'posts' | 'media'>('editor');
@@ -202,6 +217,169 @@ The difference now is I know what's possible. Building through conversation isn'
   });
   const [currentFile, setCurrentFile] = useState<string | null>(null);
 
+  const handleSelectPost = (post: PostFile) => {
+    // Load the selected post into the editor
+    setContent(post.content);
+    setMetadata({
+      title: post.metadata.title || '',
+      description: post.metadata.description || '',
+      date: post.metadata.date || new Date(),
+      tags: post.metadata.tags || [],
+      categories: post.metadata.categories || [],
+    });
+    setCurrentFile(post.filename);
+    setActiveTab('editor'); // Switch to editor tab
+  };
+
+  const handleNewPost = () => {
+    // Check if there's meaningful content that might be lost
+    const hasContent = content.trim() !== '' && 
+                      content !== '# New Post\n\nStart writing your post here...' &&
+                      !content.startsWith('# Building jdrhyne.me Without Writing Code');
+    
+    if (hasContent) {
+      const confirmed = window.confirm('You have unsaved changes. Are you sure you want to create a new post? Your current work will be lost.');
+      if (!confirmed) {
+        return;
+      }
+    }
+    
+    // Create a new blank post with the crafted blog post
+    const newContent = `# 🚀 From Vibe Coding to Volks-Typo: Building an Astro Theme Without Writing a Single Line of Code
+
+*How a simple blog refresh turned into creating a minimalist German typography theme — and what I learned about AI-assisted development along the way.*
+
+---
+
+## The Origin Story: When Your Blog Becomes a Side Quest
+
+It all started with **vibe coding** with Claude Code. Like any good developer story, what began as a simple task spiraled into something much more ambitious.
+
+My personal blog at [rhynereport.com](https://rhynereport.com) had been gathering digital dust since 2017. We're currently migrating [Nutrient.io](https://nutrient.io) from Webflow to Astro, so I thought: *Why not see if Claude can build my personal site on Astro too?*
+
+**Simple enough, right?** Wrong.
+
+While browsing Astro themes, I couldn't find what I was looking for: something with that iconic post-WWII German typography — clean, minimalist, powerful. So naturally, I did what any reasonable person would do: **I decided to build my own theme from scratch.**
+
+Enter **Volks-Typo**.
+
+## Building Volks-Typo: When AI Meets Design Vision
+
+### 🎨 **The Design Challenge**
+
+I started with a clear vision: minimalist typography inspired by classic German design. When I first prompted Claude to build this theme, it gave me dark yellows, muddy grays, and aggressive reds. Technically correct, but aesthetically... *not quite*.
+
+**The breakthrough came when I stopped describing and started showing.**
+
+I uploaded two photos from Vienna — one from the Schönbrunn U-Bahn station, another of a typical street sign. Suddenly, Claude *got it*. It analyzed the typography, matched fonts from Google Fonts, and rebuilt the entire theme around that aesthetic.
+
+**The lesson?** Sometimes a picture really is worth a thousand prompts.
+
+### ⚡ **The Development Flow**
+
+Working with Claude Code was addictive. I could literally talk to it:
+- "Make it more minimalist"
+- "Add a sidebar" 
+- "Remove this button"
+- "Change the colors"
+
+It would edit the theme in real-time as I went. The speed was intoxicating — we were moving from concept to reality faster than I'd ever experienced.
+
+## The Challenges: Where Reality Meets Ambition
+
+### **Challenge #1: Scope Creep is Real**
+
+My classic indecisiveness kicked in. Instead of perfecting one theme, I decided to create **three variations**: minimalist, default, and monochrome versions.
+
+Claude handled the initial build beautifully, even creating a theme switcher. But when I tried to merge or separate themes later? **CSS chaos.** Global naming conflicts, styling conflicts, complete mess.
+
+**The hard truth:** Even with AI, you need to chunk projects into manageable pieces. Build one thing, finish it, then move to the next.
+
+### **Challenge #2: Git Hygiene (Or Lack Thereof)**
+
+Here's where my non-developer habits caught up with me. I got so caught up in the flow of building that I completely forgot about git commits and version control.
+
+When I finally tried to create a feature branch for the minimalist theme, then merge it back... **disaster.** Lost hours of styling work because I didn't have a clean commit history to fall back on.
+
+**Lesson learned:** AI makes development faster, but it doesn't eliminate the need for good development practices.
+
+### **Challenge #3: The CSS Alignment Blues**
+
+Want to know Claude's kryptonite? **Padding and alignment.**
+
+Describing visual changes in text is surprisingly difficult. Claude would misinterpret what needed alignment, change the wrong div, or create an endless loop of "fix this, now that's broken."
+
+**The solution?** Screenshots. Lots of them. Showing Claude exactly what I was seeing and describing what was wrong proved far more effective than text descriptions.
+
+*Fun fact: Claude even tried using Puppeteer to take screenshots and run alignment tests. It didn't work, but I appreciated the creative problem-solving.*
+
+## The Technical Stack
+
+**Volks-Typo** ended up being built on:
+- **Astro** (static site generator)
+- **Google Fonts** (matched to Vienna typography)
+- **RSS feed** functionality
+- **Search** capabilities
+- **Responsive design** with careful attention to typography
+
+Claude handled everything from initial scaffolding to final deployment preparation, including creating submission materials for the Astro theme portal.
+
+## What I Learned About AI-Assisted Development
+
+### **🌟 The Power of Conversational Coding**
+
+Being able to go from "I want to redo my personal blog" to "submitting an official Astro theme" in less than a day is genuinely insane. The barrier to entry has never been lower.
+
+### **🤝 Subject Matter Expertise Still Matters**
+
+The LLM can't read your brain. You still need to know what you want, understand the fundamentals, and guide the process. But when you combine **domain knowledge with AI execution**, the results are powerful.
+
+### **⚖️ The Trade-offs**
+
+Would it have been easier to just write the CSS myself? Sometimes, yes. But that misses the point. This wasn't about efficiency — it was about exploring what's possible when you combine human vision with AI capability.
+
+## The Result: Volks-Typo is Live
+
+After countless iterations, alignment battles, and scope management lessons, **Volks-Typo** is now available as an official Astro theme.
+
+**Want to try it?** Check out [Volks-Typo here](link-to-theme) and let me know what you think. If you like it, give the repo a star ⭐
+
+## The Bigger Picture
+
+Critics will say vibe coding is just a fad. **I'm telling you it's not going anywhere.**
+
+We're witnessing the democratization of software development. The ability to leverage ideas and vision over pure technical skill to reach production-level applications is real and transformative.
+
+**Is it perfect?** No. **Is it the future?** Absolutely.
+
+---
+
+*Built without writing a single line of code. Powered by Claude Code, Astro, and two tourist photos from Vienna.*
+
+**Your turn:** Have you tried building something with AI assistance? What surprised you? Share your experience in the comments below. 👇`;
+    
+    setContent(newContent);
+    setMetadata({
+      title: 'From Vibe Coding to Volks-Typo: Building an Astro Theme Without Writing a Single Line of Code',
+      description: 'How a simple blog refresh turned into creating a minimalist German typography theme — and what I learned about AI-assisted development along the way.',
+      date: new Date(),
+      tags: ['claude-code', 'astro', 'ai', 'vibe-coding', 'web-development', 'typography'],
+      categories: ['Technology', 'Development'],
+    });
+    setCurrentFile(null);
+    setActiveTab('editor'); // Switch to editor tab
+    
+    // Focus the editor after a brief delay
+    setTimeout(() => {
+      const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
+      if (textarea) {
+        textarea.focus();
+        // Position cursor after the title
+        textarea.setSelectionRange(newContent.length, newContent.length);
+      }
+    }, 100);
+  };
+
   const handleAIInsert = (text: string) => {
     if (editorRef.current) {
       editorRef.current.insertText(text);
@@ -268,19 +446,10 @@ The difference now is I know what's possible. Building through conversation isn'
           </button>
         </div>
         <button
-          className="btn-ai-toggle"
+          className={`editor-btn editor-btn-sm ${showAIAssistant ? 'editor-btn-primary' : 'editor-btn-secondary'}`}
           onClick={() => setShowAIAssistant(!showAIAssistant)}
-          style={{
-            marginLeft: 'auto',
-            background: showAIAssistant ? '#c13127' : 'transparent',
-            color: showAIAssistant ? 'white' : '#c13127',
-            border: '1px solid #c13127',
-            padding: '8px 16px',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontWeight: 'bold',
-            transition: 'all 0.2s ease',
-          }}
+          style={{ marginLeft: 'auto' }}
+          aria-label="Toggle AI Assistant"
         >
           🤖 AI Assistant
         </button>
@@ -290,10 +459,12 @@ The difference now is I know what's possible. Building through conversation isn'
         <div className="editor-layout">
           <div className="editor-main">
             <PlainTextEditor
+              key={currentFile || 'new-post'}
               ref={editorRef}
               initialContent={content}
               onChange={setContent}
               onSave={handleSave}
+              onNewPost={handleNewPost}
             />
           </div>
           <aside className="editor-sidebar">
@@ -313,9 +484,11 @@ The difference now is I know what's possible. Building through conversation isn'
           </aside>
         </div>
       ) : activeTab === 'posts' ? (
-        <div className="posts-list">
-          <p>Posts list coming soon...</p>
-        </div>
+        <PostsList 
+          token={token}
+          onSelectPost={handleSelectPost}
+          onNewPost={handleNewPost}
+        />
       ) : (
         <div className="media-library">
           <MediaLibrary 

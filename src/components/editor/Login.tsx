@@ -27,6 +27,10 @@ export function Login({ onSuccess }: LoginProps) {
       const data = await response.json();
 
       if (response.ok) {
+        // Store the token in localStorage for API calls
+        if (data.token) {
+          localStorage.setItem('editorToken', data.token);
+        }
         onSuccess();
       } else {
         setError(data.error || 'Authentication failed');

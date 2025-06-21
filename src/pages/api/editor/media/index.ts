@@ -18,7 +18,7 @@ export async function GET({ request }: APIContext) {
   try {
     // Verify authentication
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
-    if (!token || !await verifyToken(token)) {
+    if (!token || !verifyToken(token)) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401,
         headers: { 'Content-Type': 'application/json' }

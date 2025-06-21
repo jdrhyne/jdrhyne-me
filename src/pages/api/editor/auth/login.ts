@@ -27,7 +27,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     // Set the token in an httpOnly cookie
     cookies.set('editor-token', token, cookieOptions);
     
-    return new Response(JSON.stringify({ success: true }), {
+    // Also return the token for client-side storage (for API calls)
+    return new Response(JSON.stringify({ success: true, token }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });

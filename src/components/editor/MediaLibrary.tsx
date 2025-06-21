@@ -54,23 +54,23 @@ export default function MediaLibrary({ onSelect, token }: MediaLibraryProps) {
   };
 
   if (loading) {
-    return <div style={{ padding: '20px', textAlign: 'center' }}>Loading media...</div>;
+    return <div className="editor-loading" style={{ padding: 'var(--editor-space-lg)', textAlign: 'center' }}>Loading media...</div>;
   }
 
   if (error) {
-    return <div style={{ padding: '20px', color: 'red' }}>Error: {error}</div>;
+    return <div className="editor-alert editor-alert-error" style={{ margin: 'var(--editor-space-lg)' }}>Error: {error}</div>;
   }
 
   if (files.length === 0) {
-    return <div style={{ padding: '20px', textAlign: 'center' }}>No images uploaded yet.</div>;
+    return <div style={{ padding: 'var(--editor-space-lg)', textAlign: 'center', color: 'var(--editor-text-muted)' }}>No images uploaded yet.</div>;
   }
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: 'var(--editor-space-lg)' }}>
       <div style={{ 
         display: 'grid', 
         gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-        gap: '15px'
+        gap: 'var(--editor-space-md)'
       }}>
         {files.map((file) => (
           <div
@@ -80,16 +80,16 @@ export default function MediaLibrary({ onSelect, token }: MediaLibraryProps) {
               onSelect(file.url);
             }}
             style={{
-              border: selectedUrl === file.url ? '3px solid #c13127' : '1px solid #ddd',
-              borderRadius: '4px',
+              border: selectedUrl === file.url ? `3px solid var(--editor-color-primary)` : `1px solid var(--editor-border-light)`,
+              borderRadius: 'var(--editor-radius-md)',
               overflow: 'hidden',
               cursor: 'pointer',
-              backgroundColor: 'white',
-              transition: 'all 0.2s ease',
+              backgroundColor: 'var(--editor-bg-primary)',
+              transition: 'all var(--editor-transition-base)',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+              e.currentTarget.style.boxShadow = 'var(--editor-shadow-md)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
@@ -102,19 +102,20 @@ export default function MediaLibrary({ onSelect, token }: MediaLibraryProps) {
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }} />
-            <div style={{ padding: '8px', fontSize: '12px' }}>
+            <div style={{ padding: 'var(--editor-space-sm)', fontSize: 'var(--editor-font-size-xs)' }}>
               <div style={{ 
                 whiteSpace: 'nowrap', 
                 overflow: 'hidden', 
                 textOverflow: 'ellipsis',
                 fontWeight: 'bold',
+                color: 'var(--editor-text-primary)',
               }}>
                 {file.filename}
               </div>
-              <div style={{ color: '#666', marginTop: '4px' }}>
+              <div style={{ color: 'var(--editor-text-muted)', marginTop: 'var(--editor-space-xs)' }}>
                 {formatFileSize(file.size)}
               </div>
-              <div style={{ color: '#666' }}>
+              <div style={{ color: 'var(--editor-text-muted)' }}>
                 {formatDate(file.modifiedAt)}
               </div>
             </div>

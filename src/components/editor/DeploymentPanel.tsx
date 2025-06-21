@@ -103,79 +103,54 @@ export default function DeploymentPanel({ token }: DeploymentPanelProps) {
 
   const getStateColor = (state: string) => {
     switch (state) {
-      case 'READY': return '#4CAF50';
-      case 'BUILDING': return '#FF9800';
-      case 'ERROR': return '#f44336';
-      case 'CANCELED': return '#666';
-      default: return '#999';
+      case 'READY': return 'var(--editor-color-success)';
+      case 'BUILDING': return 'var(--editor-color-warning)';
+      case 'ERROR': return 'var(--editor-color-danger)';
+      case 'CANCELED': return 'var(--editor-color-gray-600)';
+      default: return 'var(--editor-color-gray-500)';
     }
   };
 
   return (
-    <div style={{
-      padding: '20px',
-      background: '#f5f5f5',
-      borderRadius: '4px',
-      marginTop: '20px',
-    }}>
-      <h3 style={{ marginTop: 0, marginBottom: '20px' }}>
+    <div className="editor-panel" style={{ marginTop: 'var(--editor-space-lg)' }}>
+      <h3 style={{ marginTop: 0, marginBottom: 'var(--editor-space-lg)' }}>
         Deployment
       </h3>
 
       <button
         onClick={handleDeploy}
         disabled={deploying}
-        style={{
-          width: '100%',
-          padding: '12px',
-          background: deploying ? '#ccc' : '#2196F3',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: deploying ? 'not-allowed' : 'pointer',
-          fontWeight: 'bold',
-          fontSize: '16px',
-        }}
+        className={`editor-btn editor-btn-full ${deploying ? 'editor-loading' : 'editor-btn-info'}`}
       >
         {deploying ? '🚀 Deploying...' : '🚀 Deploy to Production'}
       </button>
 
       {deploymentStatus && (
-        <div style={{
-          marginTop: '15px',
-          padding: '10px',
-          background: deploymentStatus.includes('successful') ? '#e8f5e9' : '#fff3e0',
-          border: `1px solid ${deploymentStatus.includes('successful') ? '#4CAF50' : '#FF9800'}`,
-          borderRadius: '4px',
-          textAlign: 'center',
-        }}>
+        <div 
+          className={`editor-alert ${deploymentStatus.includes('successful') ? 'editor-alert-success' : 'editor-alert-warning'}`}
+          style={{ textAlign: 'center', marginTop: 'var(--editor-space-md)' }}
+        >
           {deploymentStatus}
         </div>
       )}
 
       {currentDeployment && (
-        <div style={{
-          marginTop: '20px',
-          padding: '15px',
-          background: 'white',
-          border: '1px solid #ddd',
-          borderRadius: '4px',
-        }}>
-          <h4 style={{ marginTop: 0, marginBottom: '10px' }}>Current Deployment</h4>
-          <div style={{ fontSize: '14px' }}>
-            <div style={{ marginBottom: '8px' }}>
+        <div className="editor-card" style={{ marginTop: 'var(--editor-space-lg)' }}>
+          <h4 style={{ marginTop: 0, marginBottom: 'var(--editor-space-sm)' }}>Current Deployment</h4>
+          <div style={{ fontSize: 'var(--editor-font-size-sm)' }}>
+            <div style={{ marginBottom: 'var(--editor-space-sm)' }}>
               <strong>Status:</strong>{' '}
               <span style={{ color: getStateColor(currentDeployment.state) }}>
                 {currentDeployment.state}
               </span>
             </div>
-            <div style={{ marginBottom: '8px' }}>
+            <div style={{ marginBottom: 'var(--editor-space-sm)' }}>
               <strong>URL:</strong>{' '}
               <a 
                 href={`https://${currentDeployment.url}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: '#2196F3' }}
+                style={{ color: 'var(--editor-color-info)' }}
               >
                 {currentDeployment.url}
               </a>
@@ -189,27 +164,14 @@ export default function DeploymentPanel({ token }: DeploymentPanelProps) {
       )}
 
       {error && (
-        <div style={{
-          marginTop: '15px',
-          padding: '10px',
-          background: '#ffebee',
-          border: '1px solid #ffcdd2',
-          borderRadius: '4px',
-          color: '#c62828',
-        }}>
+        <div className="editor-alert editor-alert-error" style={{ marginTop: 'var(--editor-space-md)' }}>
           Error: {error}
         </div>
       )}
 
-      <div style={{
-        marginTop: '20px',
-        padding: '15px',
-        background: '#e3f2fd',
-        borderRadius: '4px',
-        fontSize: '14px',
-      }}>
+      <div className="editor-alert editor-alert-info" style={{ marginTop: 'var(--editor-space-lg)' }}>
         <strong>Note:</strong> Deployment will:
-        <ul style={{ marginTop: '8px', marginBottom: 0, paddingLeft: '20px' }}>
+        <ul style={{ marginTop: 'var(--editor-space-sm)', marginBottom: 0, paddingLeft: 'var(--editor-space-lg)' }}>
           <li>Commit any unsaved changes</li>
           <li>Push to your Git repository</li>
           <li>Trigger a Vercel build</li>

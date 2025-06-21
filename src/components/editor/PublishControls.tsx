@@ -50,28 +50,18 @@ export default function PublishControls({ postId, currentStatus, onStatusChange,
 
   if (currentStatus === 'published') {
     return (
-      <div style={{
+      <div className="editor-alert editor-alert-success" style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '10px',
-        padding: '10px',
-        background: '#e8f5e9',
-        borderRadius: '4px',
+        gap: 'var(--editor-space-sm)',
       }}>
-        <span style={{ color: '#2e7d32', fontWeight: 'bold' }}>
+        <span style={{ fontWeight: 'bold' }}>
           ✓ Published
         </span>
         <button
           onClick={() => {/* TODO: Implement unpublish */}}
-          style={{
-            marginLeft: 'auto',
-            padding: '6px 12px',
-            background: 'transparent',
-            border: '1px solid #666',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '14px',
-          }}
+          className="editor-btn editor-btn-secondary editor-btn-sm"
+          style={{ marginLeft: 'auto' }}
         >
           Unpublish
         </button>
@@ -80,47 +70,27 @@ export default function PublishControls({ postId, currentStatus, onStatusChange,
   }
 
   return (
-    <div style={{
-      padding: '15px',
-      background: '#f5f5f5',
-      borderRadius: '4px',
-      marginBottom: '20px',
-    }}>
+    <div className="editor-panel" style={{ marginBottom: 'var(--editor-space-lg)' }}>
       <div style={{ 
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'space-between',
-        marginBottom: showScheduler ? '15px' : 0,
+        marginBottom: showScheduler ? 'var(--editor-space-md)' : 0,
       }}>
-        <span style={{ fontWeight: 'bold', color: '#666' }}>
+        <span style={{ fontWeight: 'bold', color: 'var(--editor-text-secondary)' }}>
           Status: Draft
         </span>
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: 'var(--editor-space-sm)' }}>
           <button
             onClick={() => handlePublish()}
             disabled={loading}
-            style={{
-              padding: '8px 16px',
-              background: loading ? '#ccc' : '#4CAF50',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              fontWeight: 'bold',
-            }}
+            className={`editor-btn editor-btn-sm editor-btn-success ${loading ? 'editor-loading' : ''}`}
           >
             {loading ? 'Publishing...' : 'Publish Now'}
           </button>
           <button
             onClick={() => setShowScheduler(!showScheduler)}
-            style={{
-              padding: '8px 16px',
-              background: 'transparent',
-              color: '#2196F3',
-              border: '1px solid #2196F3',
-              borderRadius: '4px',
-              cursor: 'pointer',
-            }}
+            className="editor-btn editor-btn-sm editor-btn-secondary"
           >
             Schedule
           </button>
@@ -129,36 +99,25 @@ export default function PublishControls({ postId, currentStatus, onStatusChange,
 
       {showScheduler && (
         <div style={{
-          borderTop: '1px solid #ddd',
-          paddingTop: '15px',
+          borderTop: '1px solid var(--editor-border-light)',
+          paddingTop: 'var(--editor-space-md)',
         }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+          <label style={{ display: 'block', marginBottom: 'var(--editor-space-sm)', fontWeight: 'bold' }}>
             Schedule for:
           </label>
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: 'var(--editor-space-sm)', alignItems: 'center' }}>
             <input
               type="datetime-local"
               value={scheduledDate}
               onChange={(e) => setScheduledDate(e.target.value)}
               min={new Date().toISOString().slice(0, 16)}
-              style={{
-                flex: 1,
-                padding: '8px',
-                border: '1px solid #ddd',
-                borderRadius: '4px',
-              }}
+              className="editor-input"
+              style={{ flex: 1 }}
             />
             <button
               onClick={() => handlePublish(true)}
               disabled={loading || !scheduledDate}
-              style={{
-                padding: '8px 16px',
-                background: loading || !scheduledDate ? '#ccc' : '#2196F3',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: loading || !scheduledDate ? 'not-allowed' : 'pointer',
-              }}
+              className={`editor-btn editor-btn-info ${loading ? 'editor-loading' : ''}`}
             >
               Set Schedule
             </button>
@@ -167,14 +126,7 @@ export default function PublishControls({ postId, currentStatus, onStatusChange,
       )}
 
       {error && (
-        <div style={{
-          marginTop: '10px',
-          padding: '10px',
-          background: '#ffebee',
-          border: '1px solid #ffcdd2',
-          borderRadius: '4px',
-          color: '#c62828',
-        }}>
+        <div className="editor-alert editor-alert-error" style={{ marginTop: 'var(--editor-space-sm)' }}>
           {error}
         </div>
       )}

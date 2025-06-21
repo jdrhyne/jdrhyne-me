@@ -5,6 +5,7 @@ interface PlainTextEditorProps {
   initialContent?: string;
   onChange?: (content: string) => void;
   onSave?: (content: string) => void;
+  onNewPost?: () => void;
 }
 
 export interface PlainTextEditorHandle {
@@ -14,7 +15,8 @@ export interface PlainTextEditorHandle {
 const PlainTextEditor = forwardRef<PlainTextEditorHandle, PlainTextEditorProps>(function PlainTextEditor({ 
   initialContent = '', 
   onChange,
-  onSave 
+  onSave,
+  onNewPost
 }, ref) {
   const [value, setValue] = useState(initialContent);
   const [preview, setPreview] = useState('');
@@ -22,6 +24,13 @@ const PlainTextEditor = forwardRef<PlainTextEditorHandle, PlainTextEditorProps>(
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [showImageUpload, setShowImageUpload] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Sync internal state with prop changes
+  useEffect(() => {
+    setValue(initialContent);
+    setUnsavedChanges(false);
+    setLastSaved(null);
+  }, [initialContent]);
   
   // Get token from localStorage
   const token = typeof window !== 'undefined' ? localStorage.getItem('editorToken') || '' : '';
@@ -185,72 +194,93 @@ const PlainTextEditor = forwardRef<PlainTextEditorHandle, PlainTextEditorProps>(
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div className="editor-toolbar">
-        <button onClick={handleSave} className="btn-save" disabled={!unsavedChanges}>
-          {unsavedChanges ? 'Save Draft' : 'Saved'}
-        </button>
-        {lastSaved && (
-          <span className="save-status">
-            Last saved: {lastSaved.toLocaleTimeString()}
-          </span>
-        )}
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: '5px' }}>
+        <div style={{ display: 'flex', gap: 'var(--editor-space-sm)', alignItems: 'center' }}>
+          {onNewPost && (
+            <button 
+              onClick={onNewPost}
+              className="editor-btn editor-btn-secondary editor-btn-sm"
+              title="Create a new post"
+            >
+              + New Post
+            </button>
+          )}
+          <button 
+            onClick={handleSave} 
+            className={`editor-btn editor-btn-primary ${!unsavedChanges ? 'editor-btn-success' : ''}`}
+            disabled={!unsavedChanges}
+          >
+            {unsavedChanges ? 'Save Draft' : '✓ Saved'}
+          </button>
+          {lastSaved && (
+            <span className="save-status">
+              Last saved: {lastSaved.toLocaleTimeString()}
+            </span>
+          )}
+        </div>
+        <div style={{ marginLeft: 'auto' }} className="editor-btn-group">
           <button 
             onClick={() => insertMarkdown('**', '**')} 
-            title="Bold"
-            style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
-          >B</button>
+            title="Bold (Ctrl/Cmd+B)"
+            className="editor-btn editor-btn-ghost editor-btn-sm"
+            type="button"
+          ><strong>B</strong></button>
           <button 
             onClick={() => insertMarkdown('*', '*')} 
-            title="Italic"
-            style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
-          >I</button>
+            title="Italic (Ctrl/Cmd+I)"
+            className="editor-btn editor-btn-ghost editor-btn-sm"
+            type="button"
+          ><em>I</em></button>
           <button 
             onClick={() => insertMarkdown('## ')} 
             title="Heading"
-            style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
+            className="editor-btn editor-btn-ghost editor-btn-sm"
+            type="button"
           >H</button>
           <button 
             onClick={() => insertMarkdown('- ')} 
-            title="List"
-            style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
+            title="Bullet List"
+            className="editor-btn editor-btn-ghost editor-btn-sm"
+            type="button"
           >•</button>
           <button 
             onClick={() => insertMarkdown('[', '](url)')} 
-            title="Link"
-            style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
+            title="Insert Link"
+            className="editor-btn editor-btn-ghost editor-btn-sm"
+            type="button"
           >🔗</button>
           <button 
             onClick={() => insertMarkdown('```\n', '\n```')} 
             title="Code Block"
-            style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
+            className="editor-btn editor-btn-ghost editor-btn-sm"
+            type="button"
           >{'<>'}</button>
           <button 
             onClick={() => insertMarkdown('> ')} 
-            title="Quote"
-            style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
+            title="Blockquote"
+            className="editor-btn editor-btn-ghost editor-btn-sm"
+            type="button"
+            aria-label="Insert blockquote"
           >“</button>
           <button 
             onClick={() => insertMarkdown('| Column 1 | Column 2 |\n|----------|----------|\n| ', ' |  |')} 
-            title="Table"
-            style={{ padding: '5px 10px', background: '#fff', border: '1px solid #ddd', borderRadius: '3px', cursor: 'pointer' }}
+            title="Insert Table"
+            className="editor-btn editor-btn-ghost editor-btn-sm"
+            type="button"
           >▦</button>
-          <button 
-            onClick={() => setShowImageUpload(!showImageUpload)} 
-            title="Insert Image"
-            style={{ 
-              padding: '5px 10px', 
-              background: showImageUpload ? '#e0e0e0' : '#fff', 
-              border: '1px solid #ddd', 
-              borderRadius: '3px', 
-              cursor: 'pointer',
-              marginLeft: '10px'
-            }}
-          >📷</button>
         </div>
+        <button 
+          onClick={() => setShowImageUpload(!showImageUpload)} 
+          title="Insert Image"
+          className={`editor-btn editor-btn-sm ${showImageUpload ? 'editor-btn-primary' : 'editor-btn-secondary'}`}
+          type="button"
+          style={{ marginLeft: 'var(--editor-space-md)' }}
+        >
+          📷 Image
+        </button>
       </div>
       
       {showImageUpload && (
-        <div style={{ padding: '20px', borderBottom: '1px solid #ddd' }}>
+        <div style={{ padding: 'var(--editor-space-lg)', borderBottom: '1px solid var(--editor-border-light)', background: 'var(--editor-bg-secondary)' }}>
           <ImageUpload onUpload={handleImageUpload} token={token} />
         </div>
       )}

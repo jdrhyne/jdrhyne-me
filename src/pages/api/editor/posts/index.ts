@@ -3,9 +3,13 @@ import { verifyToken } from '../../../../lib/editor/auth';
 import { listPosts, savePost } from '../../../../lib/editor/storage';
 
 // GET /api/editor/posts - List all posts
-export const GET: APIRoute = async ({ cookies }) => {
-  // Verify authentication
-  const token = cookies.get('editor-token')?.value;
+export const GET: APIRoute = async ({ request, cookies }) => {
+  // Verify authentication - try Bearer token first, then cookie
+  let token = request.headers.get('Authorization')?.replace('Bearer ', '');
+  if (!token) {
+    token = cookies.get('editor-token')?.value;
+  }
+  
   if (!token || !verifyToken(token)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
@@ -30,8 +34,12 @@ export const GET: APIRoute = async ({ cookies }) => {
 
 // POST /api/editor/posts - Create a new post
 export const POST: APIRoute = async ({ request, cookies }) => {
-  // Verify authentication
-  const token = cookies.get('editor-token')?.value;
+  // Verify authentication - try Bearer token first, then cookie
+  let token = request.headers.get('Authorization')?.replace('Bearer ', '');
+  if (!token) {
+    token = cookies.get('editor-token')?.value;
+  }
+  
   if (!token || !verifyToken(token)) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,

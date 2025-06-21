@@ -18,6 +18,9 @@ export default function ImageUpload({ onUpload, token }: ImageUploadProps) {
 
     try {
       const file = acceptedFiles[0];
+      console.log('ImageUpload - Token:', token ? 'present' : 'missing');
+      console.log('ImageUpload - Token length:', token?.length);
+      
       const formData = new FormData();
       formData.append('file', file);
 
@@ -57,25 +60,26 @@ export default function ImageUpload({ onUpload, token }: ImageUploadProps) {
     <div 
       {...getRootProps()} 
       style={{
-        border: '2px dashed #ccc',
-        borderRadius: '4px',
-        padding: '20px',
+        border: `2px dashed var(--editor-border-medium)`,
+        borderRadius: 'var(--editor-radius-md)',
+        padding: 'var(--editor-space-lg)',
         textAlign: 'center',
         cursor: uploading ? 'not-allowed' : 'pointer',
-        backgroundColor: isDragActive ? '#f0f0f0' : 'white',
+        backgroundColor: isDragActive ? 'var(--editor-bg-tertiary)' : 'var(--editor-bg-primary)',
         opacity: uploading ? 0.6 : 1,
+        transition: 'all var(--editor-transition-base)',
       }}
     >
       <input {...getInputProps()} />
       {uploading ? (
-        <p>Uploading...</p>
+        <p style={{ color: 'var(--editor-text-muted)' }}>Uploading...</p>
       ) : isDragActive ? (
-        <p>Drop the image here...</p>
+        <p style={{ color: 'var(--editor-color-primary)' }}>Drop the image here...</p>
       ) : (
-        <p>Drag & drop an image here, or click to select</p>
+        <p style={{ color: 'var(--editor-text-secondary)' }}>Drag & drop an image here, or click to select</p>
       )}
       {error && (
-        <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>
+        <p style={{ color: 'var(--editor-color-danger)', marginTop: 'var(--editor-space-sm)' }}>{error}</p>
       )}
     </div>
   );
