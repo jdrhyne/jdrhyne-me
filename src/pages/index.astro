@@ -11,7 +11,6 @@ const sortedPosts = allPosts.sort((a, b) =>
 const latestPost = sortedPosts[0];
 const olderPosts = sortedPosts.slice(1);
 
-// Get the rendered content for the latest post
 const { Content } = await latestPost.render();
 ---
 
@@ -25,10 +24,7 @@ const { Content } = await latestPost.render();
 
   {latestPost && (
     <article class="latest">
-      <header>
-        <time>{new Date(latestPost.data.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
-        <h2><a href={`/thoughts/${latestPost.slug}`}>{latestPost.data.title.toUpperCase()}</a></h2>
-      </header>
+      <time>{new Date(latestPost.data.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
       <div class="content">
         <Content />
       </div>
@@ -55,11 +51,7 @@ const { Content } = await latestPost.render();
   .intro p { color: var(--gray); margin: 0; }
 
   .latest { margin: 2.5rem 0; }
-  .latest header { margin-bottom: 1.5rem; }
-  .latest header time { font-size: 0.85rem; color: var(--gray); display: block; margin-bottom: 0.5rem; }
-  .latest header h2 { margin: 0; font-size: 1.5rem; }
-  .latest header h2 a { text-decoration: none; }
-  .latest header h2 a:hover { text-decoration: underline; }
+  .latest time { font-size: 0.85rem; color: var(--gray); display: block; margin-bottom: 1rem; }
 
   .content { margin-bottom: 1.5rem; }
 
