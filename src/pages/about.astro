@@ -4,78 +4,135 @@ import { config } from '../config';
 ---
 
 <Layout title="About" description={`About ${config.author.name}`}>
+  <header class="page-header">
+    <span class="label">BIO</span>
+    <h1>ABOUT</h1>
+  </header>
+
   <article class="about">
-    <h1>About</h1>
-    
-    <p class="lead">
-      I'm <strong>Jonathan D. Rhyne</strong>—a lawyer by training, an engineer at heart, and these days the co-founder & CEO of <a href="https://nutrient.io" target="_blank" rel="noopener noreferrer">Nutrient.io</a>.
-    </p>
+    <section class="box intro">
+      <p>
+        I'm <strong>Jonathan D. Rhyne</strong>—a lawyer by training, an engineer at heart, and these days the co-founder & CEO of <a href="https://nutrient.io" target="_blank" rel="noopener noreferrer">Nutrient.io</a>.
+      </p>
+      <p>
+        We build developer-first tools that let teams create, collaborate on, and automate documents across every major framework and device.
+      </p>
+    </section>
 
-    <p>
-      We build developer-first tools that let teams create, collaborate on, and automate documents across every major framework and device. After growing PSPDFKit from a weekend project into the industry-standard PDF SDK, I led our rebrand to Nutrient to reflect a bigger mission: helping the world innovate beyond paper.
-    </p>
+    <section class="section">
+      <h2>THE STACK</h2>
+      <ul>
+        <li><strong>Nutrient Web Viewer & APIs</strong> — headless, high-fidelity document tooling for modern web apps</li>
+        <li><strong>Low-code workflow automation</strong> — bringing citizen developers the same superpowers power users enjoy</li>
+        <li><strong>AI document assistants</strong> — marrying LLMs with rock-solid SDKs</li>
+      </ul>
+    </section>
 
-    <h2>What I'm building</h2>
-    <ul>
-      <li><strong>Nutrient Web Viewer & APIs</strong> — headless, high-fidelity document tooling for modern web apps</li>
-      <li><strong>Low-code workflow automation</strong> — bringing citizen developers the same superpowers power users enjoy</li>
-      <li><strong>AI document assistants</strong> — marrying LLMs with rock-solid SDKs so devs can ship magical experiences in hours, not months</li>
-    </ul>
+    <section class="section">
+      <h2>THE PRINCIPLES</h2>
+      <div class="terminal">
+        <div class="terminal-header">
+          <span>EXEC: VALUES.CONFIG</span>
+          <span>LOADED</span>
+        </div>
+        <div class="terminal-body">
+          <p>01. Extreme ownership — low ego, high accountability</p>
+          <p>02. Relentless curiosity — ship fast, learn faster</p>
+          <p>03. Single-threaded focus — one priority at a time</p>
+          <p>04. Bias for action — momentum beats perfection</p>
+          <p>05. Radical candor — honest feedback fuels growth</p>
+        </div>
+      </div>
+    </section>
 
-    <h2>Principles I live by</h2>
-    <ol>
-      <li><strong>Extreme ownership</strong> — low ego, high accountability</li>
-      <li><strong>Relentless curiosity</strong> — ship fast, learn faster</li>
-      <li><strong>Single-threaded focus</strong> — one priority at a time for compounding results</li>
-      <li><strong>Bias for action</strong> — momentum beats perfection</li>
-      <li><strong>Radical candor</strong> — honest, respectful feedback fuels growth</li>
-    </ol>
+    <section class="section">
+      <h2>BEYOND WORK</h2>
+      <ul>
+        <li>On the pitch — rec-league soccer</li>
+        <li>Under dark skies — astrophotography with the kids</li>
+        <li>At the NC coast — chasing sunrises</li>
+        <li>Behind a Leica — minimalist B&W street shots</li>
+      </ul>
+    </section>
 
-    <h2>Beyond work</h2>
-    <p>When I'm not obsessing over developer experience, you'll find me:</p>
-    <ul>
-      <li>On the pitch — fundraising my cardio keeping up with rec-league soccer</li>
-      <li>Under dark skies — astrophotography and teaching my kids the constellations</li>
-      <li>At the North Carolina coast — chasing sunrises, not deadlines</li>
-      <li>Behind a Leica — minimalist, black-and-white street shots</li>
-    </ul>
-
-    <hr />
-
-    <p>
-      Building something that needs best-in-class document workflows? 
-      <a href={`mailto:${config.social.email}`}>Ping me</a>—always up for chatting code, coffee, or clever growth loops.
-    </p>
+    <section class="box cta">
+      <p>
+        > Building something that needs best-in-class document workflows?<br/>
+        > <a href={`mailto:${config.social.email}`}>Ping me</a>—always up for chatting code, coffee, or clever growth loops.
+      </p>
+    </section>
   </article>
 </Layout>
 
 <style>
-  .about {
-    max-width: 100%;
-  }
-
-  .about h1 {
+  .page-header {
+    padding: var(--space-md) 0;
+    border-bottom: var(--border);
     margin-bottom: var(--space-md);
   }
 
-  .about h2 {
-    margin-top: var(--space-lg);
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--black);
+    color: var(--white);
+    padding: 0.2em 0.5em;
+    display: inline-block;
     margin-bottom: var(--space-sm);
   }
 
-  .lead {
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .box {
+    border: var(--border);
+    padding: var(--space-sm);
+  }
+
+  .box p:last-child {
+    margin-bottom: 0;
+  }
+
+  .section h2 {
     font-size: 1.1rem;
   }
 
-  .about ul, .about ol {
-    margin-top: var(--space-sm);
+  .section ul {
+    margin: 0;
   }
 
-  .about li {
-    margin-bottom: var(--space-xs);
+  .terminal {
+    border: var(--border);
   }
 
-  .about hr {
-    margin: var(--space-lg) 0;
+  .terminal-header {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-xs) var(--space-sm);
+    border-bottom: var(--border);
+    font-size: 0.75rem;
+    background: var(--gray);
+  }
+
+  .terminal-body {
+    padding: var(--space-sm);
+    font-size: 0.85rem;
+  }
+
+  .terminal-body p {
+    margin-bottom: 0.25rem;
+  }
+
+  .terminal-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .cta {
+    background: var(--gray);
   }
 </style>

@@ -25,27 +25,26 @@ const publishedTime = frontmatter.date ? new Date(frontmatter.date).toISOString(
 >
   <article class="post">
     <header class="header">
+      <span class="label">POST</span>
       <time datetime={frontmatter.date}>
         {new Date(frontmatter.date).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
-        })}
+        }).toUpperCase()}
       </time>
-      <h1>{frontmatter.title}</h1>
+      <h1>{frontmatter.title.toUpperCase()}</h1>
       {frontmatter.description && (
-        <p class="description">{frontmatter.description}</p>
+        <p class="description">> {frontmatter.description}</p>
       )}
     </header>
-
-    <hr />
 
     <div class="content">
       <Content />
     </div>
 
     <footer class="footer">
-      <a href="/thoughts" class="back">← All thoughts</a>
+      <a href="/thoughts" class="btn">← BACK TO ARCHIVE</a>
     </footer>
   </article>
 </Layout>
@@ -56,25 +55,39 @@ const publishedTime = frontmatter.date ? new Date(frontmatter.date).toISOString(
   }
 
   .header {
+    padding: var(--space-md) 0;
+    border-bottom: var(--border);
     margin-bottom: var(--space-md);
   }
 
-  .header time {
+  .label {
     font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--black);
+    color: var(--white);
+    padding: 0.2em 0.5em;
+    display: inline-block;
+    margin-bottom: var(--space-sm);
+  }
+
+  .header time {
     display: block;
+    font-size: 0.8rem;
     margin-bottom: var(--space-xs);
+    letter-spacing: 0.02em;
   }
 
   .header h1 {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
     margin-bottom: var(--space-sm);
   }
 
   .description {
-    color: var(--muted);
-    font-style: italic;
+    font-size: 0.95rem;
     margin: 0;
+    opacity: 0.8;
   }
 
   .content {
@@ -83,11 +96,15 @@ const publishedTime = frontmatter.date ? new Date(frontmatter.date).toISOString(
 
   /* Prose styles */
   .content :global(h2) {
+    font-size: 1.25rem;
     margin-top: var(--space-lg);
     margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-xs);
+    border-bottom: 2px solid var(--black);
   }
 
   .content :global(h3) {
+    font-size: 1rem;
     margin-top: var(--space-md);
     margin-bottom: var(--space-sm);
   }
@@ -97,41 +114,46 @@ const publishedTime = frontmatter.date ? new Date(frontmatter.date).toISOString(
   }
 
   .content :global(blockquote) {
-    border-left: 2px solid var(--accent);
-    padding-left: var(--space-sm);
+    border: var(--border);
+    border-left-width: 4px;
+    padding: var(--space-sm);
     margin: var(--space-md) 0;
-    color: var(--muted);
-    font-style: italic;
+    background: var(--gray);
+  }
+
+  .content :global(blockquote p:last-child) {
+    margin-bottom: 0;
   }
 
   .content :global(pre) {
-    background: #1a1a1a;
-    color: #f5f5f5;
+    background: var(--black);
+    color: var(--white);
     padding: var(--space-sm);
     margin: var(--space-md) 0;
-    border-radius: 4px;
     overflow-x: auto;
     font-size: 0.85rem;
     line-height: 1.5;
+    border: var(--border);
   }
 
   .content :global(pre code) {
     background: none;
+    border: none;
     padding: 0;
-    font-size: inherit;
+    color: inherit;
   }
 
   .content :global(code) {
     font-family: var(--font-mono);
     font-size: 0.85em;
-    background: #f0f0f0;
+    background: var(--gray);
     padding: 0.15em 0.4em;
-    border-radius: 3px;
+    border: var(--border);
   }
 
   .content :global(img) {
     margin: var(--space-md) 0;
-    border-radius: 4px;
+    border: var(--border);
   }
 
   .content :global(ul),
@@ -146,22 +168,40 @@ const publishedTime = frontmatter.date ? new Date(frontmatter.date).toISOString(
 
   .content :global(hr) {
     border: none;
-    border-top: 1px solid var(--border);
+    border-top: 2px solid var(--black);
     margin: var(--space-lg) 0;
   }
 
-  .footer {
-    border-top: 1px solid var(--border);
-    padding-top: var(--space-md);
+  .content :global(a) {
+    text-decoration: underline;
   }
 
-  .back {
-    font-size: 0.9rem;
-    color: var(--muted);
+  .content :global(a:hover) {
+    background: var(--black);
+    color: var(--white);
     text-decoration: none;
   }
 
-  .back:hover {
-    color: var(--text);
+  .footer {
+    border-top: var(--border);
+    padding-top: var(--space-md);
+  }
+
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--black);
+    color: var(--white);
+    padding: var(--space-xs) var(--space-sm);
+    border: var(--border);
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn:hover {
+    background: var(--white);
+    color: var(--black);
   }
 </style>

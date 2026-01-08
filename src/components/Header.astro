@@ -3,53 +3,83 @@ import { config } from '../config';
 ---
 
 <header class="header">
-  <a href="/" class="logo">{config.author.name}</a>
-  <nav class="nav">
-    <a href="/thoughts">Thoughts</a>
-    <a href="/about">About</a>
-    <a href="/rss.xml">RSS</a>
-  </nav>
+  <a href="/" class="logo">JDRHYNE_</a>
+  <div class="status">
+    <span class="label">PERSONAL BLOG</span>
+  </div>
 </header>
+
+<nav class="nav">
+  <a href="/thoughts">THOUGHTS</a>
+  <a href="/about">ABOUT</a>
+  <a href="/rss.xml">RSS</a>
+</nav>
 
 <style>
   .header {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
-    padding: var(--space-md) 0;
-    border-bottom: 1px solid var(--border);
+    align-items: center;
+    padding: var(--space-sm) 0;
+    border-bottom: var(--border);
   }
 
   .logo {
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.25rem;
     text-decoration: none;
-    color: var(--text);
+    letter-spacing: -0.02em;
   }
 
   .logo:hover {
-    color: var(--accent);
+    background: none;
+    color: var(--black);
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--black);
+    color: var(--white);
+    padding: 0.2em 0.5em;
   }
 
   .nav {
     display: flex;
-    gap: var(--space-sm);
+    gap: var(--space-md);
+    padding: var(--space-xs) 0;
+    border-bottom: var(--border);
+    font-size: 0.85rem;
   }
 
   .nav a {
-    font-size: 0.9rem;
-    color: var(--muted);
     text-decoration: none;
+    letter-spacing: 0.02em;
   }
 
   .nav a:hover {
-    color: var(--text);
+    text-decoration: underline;
+    background: none;
+    color: var(--black);
   }
 
   @media (max-width: 480px) {
-    .header {
-      flex-direction: column;
-      gap: var(--space-xs);
-      align-items: flex-start;
+    .status {
+      display: none;
+    }
+    
+    .nav {
+      gap: var(--space-sm);
+      font-size: 0.8rem;
     }
   }
 </style>

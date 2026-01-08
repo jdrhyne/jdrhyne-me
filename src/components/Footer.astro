@@ -4,41 +4,51 @@ import { config } from '../config';
 
 <footer class="footer">
   <div class="links">
-    {config.social.github && <a href={config.social.github}>GitHub</a>}
+    {config.social.github && <a href={config.social.github}>GITHUB</a>}
     {config.social.twitter && <a href={config.social.twitter}>X</a>}
-    {config.social.linkedin && <a href={config.social.linkedin}>LinkedIn</a>}
-    {config.social.email && <a href={`mailto:${config.social.email}`}>Email</a>}
+    {config.social.linkedin && <a href={config.social.linkedin}>LINKEDIN</a>}
+    {config.social.email && <a href={`mailto:${config.social.email}`}>EMAIL</a>}
   </div>
-  <p class="copy">© {new Date().getFullYear()} {config.author.name}</p>
+  <div class="copy">
+    © {new Date().getFullYear()} {config.author.name.toUpperCase()}
+  </div>
 </footer>
 
 <style>
   .footer {
-    padding: var(--space-md) 0;
-    border-top: 1px solid var(--border);
-    text-align: center;
+    padding: var(--space-sm) 0;
+    border-top: var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
   }
 
   .links {
     display: flex;
-    justify-content: center;
     gap: var(--space-sm);
-    margin-bottom: var(--space-xs);
   }
 
   .links a {
-    font-size: 0.85rem;
-    color: var(--muted);
     text-decoration: none;
   }
 
   .links a:hover {
-    color: var(--text);
+    text-decoration: underline;
+    background: none;
+    color: var(--black);
   }
 
   .copy {
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin: 0;
+    color: var(--black);
+  }
+
+  @media (max-width: 480px) {
+    .footer {
+      flex-direction: column;
+      gap: var(--space-xs);
+      text-align: center;
+    }
   }
 </style>

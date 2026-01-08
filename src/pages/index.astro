@@ -19,27 +19,38 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
 ---
 
 <Layout title={config.title} description={config.description}>
-  <div class="intro">
-    <h1>{config.author.name}</h1>
+  <section class="hero">
+    <span class="label">SYSTEM ONLINE</span>
+    <h1>CODE.<br/>CURIOSITY.<br/>GROWTH.</h1>
     <p class="tagline">{config.description}</p>
-  </div>
+  </section>
 
-  <hr />
+  <section class="terminal">
+    <div class="terminal-header">
+      <span>EXEC: RECENT_POSTS.SH</span>
+      <span>STATUS: RUNNING</span>
+    </div>
+    <div class="terminal-body">
+      <p>> Initializing blog index...</p>
+      <p>> Found {sortedPosts.length} posts.</p>
+      <p>> --------------------------------</p>
+    </div>
+  </section>
 
   {years.length > 0 ? (
     <div class="posts">
       {years.map(year => (
-        <section class="year-group">
-          <h2 class="year">{year}</h2>
+        <section class="year-section">
+          <h2>{year}</h2>
           <ul class="post-list">
             {postsByYear[year].map(post => (
               <li class="post">
-                <time datetime={post.data.date}>
+                <span class="date">
                   {new Date(post.data.date).toLocaleDateString('en-US', {
                     month: 'short',
-                    day: 'numeric'
-                  })}
-                </time>
+                    day: '2-digit'
+                  }).toUpperCase()}
+                </span>
                 <a href={`/thoughts/${post.slug}`}>{post.data.title}</a>
               </li>
             ))}
@@ -48,63 +59,98 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
       ))}
     </div>
   ) : (
-    <p class="empty">No posts yet.</p>
+    <p>> No posts found.</p>
   )}
 </Layout>
 
 <style>
-  .intro {
-    margin-bottom: var(--space-md);
+  .hero {
+    padding: var(--space-lg) 0 var(--space-md);
   }
 
-  .intro h1 {
-    margin-bottom: var(--space-xs);
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--black);
+    color: var(--white);
+    padding: 0.2em 0.5em;
+    display: inline-block;
+    margin-bottom: var(--space-sm);
+  }
+
+  .hero h1 {
+    margin-bottom: var(--space-sm);
   }
 
   .tagline {
-    color: var(--muted);
-    margin: 0;
+    font-size: 1rem;
+    max-width: 500px;
+  }
+
+  .terminal {
+    border: var(--border);
+    margin-bottom: var(--space-md);
+  }
+
+  .terminal-header {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-xs) var(--space-sm);
+    border-bottom: var(--border);
+    font-size: 0.75rem;
+    background: var(--gray);
+  }
+
+  .terminal-body {
+    padding: var(--space-sm);
+    font-size: 0.85rem;
+  }
+
+  .terminal-body p {
+    margin-bottom: 0.25rem;
   }
 
   .posts {
     display: flex;
     flex-direction: column;
-    gap: var(--space-lg);
+    gap: var(--space-md);
   }
 
-  .year-group {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
+  .year-section {
+    border: var(--border);
+    padding: var(--space-sm);
   }
 
-  .year {
-    font-family: var(--font-mono);
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--muted);
-    margin: 0;
+  .year-section h2 {
+    font-size: 1.25rem;
+    border-bottom: 2px solid var(--black);
+    padding-bottom: var(--space-xs);
+    margin-bottom: var(--space-sm);
   }
 
   .post-list {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
   }
 
   .post {
     display: flex;
     gap: var(--space-sm);
+    padding: var(--space-xs) 0;
+    border-bottom: 1px solid var(--gray);
     align-items: baseline;
   }
 
-  .post time {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--muted);
+  .post:last-child {
+    border-bottom: none;
+  }
+
+  .date {
+    font-size: 0.8rem;
+    color: var(--black);
     min-width: 4rem;
     flex-shrink: 0;
   }
@@ -115,11 +161,7 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
 
   .post a:hover {
     text-decoration: underline;
-    text-decoration-color: var(--accent);
-  }
-
-  .empty {
-    color: var(--muted);
-    font-style: italic;
+    background: none;
+    color: var(--black);
   }
 </style>
