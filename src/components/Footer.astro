@@ -2,23 +2,46 @@
 import { config } from '../config';
 ---
 
-<footer>
-  <a href={config.social.github}>GitHub</a>
-  <a href={config.social.twitter}>X</a>
-  <a href={`mailto:${config.social.email}`}>Email</a>
-  <a href="/rss.xml">RSS</a>
+<footer class="footer">
+  <div class="links">
+    {config.social.github && <a href={config.social.github}>GitHub</a>}
+    {config.social.twitter && <a href={config.social.twitter}>X</a>}
+    {config.social.linkedin && <a href={config.social.linkedin}>LinkedIn</a>}
+    {config.social.email && <a href={`mailto:${config.social.email}`}>Email</a>}
+  </div>
+  <div class="copy">© {new Date().getFullYear()} {config.author.name}</div>
 </footer>
 
 <style>
-  footer {
+  .footer {
+    padding: var(--space-sm) 0;
+    border-top: 2px solid var(--black);
     display: flex;
-    gap: 1.5rem;
-    font-size: 0.9rem;
-    color: var(--gray);
-    border-top: 1px solid var(--light);
-    padding-top: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
   }
 
-  footer a { color: var(--gray); text-decoration: none; }
-  footer a:hover { color: var(--black); }
+  .links {
+    display: flex;
+    gap: var(--space-sm);
+  }
+
+  .links a {
+    text-decoration: none;
+  }
+
+  .links a:hover {
+    text-decoration: underline;
+    background: none;
+    color: var(--black);
+  }
+
+  @media (max-width: 480px) {
+    .footer {
+      flex-direction: column;
+      gap: var(--space-xs);
+      text-align: center;
+    }
+  }
 </style>
