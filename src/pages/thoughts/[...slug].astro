@@ -19,20 +19,38 @@ const { frontmatter, Content } = post;
   type="article"
   publishedTime={frontmatter.date}
 >
-  <article>
+  <article class="post">
     <time>{new Date(frontmatter.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
 
     <div class="content"><Content /></div>
 
+    <hr />
     <footer><a href="/thoughts">← All posts</a></footer>
   </article>
 </Layout>
 
 <style>
-  time { font-size: 0.85rem; color: var(--gray); display: block; margin-bottom: 1rem; }
+  .post {
+    max-width: 65ch;
+  }
 
-  .content { margin-bottom: 3rem; }
+  time { 
+    font-size: 0.85rem; 
+    color: var(--gray); 
+    display: block; 
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.01em;
+  }
 
-  footer a { color: var(--gray); text-decoration: none; }
+  .content { 
+    margin-bottom: 2rem;
+  }
+
+  .content :global(h1:first-child) {
+    margin-top: 0;
+  }
+
+  footer { padding-top: 1rem; }
+  footer a { color: var(--gray); text-decoration: none; font-size: 0.9rem; }
   footer a:hover { color: var(--black); }
 </style>

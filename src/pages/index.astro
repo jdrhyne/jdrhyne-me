@@ -50,22 +50,31 @@ const { Content } = await latestPost.render();
   .intro h1 { margin-bottom: 0.5rem; }
   .intro p { color: var(--gray); margin: 0; }
 
-  .latest { margin: 2.5rem 0; }
-  .latest time { font-size: 0.85rem; color: var(--gray); display: block; margin-bottom: 1rem; }
+  .latest { margin: 2rem 0; }
+  .latest time { 
+    font-size: 0.85rem; 
+    color: var(--gray); 
+    display: block; 
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.01em;
+  }
 
-  .content { margin-bottom: 1.5rem; }
+  .content { 
+    margin-bottom: 1.5rem;
+    max-width: 65ch;
+  }
 
   .permalink { font-size: 0.85rem; color: var(--gray); text-decoration: none; }
   .permalink:hover { color: var(--black); }
 
   .older { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--light); }
-  .older h3 { font-size: 0.9rem; margin-bottom: 1rem; color: var(--gray); }
+  .older h3 { font-size: 0.85rem; margin-bottom: 1rem; color: var(--gray); font-weight: 700; }
 
   .post {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 0.5rem 0;
+    padding: 0.6rem 0;
     text-decoration: none;
   }
   .post:hover .title { text-decoration: underline; }
