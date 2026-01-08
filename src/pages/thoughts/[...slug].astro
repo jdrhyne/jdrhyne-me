@@ -3,7 +3,6 @@ import Layout from '../../components/Layout.astro';
 
 export async function getStaticPaths() {
   const posts = await Astro.glob('../../content/thoughts/*.md');
-  
   return posts.map(post => ({
     params: { slug: post.file.split('/').pop()?.replace('.md', '') },
     props: { post }
@@ -12,115 +11,33 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { frontmatter, Content } = post;
-
-const pageTitle = frontmatter.title;
-const publishedTime = frontmatter.date ? new Date(frontmatter.date).toISOString() : undefined;
 ---
 
 <Layout 
-  title={pageTitle} 
-  description={frontmatter.description || frontmatter.excerpt}
+  title={frontmatter.title} 
+  description={frontmatter.description}
   type="article"
-  publishedTime={publishedTime}
+  publishedTime={frontmatter.date}
 >
-  <article class="post">
-    <header class="header">
-      <time datetime={frontmatter.date}>
-        {new Date(frontmatter.date).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })}
-      </time>
+  <article>
+    <header>
+      <time>{new Date(frontmatter.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
       <h1>{frontmatter.title.toUpperCase()}</h1>
-      {frontmatter.description && (
-        <p class="description">{frontmatter.description}</p>
-      )}
     </header>
 
-    <div class="content">
-      <Content />
-    </div>
+    <div class="content"><Content /></div>
 
-    <footer class="footer">
-      <a href="/thoughts">← Back to all posts</a>
-    </footer>
+    <footer><a href="/thoughts">← All posts</a></footer>
   </article>
 </Layout>
 
 <style>
-  .header {
-    padding: var(--space-md) 0;
-    border-bottom: 2px solid var(--black);
-    margin-bottom: var(--space-md);
-  }
+  header { margin-bottom: 2.5rem; }
+  header time { font-size: 0.85rem; color: var(--gray); display: block; margin-bottom: 0.5rem; }
+  header h1 { margin: 0; }
 
-  .header time {
-    display: block;
-    font-size: 0.85rem;
-    margin-bottom: var(--space-xs);
-    opacity: 0.6;
-  }
+  .content { margin-bottom: 3rem; }
 
-  .header h1 {
-    margin-bottom: var(--space-sm);
-  }
-
-  .description {
-    margin: 0;
-    opacity: 0.8;
-  }
-
-  .content {
-    margin-bottom: var(--space-lg);
-  }
-
-  .content :global(h2) {
-    margin-top: var(--space-lg);
-    margin-bottom: var(--space-sm);
-  }
-
-  .content :global(h3) {
-    margin-top: var(--space-md);
-    margin-bottom: var(--space-sm);
-  }
-
-  .content :global(blockquote) {
-    border-left: 3px solid var(--black);
-    padding-left: var(--space-sm);
-    margin: var(--space-md) 0;
-  }
-
-  .content :global(pre) {
-    background: var(--black);
-    color: var(--white);
-    padding: var(--space-sm);
-    margin: var(--space-md) 0;
-    overflow-x: auto;
-  }
-
-  .content :global(pre code) {
-    background: none;
-    padding: 0;
-    color: inherit;
-  }
-
-  .content :global(img) {
-    margin: var(--space-md) 0;
-  }
-
-  .footer {
-    border-top: 2px solid var(--black);
-    padding-top: var(--space-md);
-  }
-
-  .footer a {
-    text-decoration: none;
-  }
-
-  .footer a:hover {
-    text-decoration: underline;
-    background: none;
-    color: var(--black);
-  }
+  footer a { color: var(--gray); text-decoration: none; }
+  footer a:hover { color: var(--black); }
 </style>

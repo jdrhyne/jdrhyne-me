@@ -3,119 +3,37 @@ import Layout from '../components/Layout.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('thoughts');
-const sortedPosts = allPosts
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
-
-// Group posts by year
-const postsByYear = sortedPosts.reduce((acc, post) => {
-  const year = new Date(post.data.date).getFullYear();
-  if (!acc[year]) acc[year] = [];
-  acc[year].push(post);
-  return acc;
-}, {} as Record<number, typeof sortedPosts>);
-
-const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
+const sortedPosts = allPosts.sort((a, b) => 
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
 ---
 
-<Layout title="Thoughts" description="All thoughts and writings">
-  <header class="page-header">
-    <h1>THOUGHTS</h1>
-  </header>
+<Layout title="Writing" description="All posts">
+  <h1>WRITING</h1>
 
-  {years.length > 0 && (
-    <div class="posts">
-      {years.map(year => (
-        <section class="year-group">
-          <h2>{year}</h2>
-          <ul class="post-list">
-            {postsByYear[year].map(post => (
-              <li>
-                <div class="post-row">
-                  <span class="date">
-                    {new Date(post.data.date).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric'
-                    })}
-                  </span>
-                  <a href={`/thoughts/${post.slug}`}>{post.data.title}</a>
-                </div>
-                {post.data.description && (
-                  <p class="excerpt">{post.data.description}</p>
-                )}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
-    </div>
-  )}
+  <div class="posts">
+    {sortedPosts.map(post => (
+      <a href={`/thoughts/${post.slug}`} class="post">
+        <span class="title">{post.data.title}</span>
+        <span class="date">{new Date(post.data.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+      </a>
+    ))}
+  </div>
 </Layout>
 
 <style>
-  .page-header {
-    padding: var(--space-md) 0;
-    border-bottom: 2px solid var(--black);
-    margin-bottom: var(--space-md);
-  }
+  h1 { margin-bottom: 2rem; }
 
-  .page-header h1 {
-    margin: 0;
-  }
-
-  .posts {
+  .post {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-  }
-
-  .year-group h2 {
-    font-size: 1.25rem;
-  }
-
-  .post-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .post-list li {
-    padding: var(--space-sm) 0;
-    border-bottom: 1px solid var(--gray);
-  }
-
-  .post-list li:last-child {
-    border-bottom: none;
-  }
-
-  .post-row {
-    display: flex;
-    gap: var(--space-sm);
+    justify-content: space-between;
     align-items: baseline;
-    margin-bottom: var(--space-xs);
-  }
-
-  .date {
-    font-size: 0.85rem;
-    min-width: 4.5rem;
-    flex-shrink: 0;
-    opacity: 0.6;
-  }
-
-  .post-row a {
+    padding: 0.75rem 0;
     text-decoration: none;
-    font-weight: 500;
+    border-bottom: 1px solid var(--light);
   }
+  .post:last-child { border-bottom: none; }
+  .post:hover .title { text-decoration: underline; }
 
-  .post-row a:hover {
-    text-decoration: underline;
-    background: none;
-    color: var(--black);
-  }
-
-  .excerpt {
-    font-size: 0.9rem;
-    margin: 0;
-    padding-left: calc(4.5rem + var(--space-sm));
-    opacity: 0.7;
-  }
+  .date { font-size: 0.85rem; color: var(--gray); }
 </style>

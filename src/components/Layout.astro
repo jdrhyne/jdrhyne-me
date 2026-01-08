@@ -24,7 +24,7 @@ const { title, description, image, type, publishedTime, canonical } = Astro.prop
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <SEO
       title={title}
       description={description}
@@ -37,9 +37,7 @@ const { title, description, image, type, publishedTime, canonical } = Astro.prop
   <body>
     <div class="site">
       <Header />
-      <main class="main">
-        <slot />
-      </main>
+      <main><slot /></main>
       <Footer />
     </div>
   </body>
@@ -47,22 +45,9 @@ const { title, description, image, type, publishedTime, canonical } = Astro.prop
 
 <style>
   .site {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 0 var(--space-sm);
+    padding: 3rem 1.5rem;
   }
-
-  .main {
-    flex: 1;
-    padding: var(--space-md) 0;
-  }
-
-  @media (min-width: 640px) {
-    .site {
-      padding: 0 var(--space-md);
-    }
-  }
+  main { padding: 3rem 0; }
 </style>

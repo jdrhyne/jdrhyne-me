@@ -1,58 +1,31 @@
 ---
-import { config } from '../config';
 ---
 
-<header class="header">
+<header>
   <a href="/" class="logo">JDRHYNE</a>
-  <nav class="nav">
-    <a href="/thoughts">Thoughts</a>
+  <nav>
+    <a href="/thoughts">Writing</a>
     <a href="/about">About</a>
     <a href="/rss.xml">RSS</a>
   </nav>
 </header>
 
 <style>
-  .header {
+  header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: var(--space-sm) 0;
-    border-bottom: 2px solid var(--black);
+    align-items: baseline;
   }
 
   .logo {
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     text-decoration: none;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
   }
 
-  .logo:hover {
-    background: none;
-    color: var(--black);
-  }
-
-  .nav {
-    display: flex;
-    gap: var(--space-md);
-    font-size: 0.9rem;
-  }
-
-  .nav a {
-    text-decoration: none;
-  }
-
-  .nav a:hover {
-    text-decoration: underline;
-    background: none;
-    color: var(--black);
-  }
-
-  @media (max-width: 480px) {
-    .nav {
-      gap: var(--space-sm);
-      font-size: 0.85rem;
-    }
-  }
+  nav { display: flex; gap: 1.5rem; font-size: 0.9rem; }
+  nav a { text-decoration: none; color: var(--gray); }
+  nav a:hover { color: var(--black); }
 </style>
