@@ -7,533 +7,119 @@ const allPosts = await getCollection('thoughts');
 const sortedPosts = allPosts
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
-// Group posts by year for display
+// Group posts by year
 const postsByYear = sortedPosts.reduce((acc, post) => {
   const year = new Date(post.data.date).getFullYear();
-  if (!acc[year]) {
-    acc[year] = [];
-  }
+  if (!acc[year]) acc[year] = [];
   acc[year].push(post);
   return acc;
 }, {} as Record<number, typeof sortedPosts>);
 
-// Get the most recent years (up to 2 years)
-const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a).slice(0, 2);
+const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
 ---
 
-<Layout title={`${config.title} - ${config.description}`} description={config.description} showSidebar={true}>
-  <div class="landing-page">
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1 class="hero-title">Scaling Ideas Beyond Paper</h1>
-        <p class="hero-subtitle">Code, Curiosity, and Continuous Growth</p>
-        <hr class="hero-rule" />
-        <div class="hero-actions">
-          <a href="/thoughts" class="btn btn-primary">My Thoughts</a>
-          <a href="/about" class="btn btn-secondary">About Me</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Demo Section -->
-    <section class="demo-section" id="demo">
-      <div class="container">
-        <h2 class="section-title">Recent Thoughts</h2>
-        
-        {sortedPosts.length > 0 && (
-          <div class="demo-posts-by-year">
-            {years.map(year => (
-              <section class="demo-year-section">
-                <h3 class="demo-year-title">{year}</h3>
-                <div class="demo-posts">
-                  {postsByYear[year].slice(0, 3).map(post => (
-                    <article class="demo-post-card">
-                      <h4 class="demo-post-title">
-                        <a href={`/thoughts/${post.slug}`}>{post.data.title}</a>
-                      </h4>
-                      
-                      <time class="demo-post-date" datetime={post.data.date}>
-                        {new Date(post.data.date).toLocaleDateString('en-US', {
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </time>
-                      
-                      {post.data.description && (
-                        <p class="demo-post-excerpt">{post.data.description}</p>
-                      )}
-                      
-                      {post.data.tags && (
-                        <div class="demo-post-categories">
-                          {post.data.tags.map((tag) => (
-                            <span class="demo-category">{tag}</span>
-                          ))}
-                        </div>
-                      )}
-                    </article>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
-        )}
-        
-        <div class="demo-actions">
-          <a href="/thoughts" class="btn btn-primary">View All Thoughts</a>
-        </div>
-      </div>
-    </section>
-
+<Layout title={config.title} description={config.description}>
+  <div class="intro">
+    <h1>{config.author.name}</h1>
+    <p class="tagline">{config.description}</p>
   </div>
+
+  <hr />
+
+  {years.length > 0 ? (
+    <div class="posts">
+      {years.map(year => (
+        <section class="year-group">
+          <h2 class="year">{year}</h2>
+          <ul class="post-list">
+            {postsByYear[year].map(post => (
+              <li class="post">
+                <time datetime={post.data.date}>
+                  {new Date(post.data.date).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric'
+                  })}
+                </time>
+                <a href={`/thoughts/${post.slug}`}>{post.data.title}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  ) : (
+    <p class="empty">No posts yet.</p>
+  )}
 </Layout>
 
 <style>
-  .landing-page {
-    width: 100%;
+  .intro {
+    margin-bottom: var(--space-md);
   }
 
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--content-padding);
+  .intro h1 {
+    margin-bottom: var(--space-xs);
   }
 
-  .hero {
-    text-align: center;
-    padding: calc(var(--grid-unit) * 8) 0 calc(var(--grid-unit) * 2);
-    background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-background) 100%);
-  }
-
-  .hero-content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 var(--content-padding);
-  }
-
-  .hero-title {
-    font-family: var(--font-heading-primary);
-    font-size: 4.5rem;
-    font-weight: 700;
-    color: var(--color-accent);
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    line-height: 0.9;
-    margin-bottom: calc(var(--grid-unit) * 2);
-  }
-
-  .hero-subtitle {
-    font-family: var(--font-heading-secondary);
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    margin-bottom: calc(var(--grid-unit) * 3);
-  }
-
-  .hero-description {
-    font-size: 1.375rem;
-    line-height: 1.6;
-    color: var(--color-text-primary);
-    margin-bottom: calc(var(--grid-unit) * 4);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .hero-rule {
-    height: 6px;
-    background-color: var(--color-accent);
-    border: none;
-    width: 150px;
-    margin: 0 auto calc(var(--grid-unit) * 4);
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: calc(var(--grid-unit) * 2);
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    font-family: var(--font-heading-secondary);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: calc(var(--grid-unit) * 1.5) calc(var(--grid-unit) * 3);
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 0.95rem;
-  }
-
-  .btn-primary {
-    background-color: var(--color-accent);
-    color: white;
-    border: 2px solid var(--color-accent);
-  }
-
-  .btn-primary:hover,
-  .btn-primary:focus {
-    background-color: transparent;
-    color: var(--color-accent);
-    transform: translateY(-2px);
-  }
-
-  .btn-secondary {
-    background-color: transparent;
-    color: var(--color-text-primary);
-    border: 2px solid var(--color-border);
-  }
-
-  .btn-secondary:hover,
-  .btn-secondary:focus {
-    background-color: var(--color-text-primary);
-    color: white;
-    transform: translateY(-2px);
-  }
-
-  .features {
-    padding: calc(var(--grid-unit) * 8) 0;
-  }
-
-  .section-title {
-    font-family: var(--font-heading-secondary);
-    font-size: 2.5rem;
-    font-weight: 900;
-    color: var(--color-accent);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: calc(var(--grid-unit) * 6);
-    text-align: center;
-  }
-
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: calc(var(--grid-unit) * 4);
-  }
-
-  .feature-card {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: calc(var(--grid-unit) * 4);
-    text-align: center;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-  }
-
-  .feature-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--color-accent);
-  }
-
-  .feature-icon {
-    font-size: 3rem;
-    margin-bottom: calc(var(--grid-unit) * 2);
-  }
-
-  .feature-title {
-    font-family: var(--font-heading-secondary);
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--color-accent);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: calc(var(--grid-unit) * 1.5);
-  }
-
-  .feature-description {
-    color: var(--color-text-secondary);
-    line-height: 1.6;
+  .tagline {
+    color: var(--muted);
     margin: 0;
   }
 
-  /* Typography Showcase */
-  .typography-showcase {
-    padding: calc(var(--grid-unit) * 8) 0;
-    background-color: var(--color-surface);
+  .posts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
   }
 
-  .typography-description {
-    text-align: center;
-    font-size: 1.125rem;
-    color: var(--color-text-secondary);
-    margin-bottom: calc(var(--grid-unit) * 6);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+  .year-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
   }
 
-  .typography-samples {
-    display: grid;
-    gap: calc(var(--grid-unit) * 6);
-  }
-
-  .type-sample {
-    text-align: center;
-    padding: calc(var(--grid-unit) * 4);
-    background-color: var(--color-background);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-  }
-
-  .sample-h1 {
-    font-family: var(--font-heading-primary);
-    font-size: 3.5rem;
-    font-weight: 700;
-    color: var(--color-accent);
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    line-height: 1.1;
-    margin-bottom: calc(var(--grid-unit) * 2);
-  }
-
-  .sample-h2 {
-    font-family: var(--font-heading-secondary);
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--color-accent);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    line-height: 1.2;
-    margin-bottom: calc(var(--grid-unit) * 2);
-  }
-
-  .sample-body {
-    font-family: var(--font-body);
-    font-size: 1.125rem;
-    line-height: 1.6;
-    color: var(--color-text-primary);
-    margin-bottom: calc(var(--grid-unit) * 2);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .sample-code {
+  .year {
     font-family: var(--font-mono);
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    padding: calc(var(--grid-unit)) calc(var(--grid-unit) * 1.5);
-    border-radius: 4px;
-    display: inline-block;
-    margin-bottom: calc(var(--grid-unit) * 2);
-    color: var(--color-text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin: 0;
   }
 
-  .type-meta {
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .post {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: baseline;
+  }
+
+  .post time {
     font-family: var(--font-mono);
     font-size: 0.85rem;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin: 0;
+    color: var(--muted);
+    min-width: 4rem;
+    flex-shrink: 0;
   }
 
-  .demo-section {
-    padding: calc(var(--grid-unit) * 2) 0;
-  }
-
-  .demo-description {
-    text-align: center;
-    font-size: 1.125rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-    margin-bottom: calc(var(--grid-unit) * 3);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .demo-posts-by-year {
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--grid-unit) * 4);
-    margin-bottom: calc(var(--grid-unit) * 4);
-  }
-
-  .demo-year-section {
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--grid-unit) * 2);
-  }
-
-  .demo-year-title {
-    font-family: var(--font-heading-primary);
-    font-size: 2.5rem;
-    font-weight: 900;
-    color: var(--color-accent);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin: 0;
-    padding-bottom: calc(var(--grid-unit) * 1.5);
-    border-bottom: 3px solid var(--color-accent);
-    margin-bottom: calc(var(--grid-unit) * 2);
-    text-align: center;
-  }
-
-  .demo-posts {
-    display: grid;
-    gap: calc(var(--grid-unit) * 3);
-    margin-bottom: calc(var(--grid-unit) * 3);
-  }
-
-  .demo-post-card {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: calc(var(--grid-unit) * 3);
-    transition: transform 0.2s ease, border-color 0.2s ease;
-  }
-
-  .demo-post-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--color-accent);
-  }
-
-  .demo-post-title {
-    font-family: var(--font-heading-secondary);
-    font-size: 1.375rem;
-    font-weight: 700;
-    margin-bottom: calc(var(--grid-unit));
-  }
-
-  .demo-post-title a {
-    color: var(--color-text-primary);
+  .post a {
     text-decoration: none;
   }
 
-  .demo-post-title a:hover,
-  .demo-post-title a:focus {
-    color: var(--color-accent);
+  .post a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
   }
 
-  .demo-post-date {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    display: block;
-    margin-bottom: calc(var(--grid-unit) * 1.5);
-  }
-
-  .demo-post-excerpt {
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-    margin-bottom: calc(var(--grid-unit) * 2);
-  }
-
-  .demo-post-categories {
-    display: flex;
-    flex-wrap: wrap;
-    gap: calc(var(--grid-unit) / 2);
-  }
-
-  .demo-category {
-    background-color: var(--color-text-primary);
-    color: white;
-    padding: calc(var(--grid-unit) / 4) calc(var(--grid-unit) / 2);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-radius: 2px;
-  }
-
-  .demo-actions {
-    text-align: center;
-  }
-
-  .installation {
-    padding: calc(var(--grid-unit) * 8) 0;
-    background-color: var(--color-surface);
-  }
-
-  .install-steps {
-    display: grid;
-    gap: calc(var(--grid-unit) * 4);
-  }
-
-  .step {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: calc(var(--grid-unit) * 2);
-    align-items: start;
-  }
-
-  .step-number {
-    font-family: var(--font-heading-primary);
-    font-size: 3rem;
-    font-weight: 900;
-    color: var(--color-accent);
-    margin: 0;
-  }
-
-  .step-content {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .step-title {
-    font-family: var(--font-heading-secondary);
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: calc(var(--grid-unit));
-  }
-
-  .code-block {
-    background-color: var(--color-text-primary);
-    color: var(--color-background);
-    padding: calc(var(--grid-unit) * 2);
-    border-radius: 8px;
-    overflow-x: auto;
-    margin: 0;
-  }
-
-  .code-block code {
-    font-family: var(--font-mono);
-    background: none;
-    border: none;
-    color: inherit;
-  }
-
-  @media (max-width: 768px) {
-    .hero-title {
-      font-size: 3rem;
-    }
-
-    .hero-subtitle {
-      font-size: 1.25rem;
-    }
-
-    .hero-description {
-      font-size: 1.125rem;
-    }
-
-    .hero-actions {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .features-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .step {
-      grid-template-columns: 1fr;
-      text-align: center;
-    }
-
-    .step-number {
-      font-size: 2rem;
-    }
+  .empty {
+    color: var(--muted);
+    font-style: italic;
   }
 </style>
