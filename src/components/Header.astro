@@ -1,8 +1,9 @@
 ---
+const isHome = Astro.url.pathname === '/';
 ---
 
 <header>
-  <a href="/" class="logo">JDRHYNE</a>
+  {!isHome && <a href="/" class="logo">JDRHYNE</a>}
   <nav>
     <a href="/thoughts">Writing</a>
     <a href="/about">About</a>
@@ -25,7 +26,7 @@
     letter-spacing: -0.01em;
   }
 
-  nav { display: flex; gap: 1.5rem; font-size: 0.9rem; }
+  nav { display: flex; gap: 1.5rem; font-size: 0.9rem; margin-left: auto; }
   nav a { text-decoration: none; color: var(--gray); }
   nav a:hover { color: var(--black); }
 </style>
