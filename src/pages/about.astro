@@ -4,67 +4,23 @@ import { config } from '../config';
 ---
 
 <Layout title="About" description={`About ${config.author.name}`}>
-  <header class="page-header">
-    <h1>ABOUT</h1>
-  </header>
+  <h1>About</h1>
 
-  <article class="about">
-    <p class="lead">
-      I'm <strong>Jonathan D. Rhyne</strong>—a lawyer by training, an engineer at heart, and these days the co-founder & CEO of <a href="https://nutrient.io" target="_blank" rel="noopener noreferrer">Nutrient.io</a>.
-    </p>
+  <p>
+    I'm Jonathan—co-founder & CEO of <a href="https://nutrient.io">Nutrient</a>, 
+    where we build document tools for developers. Previously grew PSPDFKit from 
+    a weekend project into the industry-standard PDF SDK.
+  </p>
 
-    <p>
-      We build developer-first tools that let teams create, collaborate on, and automate documents across every major framework and device. After growing PSPDFKit from a weekend project into the industry-standard PDF SDK, I led our rebrand to Nutrient to reflect a bigger mission: helping the world innovate beyond paper.
-    </p>
+  <p>
+    Lawyer by training, engineer at heart. Based in North Carolina.
+  </p>
 
-    <h2>What I'm building</h2>
-    <ul>
-      <li><strong>Nutrient Web Viewer & APIs</strong> — headless, high-fidelity document tooling for modern web apps</li>
-      <li><strong>Low-code workflow automation</strong> — bringing citizen developers the same superpowers power users enjoy</li>
-      <li><strong>AI document assistants</strong> — marrying LLMs with rock-solid SDKs</li>
-    </ul>
-
-    <h2>Principles</h2>
-    <ol>
-      <li><strong>Extreme ownership</strong> — low ego, high accountability</li>
-      <li><strong>Relentless curiosity</strong> — ship fast, learn faster</li>
-      <li><strong>Single-threaded focus</strong> — one priority at a time</li>
-      <li><strong>Bias for action</strong> — momentum beats perfection</li>
-      <li><strong>Radical candor</strong> — honest feedback fuels growth</li>
-    </ol>
-
-    <h2>Beyond work</h2>
-    <ul>
-      <li>Rec-league soccer</li>
-      <li>Astrophotography with the kids</li>
-      <li>NC coast sunrises</li>
-      <li>Minimalist B&W photography (Leica)</li>
-    </ul>
-
-    <hr />
-
-    <p>
-      Building something that needs document workflows? <a href={`mailto:${config.social.email}`}>Say hi</a>.
-    </p>
-  </article>
+  <h2>Elsewhere</h2>
+  <ul>
+    <li><a href={config.social.github}>GitHub</a></li>
+    <li><a href={config.social.twitter}>X</a></li>
+    <li><a href={config.social.linkedin}>LinkedIn</a></li>
+    <li><a href={`mailto:${config.social.email}`}>{config.social.email}</a></li>
+  </ul>
 </Layout>
-
-<style>
-  .page-header {
-    padding: var(--space-md) 0;
-    border-bottom: 2px solid var(--black);
-    margin-bottom: var(--space-md);
-  }
-
-  .page-header h1 {
-    margin: 0;
-  }
-
-  .about h2 {
-    margin-top: var(--space-lg);
-  }
-
-  .lead {
-    font-size: 1.1rem;
-  }
-</style>
