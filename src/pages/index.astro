@@ -7,6 +7,12 @@ const allPosts = await getCollection('thoughts');
 const sortedPosts = allPosts.sort((a, b) => 
   new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
+
+const latestPost = sortedPosts[0];
+const olderPosts = sortedPosts.slice(1);
+
+// Get the rendered content for the latest post
+const { Content } = await latestPost.render();
 ---
 
 <Layout title={config.title} description={config.description}>
@@ -15,34 +21,61 @@ const sortedPosts = allPosts.sort((a, b) =>
     <p>Code, curiosity, and continuous growth.</p>
   </section>
 
-  <section class="posts">
-    <h2>Writing</h2>
-    {sortedPosts.map(post => (
-      <a href={`/thoughts/${post.slug}`} class="post">
-        <span class="title">{post.data.title}</span>
-        <span class="date">{new Date(post.data.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
-      </a>
-    ))}
-  </section>
+  <hr />
+
+  {latestPost && (
+    <article class="latest">
+      <header>
+        <time>{new Date(latestPost.data.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
+        <h2><a href={`/thoughts/${latestPost.slug}`}>{latestPost.data.title.toUpperCase()}</a></h2>
+      </header>
+      <div class="content">
+        <Content />
+      </div>
+      <a href={`/thoughts/${latestPost.slug}`} class="permalink">Permalink →</a>
+    </article>
+  )}
+
+  {olderPosts.length > 0 && (
+    <section class="older">
+      <h3>OLDER POSTS</h3>
+      {olderPosts.map(post => (
+        <a href={`/thoughts/${post.slug}`} class="post">
+          <span class="title">{post.data.title}</span>
+          <span class="date">{new Date(post.data.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+        </a>
+      ))}
+    </section>
+  )}
 </Layout>
 
 <style>
-  .intro { margin-bottom: 3rem; }
+  .intro { margin-bottom: 1.5rem; }
   .intro h1 { margin-bottom: 0.5rem; }
   .intro p { color: var(--gray); margin: 0; }
 
-  .posts h2 { margin-top: 0; margin-bottom: 1.5rem; }
+  .latest { margin: 2.5rem 0; }
+  .latest header { margin-bottom: 1.5rem; }
+  .latest header time { font-size: 0.85rem; color: var(--gray); display: block; margin-bottom: 0.5rem; }
+  .latest header h2 { margin: 0; font-size: 1.5rem; }
+  .latest header h2 a { text-decoration: none; }
+  .latest header h2 a:hover { text-decoration: underline; }
+
+  .content { margin-bottom: 1.5rem; }
+
+  .permalink { font-size: 0.85rem; color: var(--gray); text-decoration: none; }
+  .permalink:hover { color: var(--black); }
+
+  .older { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--light); }
+  .older h3 { font-size: 0.9rem; margin-bottom: 1rem; color: var(--gray); }
 
   .post {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 0.6rem 0;
+    padding: 0.5rem 0;
     text-decoration: none;
-    border-bottom: 1px solid var(--light);
   }
-  .post:last-child { border-bottom: none; }
   .post:hover .title { text-decoration: underline; }
-
   .date { font-size: 0.85rem; color: var(--gray); }
 </style>
