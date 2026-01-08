@@ -15,11 +15,6 @@ const { Content } = await latestPost.render();
 ---
 
 <Layout title={config.title} description={config.description}>
-  <section class="intro">
-    <h1>JONATHAN D. RHYNE</h1>
-    <p>Code, curiosity, and continuous growth.</p>
-  </section>
-
   <hr />
 
   {latestPost && (
@@ -46,9 +41,7 @@ const { Content } = await latestPost.render();
 </Layout>
 
 <style>
-  .intro { margin-bottom: 1.5rem; }
-  .intro h1 { margin-bottom: 0.5rem; }
-  .intro p { color: var(--gray); margin: 0; }
+  hr { margin-top: 2rem; }
 
   .latest { margin: 2rem 0; }
   .latest time { 
