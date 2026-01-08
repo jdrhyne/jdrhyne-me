@@ -39,25 +39,23 @@ const { Content } = await latestPost.render();
 </Layout>
 
 <style>
-  .latest { margin: 2rem 0; }
+  .latest { margin: 1.5rem 0; }
   .latest time { 
     font-size: 0.85rem; 
     color: var(--gray); 
     display: block; 
     margin-bottom: 0.5rem;
-    letter-spacing: 0.01em;
   }
 
   .content { 
     margin-bottom: 1.5rem;
-    max-width: 65ch;
   }
 
-  .permalink { font-size: 0.85rem; color: var(--gray); text-decoration: none; }
+  .permalink { font-size: 0.9rem; color: var(--gray); text-decoration: none; }
   .permalink:hover { color: var(--black); }
 
   .older { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--light); }
-  .older h3 { font-size: 0.85rem; margin-bottom: 1rem; color: var(--gray); font-weight: 700; }
+  .older h3 { font-size: 0.8rem; margin-bottom: 1rem; color: var(--gray); font-weight: 700; letter-spacing: 0.02em; }
 
   .post {
     display: flex;
