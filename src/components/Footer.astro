@@ -3,16 +3,22 @@ import { config } from '../config';
 ---
 
 <footer>
+  <a href="/about">About</a>
+  <a href="/thoughts">Archive</a>
   <a href={config.social.github}>GitHub</a>
   <a href={config.social.twitter}>X</a>
-  <a href={config.social.linkedin}>LinkedIn</a>
+  <a href="/rss.xml">RSS</a>
 </footer>
 
 <style>
   footer {
     display: flex;
+    flex-wrap: wrap;
     gap: 1.5rem;
     font-size: 0.85rem;
+    border-top: 1px solid var(--light);
+    padding-top: 2rem;
+    margin-top: 3rem;
   }
   footer a { text-decoration: none; color: var(--gray); }
   footer a:hover { color: var(--black); }

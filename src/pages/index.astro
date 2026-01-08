@@ -15,8 +15,6 @@ const { Content } = await latestPost.render();
 ---
 
 <Layout title={config.title} description={config.description}>
-  <hr />
-
   {latestPost && (
     <article class="latest">
       <time>{new Date(latestPost.data.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
@@ -41,8 +39,6 @@ const { Content } = await latestPost.render();
 </Layout>
 
 <style>
-  hr { margin-top: 2rem; }
-
   .latest { margin: 2rem 0; }
   .latest time { 
     font-size: 0.85rem; 
