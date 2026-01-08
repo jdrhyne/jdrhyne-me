@@ -3,17 +3,13 @@ import { config } from '../config';
 ---
 
 <header class="header">
-  <a href="/" class="logo">JDRHYNE_</a>
-  <div class="status">
-    <span class="label">PERSONAL BLOG</span>
-  </div>
+  <a href="/" class="logo">JDRHYNE</a>
+  <nav class="nav">
+    <a href="/thoughts">Thoughts</a>
+    <a href="/about">About</a>
+    <a href="/rss.xml">RSS</a>
+  </nav>
 </header>
-
-<nav class="nav">
-  <a href="/thoughts">THOUGHTS</a>
-  <a href="/about">ABOUT</a>
-  <a href="/rss.xml">RSS</a>
-</nav>
 
 <style>
   .header {
@@ -21,7 +17,7 @@ import { config } from '../config';
     justify-content: space-between;
     align-items: center;
     padding: var(--space-sm) 0;
-    border-bottom: var(--border);
+    border-bottom: 2px solid var(--black);
   }
 
   .logo {
@@ -37,33 +33,14 @@ import { config } from '../config';
     color: var(--black);
   }
 
-  .status {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-  }
-
-  .label {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: var(--black);
-    color: var(--white);
-    padding: 0.2em 0.5em;
-  }
-
   .nav {
     display: flex;
     gap: var(--space-md);
-    padding: var(--space-xs) 0;
-    border-bottom: var(--border);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
 
   .nav a {
     text-decoration: none;
-    letter-spacing: 0.02em;
   }
 
   .nav a:hover {
@@ -73,13 +50,9 @@ import { config } from '../config';
   }
 
   @media (max-width: 480px) {
-    .status {
-      display: none;
-    }
-    
     .nav {
       gap: var(--space-sm);
-      font-size: 0.8rem;
+      font-size: 0.85rem;
     }
   }
 </style>

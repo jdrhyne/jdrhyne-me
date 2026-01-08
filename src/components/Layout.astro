@@ -53,8 +53,6 @@ const { title, description, image, type, publishedTime, canonical } = Astro.prop
     max-width: var(--max-width);
     margin: 0 auto;
     padding: 0 var(--space-sm);
-    border-left: var(--border);
-    border-right: var(--border);
   }
 
   .main {
@@ -62,10 +60,9 @@ const { title, description, image, type, publishedTime, canonical } = Astro.prop
     padding: var(--space-md) 0;
   }
 
-  @media (max-width: 720px) {
+  @media (min-width: 640px) {
     .site {
-      border-left: none;
-      border-right: none;
+      padding: 0 var(--space-md);
     }
   }
 </style>

@@ -19,115 +19,55 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
 ---
 
 <Layout title={config.title} description={config.description}>
-  <section class="hero">
-    <span class="label">SYSTEM ONLINE</span>
-    <h1>CODE.<br/>CURIOSITY.<br/>GROWTH.</h1>
-    <p class="tagline">{config.description}</p>
+  <section class="intro">
+    <h1>JONATHAN D. RHYNE</h1>
+    <p>{config.description}</p>
   </section>
 
-  <section class="terminal">
-    <div class="terminal-header">
-      <span>EXEC: RECENT_POSTS.SH</span>
-      <span>STATUS: RUNNING</span>
-    </div>
-    <div class="terminal-body">
-      <p>> Initializing blog index...</p>
-      <p>> Found {sortedPosts.length} posts.</p>
-      <p>> --------------------------------</p>
-    </div>
-  </section>
+  <hr />
 
-  {years.length > 0 ? (
-    <div class="posts">
+  {years.length > 0 && (
+    <section class="posts">
       {years.map(year => (
-        <section class="year-section">
+        <div class="year-group">
           <h2>{year}</h2>
           <ul class="post-list">
             {postsByYear[year].map(post => (
-              <li class="post">
+              <li>
                 <span class="date">
                   {new Date(post.data.date).toLocaleDateString('en-US', {
                     month: 'short',
-                    day: '2-digit'
-                  }).toUpperCase()}
+                    day: 'numeric'
+                  })}
                 </span>
                 <a href={`/thoughts/${post.slug}`}>{post.data.title}</a>
               </li>
             ))}
           </ul>
-        </section>
+        </div>
       ))}
-    </div>
-  ) : (
-    <p>> No posts found.</p>
+    </section>
   )}
 </Layout>
 
 <style>
-  .hero {
+  .intro {
     padding: var(--space-lg) 0 var(--space-md);
   }
 
-  .label {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: var(--black);
-    color: var(--white);
-    padding: 0.2em 0.5em;
-    display: inline-block;
-    margin-bottom: var(--space-sm);
-  }
-
-  .hero h1 {
-    margin-bottom: var(--space-sm);
-  }
-
-  .tagline {
-    font-size: 1rem;
-    max-width: 500px;
-  }
-
-  .terminal {
-    border: var(--border);
-    margin-bottom: var(--space-md);
-  }
-
-  .terminal-header {
-    display: flex;
-    justify-content: space-between;
-    padding: var(--space-xs) var(--space-sm);
-    border-bottom: var(--border);
-    font-size: 0.75rem;
-    background: var(--gray);
-  }
-
-  .terminal-body {
-    padding: var(--space-sm);
-    font-size: 0.85rem;
-  }
-
-  .terminal-body p {
-    margin-bottom: 0.25rem;
+  .intro p {
+    max-width: 540px;
+    margin: 0;
   }
 
   .posts {
     display: flex;
     flex-direction: column;
-    gap: var(--space-md);
+    gap: var(--space-lg);
   }
 
-  .year-section {
-    border: var(--border);
-    padding: var(--space-sm);
-  }
-
-  .year-section h2 {
+  .year-group h2 {
     font-size: 1.25rem;
-    border-bottom: 2px solid var(--black);
-    padding-bottom: var(--space-xs);
-    margin-bottom: var(--space-sm);
   }
 
   .post-list {
@@ -136,30 +76,25 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
     margin: 0;
   }
 
-  .post {
+  .post-list li {
     display: flex;
     gap: var(--space-sm);
     padding: var(--space-xs) 0;
-    border-bottom: 1px solid var(--gray);
     align-items: baseline;
   }
 
-  .post:last-child {
-    border-bottom: none;
-  }
-
   .date {
-    font-size: 0.8rem;
-    color: var(--black);
-    min-width: 4rem;
+    font-size: 0.85rem;
+    min-width: 4.5rem;
     flex-shrink: 0;
+    opacity: 0.6;
   }
 
-  .post a {
+  .post-list a {
     text-decoration: none;
   }
 
-  .post a:hover {
+  .post-list a:hover {
     text-decoration: underline;
     background: none;
     color: var(--black);

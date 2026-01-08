@@ -19,30 +19,28 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
 
 <Layout title="Thoughts" description="All thoughts and writings">
   <header class="page-header">
-    <span class="label">ARCHIVE</span>
     <h1>THOUGHTS</h1>
-    <p>All posts, chronologically indexed.</p>
   </header>
 
-  {years.length > 0 ? (
+  {years.length > 0 && (
     <div class="posts">
       {years.map(year => (
-        <section class="year-section">
+        <section class="year-group">
           <h2>{year}</h2>
           <ul class="post-list">
             {postsByYear[year].map(post => (
-              <li class="post">
-                <div class="post-main">
+              <li>
+                <div class="post-row">
                   <span class="date">
                     {new Date(post.data.date).toLocaleDateString('en-US', {
                       month: 'short',
-                      day: '2-digit'
-                    }).toUpperCase()}
+                      day: 'numeric'
+                    })}
                   </span>
-                  <a href={`/thoughts/${post.slug}`} class="title">{post.data.title}</a>
+                  <a href={`/thoughts/${post.slug}`}>{post.data.title}</a>
                 </div>
                 {post.data.description && (
-                  <p class="excerpt">> {post.data.description}</p>
+                  <p class="excerpt">{post.data.description}</p>
                 )}
               </li>
             ))}
@@ -50,55 +48,28 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
         </section>
       ))}
     </div>
-  ) : (
-    <p>> No posts found in archive.</p>
   )}
 </Layout>
 
 <style>
   .page-header {
     padding: var(--space-md) 0;
-    border-bottom: var(--border);
+    border-bottom: 2px solid var(--black);
     margin-bottom: var(--space-md);
   }
 
-  .label {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: var(--black);
-    color: var(--white);
-    padding: 0.2em 0.5em;
-    display: inline-block;
-    margin-bottom: var(--space-sm);
-  }
-
   .page-header h1 {
-    margin-bottom: var(--space-xs);
-  }
-
-  .page-header p {
     margin: 0;
-    font-size: 0.9rem;
   }
 
   .posts {
     display: flex;
     flex-direction: column;
-    gap: var(--space-md);
+    gap: var(--space-lg);
   }
 
-  .year-section {
-    border: var(--border);
-    padding: var(--space-sm);
-  }
-
-  .year-section h2 {
+  .year-group h2 {
     font-size: 1.25rem;
-    border-bottom: 2px solid var(--black);
-    padding-bottom: var(--space-xs);
-    margin-bottom: var(--space-sm);
   }
 
   .post-list {
@@ -107,17 +78,16 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
     margin: 0;
   }
 
-  .post {
+  .post-list li {
     padding: var(--space-sm) 0;
     border-bottom: 1px solid var(--gray);
   }
 
-  .post:last-child {
+  .post-list li:last-child {
     border-bottom: none;
-    padding-bottom: 0;
   }
 
-  .post-main {
+  .post-row {
     display: flex;
     gap: var(--space-sm);
     align-items: baseline;
@@ -125,26 +95,27 @@ const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
   }
 
   .date {
-    font-size: 0.8rem;
-    min-width: 4rem;
+    font-size: 0.85rem;
+    min-width: 4.5rem;
     flex-shrink: 0;
+    opacity: 0.6;
   }
 
-  .title {
+  .post-row a {
     text-decoration: none;
     font-weight: 500;
   }
 
-  .title:hover {
+  .post-row a:hover {
     text-decoration: underline;
     background: none;
     color: var(--black);
   }
 
   .excerpt {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     margin: 0;
-    padding-left: calc(4rem + var(--space-sm));
+    padding-left: calc(4.5rem + var(--space-sm));
     opacity: 0.7;
   }
 </style>

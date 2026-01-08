@@ -4,25 +4,22 @@ import { config } from '../config';
 
 <footer class="footer">
   <div class="links">
-    {config.social.github && <a href={config.social.github}>GITHUB</a>}
+    {config.social.github && <a href={config.social.github}>GitHub</a>}
     {config.social.twitter && <a href={config.social.twitter}>X</a>}
-    {config.social.linkedin && <a href={config.social.linkedin}>LINKEDIN</a>}
-    {config.social.email && <a href={`mailto:${config.social.email}`}>EMAIL</a>}
+    {config.social.linkedin && <a href={config.social.linkedin}>LinkedIn</a>}
+    {config.social.email && <a href={`mailto:${config.social.email}`}>Email</a>}
   </div>
-  <div class="copy">
-    © {new Date().getFullYear()} {config.author.name.toUpperCase()}
-  </div>
+  <div class="copy">© {new Date().getFullYear()} {config.author.name}</div>
 </footer>
 
 <style>
   .footer {
     padding: var(--space-sm) 0;
-    border-top: var(--border);
+    border-top: 2px solid var(--black);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.75rem;
-    letter-spacing: 0.02em;
+    font-size: 0.85rem;
   }
 
   .links {
@@ -37,10 +34,6 @@ import { config } from '../config';
   .links a:hover {
     text-decoration: underline;
     background: none;
-    color: var(--black);
-  }
-
-  .copy {
     color: var(--black);
   }
 

@@ -1,4 +1,4 @@
-/* Brutalist Terminal Aesthetic */
+/* Brutalist Aesthetic - Clean */
 
 :root {
   /* Colors - Black & White only */
@@ -17,7 +17,7 @@
   --space-lg: 4rem;
   
   /* Layout */
-  --max-width: 720px;
+  --max-width: 860px;
   --border: 1px solid var(--black);
 }
 
@@ -29,8 +29,8 @@
 }
 
 html {
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.65;
   color: var(--black);
   background: var(--white);
   -webkit-font-smoothing: antialiased;
@@ -45,18 +45,18 @@ body {
 h1, h2, h3 {
   font-family: var(--font-display);
   font-weight: 900;
-  line-height: 1.0;
+  line-height: 1.1;
   letter-spacing: -0.02em;
   text-transform: uppercase;
 }
 
 h1 {
-  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-size: clamp(2rem, 6vw, 3rem);
   margin-bottom: var(--space-sm);
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   margin-bottom: var(--space-sm);
   padding-bottom: var(--space-xs);
   border-bottom: 2px solid var(--black);
@@ -69,7 +69,6 @@ h3 {
 
 p {
   margin-bottom: var(--space-sm);
-  font-size: 0.95rem;
 }
 
 /* Links */
@@ -91,23 +90,16 @@ ul, ol {
   padding-left: 1.5rem;
 }
 
-li {
-  margin-bottom: var(--space-xs);
-  font-size: 0.95rem;
-}
+li { margin-bottom: var(--space-xs); }
 
 /* Blockquotes */
 blockquote {
-  border: var(--border);
-  border-left-width: 4px;
-  padding: var(--space-sm);
+  border-left: 3px solid var(--black);
+  padding-left: var(--space-sm);
   margin: var(--space-md) 0;
-  background: var(--gray);
 }
 
-blockquote p:last-child {
-  margin-bottom: 0;
-}
+blockquote p:last-child { margin-bottom: 0; }
 
 /* Code */
 code {
@@ -115,24 +107,21 @@ code {
   font-size: 0.9em;
   background: var(--gray);
   padding: 0.15em 0.4em;
-  border: var(--border);
 }
 
 pre {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   background: var(--black);
   color: var(--white);
   padding: var(--space-sm);
   margin: var(--space-md) 0;
   overflow-x: auto;
   line-height: 1.5;
-  border: var(--border);
 }
 
 pre code {
   background: none;
-  border: none;
   padding: 0;
   color: inherit;
 }
@@ -141,7 +130,6 @@ pre code {
 img {
   max-width: 100%;
   height: auto;
-  border: var(--border);
 }
 
 /* Horizontal Rule */
@@ -150,46 +138,3 @@ hr {
   border-top: 2px solid var(--black);
   margin: var(--space-md) 0;
 }
-
-/* Labels */
-.label {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background: var(--black);
-  color: var(--white);
-  padding: 0.25em 0.5em;
-  display: inline-block;
-}
-
-/* Buttons */
-.btn {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background: var(--black);
-  color: var(--white);
-  padding: var(--space-xs) var(--space-sm);
-  border: var(--border);
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background: var(--white);
-  color: var(--black);
-}
-
-/* Box */
-.box {
-  border: var(--border);
-  padding: var(--space-sm);
-}
-
-/* Utilities */
-.mono { font-family: var(--font-mono); }
-.upper { text-transform: uppercase; }
-.small { font-size: 0.85rem; }

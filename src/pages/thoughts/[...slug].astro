@@ -25,17 +25,16 @@ const publishedTime = frontmatter.date ? new Date(frontmatter.date).toISOString(
 >
   <article class="post">
     <header class="header">
-      <span class="label">POST</span>
       <time datetime={frontmatter.date}>
         {new Date(frontmatter.date).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
-        }).toUpperCase()}
+        })}
       </time>
       <h1>{frontmatter.title.toUpperCase()}</h1>
       {frontmatter.description && (
-        <p class="description">> {frontmatter.description}</p>
+        <p class="description">{frontmatter.description}</p>
       )}
     </header>
 
@@ -44,48 +43,30 @@ const publishedTime = frontmatter.date ? new Date(frontmatter.date).toISOString(
     </div>
 
     <footer class="footer">
-      <a href="/thoughts" class="btn">← BACK TO ARCHIVE</a>
+      <a href="/thoughts">← Back to all posts</a>
     </footer>
   </article>
 </Layout>
 
 <style>
-  .post {
-    max-width: 100%;
-  }
-
   .header {
     padding: var(--space-md) 0;
-    border-bottom: var(--border);
+    border-bottom: 2px solid var(--black);
     margin-bottom: var(--space-md);
-  }
-
-  .label {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: var(--black);
-    color: var(--white);
-    padding: 0.2em 0.5em;
-    display: inline-block;
-    margin-bottom: var(--space-sm);
   }
 
   .header time {
     display: block;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     margin-bottom: var(--space-xs);
-    letter-spacing: 0.02em;
+    opacity: 0.6;
   }
 
   .header h1 {
-    font-size: clamp(1.75rem, 5vw, 2.5rem);
     margin-bottom: var(--space-sm);
   }
 
   .description {
-    font-size: 0.95rem;
     margin: 0;
     opacity: 0.8;
   }
@@ -94,35 +75,20 @@ const publishedTime = frontmatter.date ? new Date(frontmatter.date).toISOString(
     margin-bottom: var(--space-lg);
   }
 
-  /* Prose styles */
   .content :global(h2) {
-    font-size: 1.25rem;
     margin-top: var(--space-lg);
     margin-bottom: var(--space-sm);
-    padding-bottom: var(--space-xs);
-    border-bottom: 2px solid var(--black);
   }
 
   .content :global(h3) {
-    font-size: 1rem;
     margin-top: var(--space-md);
     margin-bottom: var(--space-sm);
   }
 
-  .content :global(p) {
-    margin-bottom: var(--space-sm);
-  }
-
   .content :global(blockquote) {
-    border: var(--border);
-    border-left-width: 4px;
-    padding: var(--space-sm);
+    border-left: 3px solid var(--black);
+    padding-left: var(--space-sm);
     margin: var(--space-md) 0;
-    background: var(--gray);
-  }
-
-  .content :global(blockquote p:last-child) {
-    margin-bottom: 0;
   }
 
   .content :global(pre) {
@@ -131,77 +97,30 @@ const publishedTime = frontmatter.date ? new Date(frontmatter.date).toISOString(
     padding: var(--space-sm);
     margin: var(--space-md) 0;
     overflow-x: auto;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    border: var(--border);
   }
 
   .content :global(pre code) {
     background: none;
-    border: none;
     padding: 0;
     color: inherit;
   }
 
-  .content :global(code) {
-    font-family: var(--font-mono);
-    font-size: 0.85em;
-    background: var(--gray);
-    padding: 0.15em 0.4em;
-    border: var(--border);
-  }
-
   .content :global(img) {
     margin: var(--space-md) 0;
-    border: var(--border);
-  }
-
-  .content :global(ul),
-  .content :global(ol) {
-    margin-bottom: var(--space-sm);
-    padding-left: 1.5rem;
-  }
-
-  .content :global(li) {
-    margin-bottom: var(--space-xs);
-  }
-
-  .content :global(hr) {
-    border: none;
-    border-top: 2px solid var(--black);
-    margin: var(--space-lg) 0;
-  }
-
-  .content :global(a) {
-    text-decoration: underline;
-  }
-
-  .content :global(a:hover) {
-    background: var(--black);
-    color: var(--white);
-    text-decoration: none;
   }
 
   .footer {
-    border-top: var(--border);
+    border-top: 2px solid var(--black);
     padding-top: var(--space-md);
   }
 
-  .btn {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: var(--black);
-    color: var(--white);
-    padding: var(--space-xs) var(--space-sm);
-    border: var(--border);
+  .footer a {
     text-decoration: none;
-    display: inline-block;
   }
 
-  .btn:hover {
-    background: var(--white);
+  .footer a:hover {
+    text-decoration: underline;
+    background: none;
     color: var(--black);
   }
 </style>
