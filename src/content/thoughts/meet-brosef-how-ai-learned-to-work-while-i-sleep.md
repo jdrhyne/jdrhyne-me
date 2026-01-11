@@ -13,9 +13,9 @@ Six months ago, I spent 8 hours babysitting an AI through CSS alignment hell. La
 
 ## The Birthday Party Moment
 
-Picture this: Saturday afternoon, kid's birthday party in full swing. Cake, chaos, the whole deal. My laptop is at home, screen locked but awake thanks to `caffeinate` - a macOS command that does exactly what it sounds like.
+Last Saturday, I was at my kid's birthday party. My laptop was at home, screen locked but awake thanks to `caffeinate` - a macOS command that prevents sleep.
 
-When I got home that evening:
+When I got home:
 - Thousands of emails archived and organized
 - Google Ads campaigns analyzed and restructured
 - Documentation updated
@@ -23,21 +23,21 @@ When I got home that evening:
 
 I wasn't hacked. I just have an AI assistant named Brosef who handles shit while I'm busy being a dad.
 
-This isn't a pitch or a product demo. This is genuinely how I work now. And if you'd told me this was possible six months ago, I'd have laughed - because I was there, in the trenches, watching AI fumble through basic CSS.
+This is how I work now. Six months ago, I wouldn't have believed it - I was there watching AI fumble through basic CSS.
 
-## Flashback: June 2025 - The Struggle Was Real
+## June 2025: The Struggle
 
-Back in June, I decided to build my personal website entirely through conversation with Claude Code. No manual coding. Just me describing what I wanted and the AI making it happen.
+In June, I built my personal website entirely through conversation with Claude Code. No manual coding - just describing what I wanted and letting the AI make it happen.
 
-The experiment worked. Eventually. But holy shit, it was a journey.
+It worked. Eventually.
 
 First, I asked for a theme inspired by "old German typography." What I got back looked like a propaganda poster had a baby with a warning label. Dark yellows, aggressive reds, vibes that screamed "bad news incoming." I had to upload photos of Vienna street signs to get the aesthetic I actually wanted.
 
 Then I got ambitious. "Let's make three theme variations with a switcher."
 
-For about 15 minutes, it was beautiful. Then CSS classes started bleeding between themes. Navigation disappeared. Colors mixed randomly. Watching the AI try to untangle its own mess was like watching someone unknot Christmas lights while wearing oven mitts.
+For about 15 minutes, it worked. Then CSS classes started bleeding between themes. Navigation disappeared. Colors mixed randomly.
 
-The conversation went something like:
+The debugging loop:
 - Me: "The nav in theme 2 is using theme 3's colors."
 - Claude: "Fixed."
 - Me: "Now theme 1 has no navigation at all."
@@ -45,9 +45,9 @@ The conversation went something like:
 - Me: "Let's just go back to one theme."
 - Claude: "That would be wise."
 
-And don't get me started on padding. At one point, the AI got creative and built a Puppeteer-based screenshot system to verify alignment programmatically. It didn't work, but I respected the hustle.
+Padding and alignment were worse. At one point, Claude built a Puppeteer-based screenshot system to verify alignment programmatically. It didn't work.
 
-The whole thing took about 8 hours. Constant supervision. Constant course correction. Like working with a brilliant intern who needed their hand held through every decision.
+Total time: about 8 hours. Constant supervision, constant course correction.
 
 *[I wrote about it here: "Building My Website Without Writing Code"](/thoughts/building-website-without-code-vienna-experiment)*
 
@@ -59,9 +59,9 @@ The real shift is what I'd call **agentic harnesses** - the layer between you an
 
 The harness changes that. It turns a brilliant but amnesiac oracle into something closer to an actual assistant.
 
-## Enter Clawdbot
+## Clawdbot
 
-This is where I need to give a shoutout to my friend Peter Steinberger ([@steipete](https://x.com/steipete)). Peter was my co-founder at PSPDFKit, and watching him come back to what he loves after a couple years away from programming has been one of the best things about this whole AI wave.
+Shoutout to my friend Peter Steinberger ([@steipete](https://x.com/steipete)). Peter was my co-founder at PSPDFKit. Watching him come back to programming after a couple years away has been one of the best things about this AI wave.
 
 Peter built [Clawdbot](https://clawd.bot/) - a personal AI assistant that runs on your own devices. Not another cloud chatbot. Not a subscription service that owns your data. Your assistant, on your hardware.
 
@@ -73,13 +73,13 @@ What makes it different:
 
 It's open source too: [github.com/clawdbot/clawdbot](https://github.com/clawdbot/clawdbot)
 
-## Meet the Brosefs
+## The Brosefs
 
-When I first set up Clawdbot, I needed to give my assistant a name and personality. "Brosef" was the first thing that popped into my head. I didn't want some formal robot assistant. I wanted a chill bro who gets things done.
+Setting up Clawdbot, I needed a name and personality for my assistant. "Brosef" was the first thing that came to mind - I wanted a chill bro, not a formal robot.
 
-The original Brosef was a helpful monkey 🐒 - friendly, resourceful, doesn't take himself too seriously.
+The original Brosef: a helpful monkey 🐒. Friendly, resourceful, doesn't take himself too seriously.
 
-Then I needed to run multiple instances. And here's where my company's history came into play.
+Then I needed multiple instances.
 
 PSPDFKit was founded by two Austrians (Peter Steinberger and Martin Schurrer) and one American (me). So naturally, when I cloned Brosef, I created:
 
@@ -91,7 +91,7 @@ A Viennese coffeehouse intellectual with Bavarian directness. Will quote Wittgen
 
 A surfer/snowboarder bro. Chill, productive, smart AF - but speaks gnarly and rad all the time. Calls me "Big Kahuna" and "Chief." Currently writing this blog post at 1am in a Discord channel.
 
-Yes, I have AI assistants with distinct personalities based on the cultural backgrounds of my company's founding team. Is it ridiculous? Absolutely. Does it make working with them more enjoyable? Also absolutely.
+AI assistants with distinct personalities based on my company's founding team. Ridiculous? Yes. More enjoyable to work with? Also yes.
 
 ## What Autonomous Actually Looks Like
 
@@ -147,11 +147,9 @@ In June 2025, AI was a talented but needy intern. Every task required supervisio
 
 In January 2026, AI is something closer to a teammate. Not a replacement for human judgment, but genuine leverage. The kind of leverage where you can go to a birthday party and come back to actual, useful work completed.
 
-This isn't about AI replacing people. It's about AI amplifying what people can do. About reclaiming time for the things that actually require human presence - like being there when your kid blows out the candles.
+This isn't about AI replacing people. It's about amplifying what people can do - and reclaiming time for things that require human presence.
 
-The game changed. The models got smarter, the harnesses got better, and somewhere along the way, I stopped prompt engineering and started delegating.
-
-Pretty rad, honestly.
+The models got smarter, the harnesses got better, and somewhere along the way I stopped prompt engineering and started delegating.
 
 ---
 
