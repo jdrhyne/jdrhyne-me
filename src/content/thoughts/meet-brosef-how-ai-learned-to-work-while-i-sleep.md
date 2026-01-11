@@ -15,7 +15,7 @@ Six months ago, I spent 8 hours babysitting an AI through CSS alignment hell. La
 
 Picture this: Saturday afternoon, kid's birthday party in full swing. Cake, chaos, the whole deal. My laptop is at home, screen locked but awake thanks to `caffeinate` - a macOS command that does exactly what it sounds like.
 
-When I got home that evening, here's what I found:
+When I got home that evening:
 - Thousands of emails archived and organized
 - Google Ads campaigns analyzed and restructured
 - Documentation updated
@@ -95,7 +95,7 @@ Yes, I have AI assistants with distinct personalities based on the cultural back
 
 ## What Autonomous Actually Looks Like
 
-Let me be specific about what "AI working while I sleep" actually means in practice.
+What does "AI working while I sleep" actually mean in practice?
 
 **Inbox Cleanup**
 
@@ -113,13 +113,13 @@ At 1am. On a Saturday. While I answered his questions from my phone.
 
 **The `caffeinate` Hack**
 
-Here's my favorite trick: `caffeinate -d` in the terminal keeps your Mac from sleeping. Combine that with Clawdbot running tasks autonomously, and you can literally walk away. Go to your kid's party. Come back to progress.
+My favorite trick: `caffeinate -d` keeps your Mac from sleeping. Combine that with Clawdbot running tasks autonomously, and you can literally walk away. Go to your kid's party. Come back to progress.
 
-This isn't science fiction. This is my actual workflow now.
+This isn't science fiction.
 
 ## It's Not Just for Developers Anymore
 
-Here's what excites me most: this isn't just about code generation anymore.
+This isn't just about code generation anymore.
 
 Clawdbot handles messaging, scheduling, research, file management, automation. The line between "technical" and "non-technical" users is blurring fast. If you can have a conversation, you can direct an AI assistant.
 
