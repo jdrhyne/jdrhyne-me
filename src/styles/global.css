@@ -8,7 +8,7 @@
   --font-display: 'Inter Tight', 'Helvetica Neue', sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
-  --max-width: 680px;
+  --max-width: 780px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
