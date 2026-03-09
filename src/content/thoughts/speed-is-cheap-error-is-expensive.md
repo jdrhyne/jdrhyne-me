@@ -8,239 +8,134 @@ author: "Jonathan D. Rhyne"
 
 # Speed Is Cheap. Error Is Expensive.
 
-If you spend enough time in AI circles, you hear the same question on repeat:
+Everyone is asking the same thing right now:
 
-> “Can we automate this?”
+> Can we automate this with AI?
 
-It sounds reasonable.
+Reasonable question. Wrong first question.
 
-It’s also the wrong first question for enterprise systems.
+The first question in an enterprise should be:
 
-The first question should be:
+> **How much variance can we tolerate, and what’s the blast radius when we’re wrong?**
 
-> **What variance is acceptable, and what’s the blast radius when we’re wrong?**
+That framing sounds less exciting. It is also the difference between a cool demo and a system you can actually run.
 
-That framing has saved us from a lot of expensive mistakes.
+Speed is cheap now. You can buy speed from ten vendors before lunch.
 
-Because speed is easy to buy now. You can buy it with APIs, models, wrappers, orchestration, and brute force.
+Error is not cheap. Error shows up later as rework, escalations, angry customers, audit pain, and sometimes legal liability.
 
-But when an AI-driven workflow fails in production, you don’t pay in latency.
-You pay in rework, escalations, compliance incidents, and liability.
+## What I keep seeing in the wild
 
-## The pattern I keep seeing
+I run a company in document and workflow infrastructure, so we see the real plumbing behind "autonomous" systems.
 
-I run a company in the document and workflow layer, so we sit inside a lot of real production systems.
+Not the polished videos. Actual production flows: approvals, claims, invoices, contracts, regulated records, and humans who still sign their name on outcomes.
 
-Not sandbox demos. Real systems with approvals, audits, contracts, invoices, claims, regulated records, and people whose names go on final decisions.
+The pattern is consistent. Teams get early wins from agent speed, then overgeneralize, then hit a hard boundary where consequences are real. At that point, humans become the cleanup layer.
 
-The pattern is consistent:
+That’s not autonomy. That’s deferred manual work with better marketing.
 
-- Teams get early wins from agent speed.
-- They generalize that win too broadly.
-- They hit a risk boundary.
-- Humans quietly become the cleanup crew.
+## The operating model I actually use
 
-At that point, you don’t have “autonomy.”
+I bucket workflows into three modes.
 
-You have a fast error generator upstream of a manual operations queue.
+**Automate** when error tolerance is high, failures are cheap, and rollback is easy.
 
-## My working model: Automate / Assist / Avoid
+**Assist** when AI can accelerate the work but a human still needs to approve before anything external happens.
 
-I keep this deliberately simple.
+**Avoid full autonomy** when tolerance for error is low and blast radius is high. In those flows, deterministic systems execute and humans remain explicitly accountable.
 
-Every workflow goes into one of three buckets:
+That’s the model. Not academic. Not perfect. Operational.
 
-1. **Automate**
-   - High error tolerance
-   - Low blast radius
-   - Easy rollback
+## The 98% trap
 
-2. **Assist**
-   - Medium error tolerance
-   - Moderate blast radius
-   - Human must approve before external impact
+A lot of teams hide behind average accuracy.
 
-3. **Avoid full autonomy**
-   - Low error tolerance
-   - High blast radius
-   - Deterministic execution + explicit human accountability
+"We’re at 98%."
 
-That’s the model.
+Great. If the missing 2% lands in legal commitments, payment release, compliance evidence, or regulated reporting, your average doesn’t matter.
 
-Not perfect. Not academic. Just operational.
+Tail risk matters. Average accuracy is often a vanity metric.
 
-And yes, buckets can change over time as systems improve.
+## ACP is important. It still doesn’t close the accountability gap.
 
-## The “98% trap” in one sentence
+I’m bullish on ACP. Interoperability and traceability across agents/tools is a real step forward.
 
-A system that is 98% accurate can still be unusable in high-consequence workflows.
+But there’s a category mistake I hear constantly: if we can trace agent actions, then trust is solved.
 
-Average accuracy is a vanity metric when tail risk is what hurts you.
+No.
 
-If your 2% failure lands in legal obligations, payment release, disclosure handling, or regulated reporting, the “average” no longer matters.
+Traceability tells you how systems interacted. It doesn’t magically generate the accountability artifacts enterprises need.
 
-One wrong output in the wrong place can wipe out months of productivity gains.
+Auditors, legal teams, and finance teams ask very specific questions: who approved what, based on which evidence, under which policy, and whether the record changed afterward.
 
-## ACP is a good step. It doesn’t remove accountability.
+That’s not just an orchestration problem. That’s an accountability problem.
 
-ACP is directionally right.
+## Why documents still matter (more now, not less)
 
-Interoperability and traceability across agents/tools matters a lot. We should want that.
+People keep saying documents are dying.
 
-But there’s a category error I keep hearing:
+In high-consequence enterprise workflows, they’re not.
 
-“Now that we can trace agent actions, we’ve solved trust.”
+Documents are still where humans review, challenge, approve, sign, and take responsibility. Logs are useful. Dashboards are useful. But neither is the same thing as an approval artifact that non-engineers can review and defend.
 
-Not quite.
-
-Protocol traceability tells you how systems interacted.
-It does **not** automatically create enterprise-grade accountability artifacts.
-
-Auditors, legal teams, finance teams, and counterparties ask different questions:
-
-- Who approved this specific decision?
-- What evidence did they approve against?
-- Under what policy?
-- Was the record altered after approval?
-
-Those are document/accountability questions, not just orchestration questions.
-
-## Why documents still matter (more than people think)
-
-People keep predicting the death of documents.
-
-In enterprise workflows, that prediction keeps being wrong.
-
-Documents are still where humans review, challenge, approve, sign, and assume responsibility.
-
-That’s not nostalgia. That’s governance.
-
-As long as humans are accountable, you need artifacts that are reviewable by non-engineers and defensible under scrutiny.
-
-Logs are useful.
-Dashboards are useful.
-
-But a dashboard is not an approval artifact.
+As long as humans are accountable, document-grade reliability remains core infrastructure.
 
 ## Document reliability is bidirectional
 
-This is where a lot of AI strategy discussions stay too shallow.
+Most conversations stop at extraction quality. That’s half the problem.
 
-“Document reliability” is not just extraction quality.
+Inbound reliability means OCR has to work on ugly real-world inputs, extraction has to stay stable across templates/vendors, and confidence/provenance need to be explicit.
 
-You need both sides to be reliable:
+Outbound reliability means generated docs are correct and policy-conformant, routing/delivery is controlled, and approvals/signatures are verifiable and auditable.
 
-### 1) Inbound reliability
-- OCR works across messy, real-world source docs
-- Extraction is stable across templates/vendors
-- Field-level confidence + provenance is explicit
+If either side is weak, humans end up rechecking everything anyway—and your automation gains vanish exactly where risk starts.
 
-### 2) Outbound reliability
-- Generated docs are correct and policy-conformant
-- Routing and delivery are controlled
-- Approvals/signatures are auditable and verifiable
+## A practical way to decide
 
-If either side breaks, humans end up rechecking everything manually.
+You don’t need a giant framework. Score each workflow for error tolerance, blast radius, reversibility, regulatory exposure, and financial impact per failure.
 
-Which means speed gains disappear exactly where you thought you had leverage.
+Then map mode.
 
-## A practical way to score workflows
+Low combined risk: automate with monitoring.
+Medium combined risk: assist with a human gate.
+High combined risk: avoid full autonomy; keep deterministic execution and explicit sign-off.
 
-You don’t need a giant framework to start.
+You can debate weighting. You can’t skip the decision model.
 
-Score each workflow 1–5 on:
+## Quick examples
 
-- **Error tolerance** — how wrong can this be before harm?
-- **Blast radius** — how far does a bad decision propagate?
-- **Reversibility** — how easy is rollback/remediation?
-- **Regulatory exposure** — external audit/compliance consequences?
-- **Financial impact per failure** — direct and indirect cost
+Support triage is usually a strong automate candidate: high volume, reversible errors, low external liability.
 
-Then map mode:
+Contract lifecycle is usually hybrid: extraction can be automated/assisted, but commitments and signatures still require accountable human control.
 
-- **Low combined risk** → Automate (with monitoring)
-- **Medium risk** → Assist (human gate required)
-- **High risk** → Avoid full autonomy (deterministic + accountable sign-off)
+Invoice workflows are also hybrid: capture/matching can be automated with confidence thresholds, but exceptions and high-value payment release need explicit approval.
 
-Can you overfit this? Sure.
+Same company. Same model family. Different risk profile. Different mode.
 
-Can you skip it? Not if you care about production reliability.
+## What robust systems actually include
 
-## Concrete examples
+In practice, durable systems have a coordination layer (agents/orchestration), a deterministic operations layer (OCR/extract/redact/convert/generate/sign), a policy layer (thresholds/routing/escalation), a human accountability layer (decision checkpoints + signer identity + tamper-evident trail), and a feedback layer (drift/override/exception signals).
 
-### Support triage
-- High volume, reversible, low external liability
-- **Mode:** Automate heavily + periodic QA sampling
+Most teams overinvest in the first one because it demos well, and underinvest in the middle layers where enterprise failure actually happens.
 
-### Contract lifecycle
-- Clause extraction and categorization can be automated/assisted
-- Acceptance, obligation commitments, and signatures need accountable control
-- **Mode:** Hybrid (Automate/Assist + strict approval/signature gates)
+## What to do this week
 
-### AP invoice processing
-- Data capture/matching can be automated with confidence thresholds
-- Exception handling and high-value payment release cannot be blind automation
-- **Mode:** Automate + Assist + explicit human release checkpoints
-
-Same AI stack. Different risk profile. Different operating mode.
-
-That’s the whole point.
-
-## What robust systems look like in practice
-
-If you want this to survive enterprise reality, you need five layers working together:
-
-1. **Coordination layer**
-   - Agents, tools, orchestration protocols (ACP and similar)
-
-2. **Deterministic operations layer**
-   - OCR, extraction, redaction, conversion, generation, signing
-   - This is where correctness constraints live
-
-3. **Policy layer**
-   - Confidence thresholds
-   - Routing rules
-   - Exception and escalation logic
-
-4. **Human accountability layer**
-   - Explicit decision checkpoints
-   - Clear signer identity
-   - Tamper-evident audit trail
-
-5. **Feedback/control layer**
-   - Drift monitoring
-   - Override/exception metrics
-   - rollback playbooks
-
-Most teams over-invest in layer 1 because it’s visible and exciting.
-
-Most failures I’ve seen come from under-investment in layers 2–4.
-
-## What to do this week (not next quarter)
-
-If your team is actively building agentic workflows, do this now:
-
-1. List your top 10 workflows by volume or business impact.
-2. Score each workflow on variance tolerance + blast radius.
-3. Assign each to Automate / Assist / Avoid full autonomy.
-4. Add approval checkpoints where accountability is externalized.
-5. Move critical document operations out of prompt-only flows into deterministic tooling.
-6. Track confidence, exception rates, override rates, and rework time.
+Take your top workflows by volume or consequence. Score them by variance tolerance and blast radius. Assign Automate / Assist / Avoid. Add explicit approval gates where accountability is externalized. Move critical document operations out of prompt-only flows and into deterministic tooling. Track exception rate, override rate, confidence quality, and rework time.
 
 Do this once and your roadmap gets clearer.
 
-Do it continuously and your system gets faster without becoming more fragile.
+Do this continuously and you can move faster without increasing fragility.
 
 ## Bottom line
 
-I’m bullish on agentic systems.
+I’m very bullish on agentic systems.
 
-I’m also very bearish on “just let it run” as an enterprise operating model.
+I’m equally bearish on "just let it run" as an enterprise strategy.
 
 Autonomy can be delegated.
 
 Accountability can’t.
 
-So yes, push speed hard.
+So yes—push speed hard.
 
-Just make sure you’re pushing speed inside risk boundaries that your business can actually afford.
+Just push it inside risk boundaries your business can actually afford.
