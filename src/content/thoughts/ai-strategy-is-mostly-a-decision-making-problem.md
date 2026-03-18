@@ -13,10 +13,11 @@ Most, if not all, companies today are discussing their AI strategy or need for o
 
 Today, it's very easy and affordable to buy access to the latest frontier models. You can vibe code an app together and implement an agent harness like OpenClaw rather quickly. Where before it took months or quarters to stand up vendors and onboard tools, you can do this today in hours or days. None of that, however, will save you if your company can’t decide what tasks it should move fast on and what tasks you should move more carefully or not even touch with AI. I wrote more about this problem last week here [Speed is Cheap, Error is Expensive](https://www.jdrhyne.me/thoughts/speed-is-cheap-error-is-expensive).
 
-That’s where most individuals, companies, and teams are stuck right now.
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">stop what you&#39;re doing and look at this image.<br><br>each dot is 3.2 million people. 2,500 dots = 8.1 billion humans.<br><br>the grey? 6.8 billion people who have never used AI.<br>the green? 1.3 billion free chatbot users.<br>the yellow? 15-35 million who pay for it.<br>the red? that tiny sliver is… <a href="https://t.co/NTAcgvj2Kt">https://t.co/NTAcgvj2Kt</a> <a href="https://t.co/1oJqbV1DM3">pic.twitter.com/1oJqbV1DM3</a></p>&mdash; Nozz (@NoahEpstein_) <a href="https://twitter.com/NoahEpstein_/status/2025605338779496797?ref_src=twsrc%5Etfw">February 22, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+That’s where most individuals, companies, and teams are stuck right now with AI. And that's only the people in the color blocks in the image below. Most individuals and companies haven't even started down this path. 
 
-They've piloted AI tooling and distributed it to their teams. They built activity and have tons of demos. But they haven't built a decision architecture to apply to AI decisions.
+<img width="1280" height="1486" alt="image" src="https://github.com/user-attachments/assets/82da514f-d3b7-4460-816e-3ce115772820" />
+
+But the ones that have are increasing getting frustrated. They've piloted AI tooling and distributed it to their teams. They built activity and have tons of demos. But they haven't built a decision architecture to apply to AI decisions.
 
 And yes, these are very different things.
 
