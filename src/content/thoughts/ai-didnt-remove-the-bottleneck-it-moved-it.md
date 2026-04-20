@@ -26,7 +26,7 @@ Experience in a narrow domain reduced error and increased speed. That's why comp
 
 ---
 
-AI changed the bottleneck.
+**AI changed the bottleneck.**
 
 When I work with LLMs and agents daily, I don't feel like I'm using better software. I feel like I'm operating in a different epistemic environment. My advantage isn't primarily what I already know. It's my ability to reason from first principles, use AI to explore and execute beyond my prior experience, and build validation systems that catch where the model is wrong — and where I'm fooling myself.
 
@@ -54,7 +54,7 @@ The old world was constrained by lack of capability. The new world is constraine
 
 I have ADHD. I've always been unusually good at context switching. Moving across domains, juggling threads, holding multiple partially-resolved problems in motion at the same time — this has genuinely been an advantage for most of my career.
 
-Even I'm hitting cognitive limits in an agentic environment.
+**Even I'm hitting cognitive limits in an agentic environment.**
 
 Here's what my actual workflow looks like right now: I have agents running in Discord and Slack through OpenClaw. I have terminal sessions running coding tasks with Claude Code and Codex. I have chat threads going in multiple apps. Work is happening in parallel across interfaces that don't talk to each other, producing output at a rate that would have seemed absurd two years ago.
 
@@ -94,7 +94,7 @@ I don't think that holds anymore.
 
 Every manager should now be capable of being a strong IC with a fleet of agents. If they can't operate at that level, they won't understand the real shape of the work they're assigning, measuring, or redesigning. They'll be managing abstractions instead of reality.
 
-The flip is also true: every IC is now a manager.
+**The flip is also true: every IC is now a manager.**
 
 Even if you manage zero people, you're responsible for managing a system of delegated cognition, execution, and feedback. Your personal fleet of agents requires the same things management has always demanded — prioritization, delegation, quality control, coordination. The person who refuses to manage and just wants to "do the work" is going to find that the work itself now requires management.
 
