@@ -5,12 +5,12 @@ date: 2026-05-13
 tags: ["ai", "agents", "knowledge-work", "feedback-loops", "leadership"]
 categories: ["AI", "Leadership", "Operations"]
 author: "Jonathan D. Rhyne"
-image: "/images/experience-time-compression-chart.png"
+image: "/images/agentic-ai-autonomous-feedback-loops-compress-experience.png"
 ---
 
 # Time Is Not the Advantage or Constraint It Used to Be.
 
-![Before AI versus Agentic AI era feedback loop compression chart](/images/experience-time-compression-chart.png)
+![Agentic AI autonomous feedback loops compress experience through ideation, creation, testing, feedback, learning, and iteration](/images/agentic-ai-autonomous-feedback-loops-compress-experience.png)
 
 **It’s crazy how quickly the shift is happening from “I am using AI” to “I am building agentic systems.”** I don’t think most people have fully internalized how different those two ideas are. Using AI as a tool is a productivity behavior. Building agentic systems is an operating model change. It changes what intelligence is worth, what experience is worth, and what mental models individuals and companies should use to get work done.
 
